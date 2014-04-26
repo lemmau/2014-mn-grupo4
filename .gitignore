@@ -1,0 +1,8 @@
+.gitignore~
+.project
+.settings/
+.classpath
+
+src/main/xtend-gen/
+target/
+
