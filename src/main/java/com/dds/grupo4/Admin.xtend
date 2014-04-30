@@ -9,9 +9,9 @@ class Admin {
 	
 	def static void main(String[] args){
 		
-		val diego = new Interesado("Diego","Anazonian",new Condicional);
-		val osvac = new Interesado("Osvaldo","Corneli",new Estandar);
-		val leandro = new Interesado("Leandro","Mauro",new Solidaria);
+		val diego = new Interesado("Diego","Anazonian",22,new Condicional);
+		val osvac = new Interesado("Osvaldo","Corneli",22,new Estandar);
+		val leandro = new Interesado("Leandro","Mauro",32,new Solidaria);
 				
 		val partido = new Partido;
 		
