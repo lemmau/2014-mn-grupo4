@@ -1,36 +1,34 @@
 package com.dds.grupo4
 
-
 import org.junit.Test
 import org.junit.Assert
+import org.junit.Before
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Solidaria
-import org.junit.Before
 
 class PartidoTest {
 	
-	
-//	@Before
-//	def setUp(){
-//		var Partido partido = new Partido;
-//		
-//		val Interesado diego = new Interesado("Diego","Anazonian",new Estandar);
-//		val Interesado maqi = new Interesado("Maximiliano","Anazonian",new Estandar);
-//		val Interesado osva = new Interesado("Osva","Cornelli",new Condicional);
-//		val Interesado lean = new Interesado("Leandro","Mauro",new Solidaria);
-//	}
+	Partido partido 
+	Interesado diego
+	Interesado maqi
+	Interesado osva
+	Interesado lean
+	 
+	@Before
+	def void setUp(){
+		partido = new Partido
+		
+		diego = new Interesado("Diego","Anazonian",22,new Estandar)
+		maqi = new Interesado("Maximiliano","Anazonian",13,new Estandar)
+		osva = new Interesado("Osva","Cornelli",32,new Condicional(null))
+		lean = new Interesado("Leandro","Mauro",19,new Solidaria)
+	}
 	
 	@Test
-	def corroborarDesplazamientoEnLaListaFinalDeJugadores(){
-		val Partido partido = new Partido;
-		
-		val Interesado diego = new Interesado("Diego","Anazonian",22,new Estandar);
-		val Interesado maqi = new Interesado("Maximiliano","Anazonian",13,new Estandar);
-		val Interesado osva = new Interesado("Osva","Cornelli",32,new Condicional);
-		val Interesado lean = new Interesado("Leandro","Mauro",19,new Solidaria);
+	def corroboroComoPrioridadDeJugadoresEnListaDeInt(){
 				
-		//partido.inscribirA(osva);		
+		
 		partido.inscribirA(diego);
 		partido.inscribirA(osva);		
 		partido.inscribirA(maqi);
@@ -43,11 +41,24 @@ class PartidoTest {
 				
 	}
 	
+//	@Test (expected = RuntimeException)
+//	def corroboroExceptionCuandoHayMenosDeDiezJugadores(){
+//				
+//		//partido.inscribirA(osva);
+//		partido.inscribirA(diego);
+//		partido.inscribirA(osva);		
+//		partido.inscribirA(maqi);
+//		partido.inscribirA(lean);
+//				
+//		partido.jugadoresFinales
+//				
+//	}
+	
 	@Test
 	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales(){
 		val Partido partido = new Partido;
 		
-		val Interesado osva = new Interesado("Osva","Cornelli",32,new Condicional);
+		val Interesado osva = new Interesado("Osva","Cornelli",32,new Condicional(null));
 		val Interesado diego = new Interesado("Diego","Anazonian",22,new Estandar);
 		
 		partido.inscribirA(osva);
@@ -57,7 +68,7 @@ class PartidoTest {
 		}
 				
 		
-		Assert.assertTrue(!partido.interesados.subList(0,10).contains(osva))		
+		Assert.assertTrue(!partido.jugadoresFinales.contains(osva))		
 			
 	}
 	

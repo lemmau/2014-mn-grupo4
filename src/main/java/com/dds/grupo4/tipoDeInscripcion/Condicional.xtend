@@ -2,27 +2,27 @@ package com.dds.grupo4.tipoDeInscripcion
 
 import com.dds.grupo4.Interesado
 import com.dds.grupo4.Partido
+import com.google.common.base.Predicate
 
-class Condicional implements TipoDeInscripcion {
+class Condicional extends TipoDeInscripcion {
 	
-	override 
-	inscribime(Interesado interesado,Partido partido) {
+	@Property Predicate<Interesado> condicionDelPartido;
+
+	override inscribime(Interesado interesado, Partido partido) {
+
+		partido.inscribirCondicional(interesado)
+
+	}
+	
+	new(Predicate<Interesado> predicate){
+		this.setCondicionDelPartido(predicate);	
 		
-		if(this.cumpleConCondicionDelPartido(partido)){
-			partido.interesados.add(interesado);	
-		}
-			
-				
 	}
 	
-	def cumpleConCondicionDelPartido(Partido partido){
-		//UNA CONDICION PARA EL TIPO DE INSCRIPCION CONDICIONAL
-		return (partido.interesados.filter[ interesado | interesado.edad < 20].size) < 6;
+	override
+	def Predicate<Interesado> getCondicionDelPartido(){
+		return this.condicionDelPartido
 	}
-	
-	override 
-	Inscripciones tipoInscripcion(){
-		return Inscripciones.CONDICIONAL;
-	}
-	
+
+
 }
