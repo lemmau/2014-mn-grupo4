@@ -2,11 +2,11 @@ package com.dds.grupo4.tipoDeInscripcion
 
 import com.dds.grupo4.Interesado
 import com.dds.grupo4.Partido
-import com.google.common.base.Predicate
+import java.util.List
 
 class Condicional extends TipoDeInscripcion {
 	
-	@Property Predicate<Interesado> condicionDelPartido;
+	(List<Interesado>) => Boolean condicionDelPartido;
 
 	override inscribime(Interesado interesado, Partido partido) {
 
@@ -14,13 +14,14 @@ class Condicional extends TipoDeInscripcion {
 
 	}
 	
-	new(Predicate<Interesado> predicate){
-		this.setCondicionDelPartido(predicate);	
+	new((List<Interesado>) => Boolean predicate){
+		
+		this.condicionDelPartido = predicate;	
 		
 	}
 	
 	override
-	def Predicate<Interesado> getCondicionDelPartido(){
+	def (List<Interesado>) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
 	}
 

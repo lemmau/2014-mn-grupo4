@@ -1,7 +1,7 @@
 package com.dds.grupo4
 
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
-import com.google.common.base.Predicate
+import java.util.List
 
 class Interesado {
 
@@ -17,9 +17,6 @@ class Interesado {
 		this.tipoDeInscripcion = tipoDeInscripcion;
 	}
 
-	new() {
-	}
-
 	def void inscribite(Partido partido) {
 		this.tipoDeInscripcion.inscribime(this, partido);
 	}
@@ -32,8 +29,8 @@ class Interesado {
 		return this.tipoDeInscripcion.sosEstandar
 	}
 	
-	def Predicate<Interesado> condicionDelPartido(){
+	def (List<Interesado>) => Boolean condicionDelPartido(){
 		return this.tipoDeInscripcion.getCondicionDelPartido;
 	}
-
+	
 }

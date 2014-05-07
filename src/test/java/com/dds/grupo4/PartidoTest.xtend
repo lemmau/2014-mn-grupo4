@@ -1,75 +1,74 @@
 package com.dds.grupo4
 
 import org.junit.Test
-import org.junit.Assert
 import org.junit.Before
+import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Solidaria
+import java.util.List
 
 class PartidoTest {
-	
-	Partido partido 
+
+	Partido partido
 	Interesado diego
 	Interesado maqi
 	Interesado osva
 	Interesado lean
-	 
+	(List<Interesado>)=>Boolean condicionInteresadoCondicional
+
 	@Before
-	def void setUp(){
+	def void setUp() {
 		partido = new Partido
-		
-		diego = new Interesado("Diego","Anazonian",22,new Estandar)
-		maqi = new Interesado("Maximiliano","Anazonian",13,new Estandar)
-		osva = new Interesado("Osva","Cornelli",32,new Condicional(null))
-		lean = new Interesado("Leandro","Mauro",19,new Solidaria)
+
+		condicionInteresadoCondicional = [List<Interesado> interesados|
+			interesados.filter[interesado|interesado.getEdad > 22].size > 2]
+
+		diego = new Interesado("Diego", "Anazonian", 23, new Estandar)
+		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
+		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
+		lean = new Interesado("Leandro", "Mauro", 25, new Solidaria)
 	}
-	
+
 	@Test
-	def corroboroComoPrioridadDeJugadoresEnListaDeInt(){
-				
-		
+	def corroboroComoPrioridadDeJugadoresEnListaDeInt() {
+
 		partido.inscribirA(diego);
-		partido.inscribirA(osva);		
 		partido.inscribirA(maqi);
 		partido.inscribirA(lean);
-				
-		Assert.assertEquals(partido.interesados.get(0),maqi);
-		Assert.assertEquals(partido.interesados.get(1),diego);
-		Assert.assertEquals(partido.interesados.get(2),lean);
-		Assert.assertEquals(partido.interesados.get(3),osva);
-				
-	}
-	
-//	@Test (expected = RuntimeException)
-//	def corroboroExceptionCuandoHayMenosDeDiezJugadores(){
-//				
-//		//partido.inscribirA(osva);
-//		partido.inscribirA(diego);
-//		partido.inscribirA(osva);		
-//		partido.inscribirA(maqi);
-//		partido.inscribirA(lean);
-//				
-//		partido.jugadoresFinales
-//				
-//	}
-	
-	@Test
-	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales(){
-		val Partido partido = new Partido;
-		
-		val Interesado osva = new Interesado("Osva","Cornelli",32,new Condicional(null));
-		val Interesado diego = new Interesado("Diego","Anazonian",22,new Estandar);
-		
 		partido.inscribirA(osva);
-		
-		while(partido.interesados.size <= 11){
-			partido.inscribirA(diego);		
-		}
-				
-		
-		Assert.assertTrue(!partido.jugadoresFinales.contains(osva))		
-			
+
+		Assert.assertEquals(partido.interesados.get(0), maqi);
+		Assert.assertEquals(partido.interesados.get(1), diego);
+		Assert.assertEquals(partido.interesados.get(2), lean);
+		Assert.assertEquals(partido.interesados.get(3), osva);
+
 	}
-	
+
+	@Test(expected=typeof(RuntimeException))
+	def void corroboroExceptionCuandoHayMenosDeDiezJugadores() {
+
+		//partido.inscribirA(osva);
+		partido.inscribirA(diego);
+		partido.inscribirA(osva);
+		partido.inscribirA(maqi);
+		partido.inscribirA(lean);
+
+		partido.jugadoresFinales
+	}
+
+	@Test
+	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales() {
+
+		
+		while (partido.interesados.size < 11) {
+			partido.inscribirA(diego);
+		}
+
+		partido.inscribirA(osva);
+
+		Assert.assertTrue(!partido.jugadoresFinales.contains(osva))
+
+	}
+
 }

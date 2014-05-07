@@ -1,9 +1,11 @@
+/src/test/xtend-gen/*
+/src/main/xtend-gen/*
+/target/
+
 .gitignore~
 .project
 .settings/
 .classpath
 
-src/test/xtend-gen/
-src/main/xtend-gen/
-target/
+*.java
 

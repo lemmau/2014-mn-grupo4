@@ -23,7 +23,7 @@ class Partido {
 	}
 
 	def List<Interesado> jugadoresFinales() {
-		
+
 		if (! (this.interesados.size < MAX_CANTIDAD_JUGADORES)) {
 			return this.interesados.subList(MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES);
 		} else {
@@ -43,9 +43,11 @@ class Partido {
 	}
 
 	def inscribirCondicional(Interesado interesadoCondicional) {
+		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
 
-		//HAY QUE RETOCAR ESTO PARA QUE VERIFIQUE LA CONDICION DEL PARTIDO SOBRE EL INTERESADO CONDICIONAL
-		this.interesados.add(interesadoCondicional)
+		if (condicionPartido.apply(this.interesados)) {
+			this.interesados.add(interesadoCondicional)
+		}
 
 	}
 

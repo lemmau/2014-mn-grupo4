@@ -2,7 +2,7 @@ package com.dds.grupo4.tipoDeInscripcion
 
 import com.dds.grupo4.Interesado
 import com.dds.grupo4.Partido
-import com.google.common.base.Predicate
+import java.util.List
 
 abstract class TipoDeInscripcion {
 	
@@ -12,7 +12,7 @@ abstract class TipoDeInscripcion {
 		return Boolean.FALSE
 	}
 	
-	def Predicate<Interesado> getCondicionDelPartido(){
+	def (List<Interesado>) => Boolean getCondicionDelPartido(){
 		return null;
 	}
 	
