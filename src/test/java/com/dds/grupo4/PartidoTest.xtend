@@ -29,7 +29,7 @@ class PartidoTest {
 		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
 		lean = new Interesado("Leandro", "Mauro", 25, new Solidaria)
 	}
-
+	//COmentario prueba
 	@Test
 	def corroboroComoPrioridadDeJugadoresEnListaDeInt() {
 
