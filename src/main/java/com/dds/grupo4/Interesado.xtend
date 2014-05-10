@@ -8,6 +8,7 @@ class Interesado {
 	@Property private Integer edad;
 	@Property private String nombre;
 	@Property private String apellido;
+	@Property private List<Interesado> amigos;
 	@Property private TipoDeInscripcion tipoDeInscripcion;
 
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
