@@ -3,6 +3,7 @@ package com.dds.grupo4
 import java.util.List
 import org.joda.time.DateTime
 import java.util.ArrayList
+import com.dds.grupo4.observers.PartidoObservador
 
 class Partido {
 
@@ -12,14 +13,22 @@ class Partido {
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
 	@Property DateTime fechaInicio;
 	@Property List<Interesado> interesados = new ArrayList;
+	@Property List<PartidoObservador> observers = new ArrayList;
+	@Property private String admin
+	@Property private Interesado ultimoInteresadoAgregado
 
 	def void inscribirA(Interesado interesado) {
 
-		var cantInteresados = this.interesados.filter[inte|inte.sosEstandar].size;
+		var cantInteresadosEstandar = this.interesados.filter[inte|inte.sosEstandar].size;
 
-		if (cantInteresados <= MAX_CANTIDAD_JUGADORES) {
-			interesado.inscribite(this);
+		if (cantInteresadosEstandar <= MAX_CANTIDAD_JUGADORES) {
+			interesado.inscribite(this)
+			this.ultimoInteresadoAgregado = interesado
 		}
+		
+		this.observers.forEach[ observer | observer.notificar(this)]
+			
+		
 	}
 
 	def List<Interesado> jugadoresFinales() {
