@@ -25,10 +25,9 @@ class Partido {
 			interesado.inscribite(this)
 			this.ultimoInteresadoAgregado = interesado
 		}
-		
-		this.observers.forEach[ observer | observer.notificar(this)]
-			
-		
+
+		this.observers.forEach[observer|observer.notificar(this)]
+
 	}
 
 	def List<Interesado> jugadoresFinales() {
@@ -56,6 +55,23 @@ class Partido {
 
 		if (condicionPartido.apply(this.interesados)) {
 			this.interesados.add(interesadoCondicional)
+		}
+
+	}
+
+	def void darDeBajaA(Interesado interesado,Infraccion infraccion) {
+
+		if (this.interesados.contains(interesado)) {
+
+			try {
+				this.interesados.remove(interesado)
+				this.inscribirA(interesado.getReemplazante)
+			} catch (RuntimeException e) {
+				interesado.agregarInfraccion(infraccion)
+			}
+
+		} else {
+			//throw some exception 
 		}
 
 	}

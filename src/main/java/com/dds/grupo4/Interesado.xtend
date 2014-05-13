@@ -3,6 +3,8 @@ package com.dds.grupo4
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
 import java.util.List
 import java.util.Random
+import java.util.ArrayList
+import java.util.Collection
 
 class Interesado {
 
@@ -10,9 +12,9 @@ class Interesado {
 	@Property private String nombre;
 	@Property private String apellido;
 	@Property private String mail;
-	@Property private List<Interesado> amigos;
+	@Property private List<Interesado> amigos = new ArrayList<Interesado>;
 	@Property private TipoDeInscripcion tipoDeInscripcion;
-	@Property private Infraccion infracciones
+	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
 		this.nombre = nombre;
@@ -49,6 +51,10 @@ class Interesado {
 		}
 		
 		return reemplazante
+	}
+	
+	def agregarInfraccion(Infraccion infraccion) {
+		this.infracciones.add(infraccion)
 	}
 	
 }

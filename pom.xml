@@ -13,6 +13,9 @@
 		<jodaTime.version>2.3</jodaTime.version>
 		<junit.version>4.8.1</junit.version>
 		<guava.version>16.0.1</guava.version>
+		<mockito.version>2.0.8</mockito.version>
+		<powermock.version>1.5.1</powermock.version>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -48,5 +51,48 @@
 			<version>${jodaTime.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-mock</artifactId>
+			<version>${mockito.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
+
+
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<targetPath>/java</targetPath>
+				<includes>
+					<include>*.xml</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+	
 </project>
+
+
+
