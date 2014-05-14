@@ -38,42 +38,57 @@ class Partido {
 			throw new RuntimeException("No hay diez jugadores para realizar un partido")
 		}
 	}
-
-	def inscribirEstandar(Interesado interesadoEstandar) {
-		this.interesados.add(PRIMERA_POSICION, interesadoEstandar)
-	}
-
-	def inscribirSolidario(Interesado interesadoSolidario) {
-		val Interesado interesadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
-		val Integer posicion = this.interesados.lastIndexOf(interesadoEstandar) + UNA_POSICION
-
-		this.interesados.add(posicion, interesadoSolidario);
-	}
-
-	def inscribirCondicional(Interesado interesadoCondicional) {
-		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
-
-		if (condicionPartido.apply(this.interesados)) {
-			this.interesados.add(interesadoCondicional)
-		}
-
-	}
-
+	
 	def void darDeBajaA(Interesado interesado,Infraccion infraccion) {
 
 		if (this.interesados.contains(interesado)) {
-
 			try {
 				this.interesados.remove(interesado)
 				this.inscribirA(interesado.getReemplazante)
 			} catch (RuntimeException e) {
 				interesado.agregarInfraccion(infraccion)
 			}
-
 		} else {
 			//throw some exception 
 		}
 
 	}
+
+	// Estandar
+	def inscribirEstandar(Interesado interesadoEstandar) {
+		this.interesados.add(PRIMERA_POSICION, interesadoEstandar)
+	}
+
+	// Solidario
+	def inscribirSolidario(Interesado interesadoSolidario) {
+		
+		if(this.interesados.size == 0) {
+			this.interesados.add(interesadoSolidario);
+		}
+		else {
+			val Interesado ultimoInteresadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
+			
+			if(ultimoInteresadoEstandar == null) {
+					this.interesados.add(interesadoSolidario)
+				}
+			else {
+				val Integer posicion = this.interesados.indexOf(ultimoInteresadoEstandar) + UNA_POSICION
+				this.interesados.add(posicion, interesadoSolidario);
+			}
+		}
+	}
+
+	// Condicional
+	def inscribirCondicional(Interesado interesadoCondicional) {
+		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
+
+		this.interesados.add(interesadoCondicional)
+
+	if (condicionPartido.apply(this.interesados)) {
+		this.interesados.add(interesadoCondicional)
+	}
+
+	}
+
 
 }

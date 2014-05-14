@@ -15,6 +15,8 @@ class PartidoTest {
 	Interesado maqi
 	Interesado osva
 	Interesado lean
+	Interesado lean2
+	Interesado gonza
 	(List<Interesado>)=>Boolean condicionInteresadoCondicional
 
 	@Before
@@ -26,33 +28,36 @@ class PartidoTest {
 
 		diego = new Interesado("Diego", "Anazonian", 23, new Estandar)
 		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
+		gonza = new Interesado("Gonzalo", "Franchino", 33, new Estandar)
 		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
 		lean = new Interesado("Leandro", "Mauro", 25, new Solidaria)
+		lean2 = new Interesado("Leandro", "Mauro", 25, new Solidaria)
+
 	}
 	
 	@Test
-	def corroboroComoPrioridadDeJugadoresEnListaDeInt() {
+	def corroboroPosicionesDeInteresadosSegunOrdenDeInscripciones() {
 
-		partido.inscribirA(diego);
-		partido.inscribirA(maqi);
-		partido.inscribirA(lean);
-		partido.inscribirA(osva);
-
-		Assert.assertEquals(partido.interesados.get(0), maqi);
-		Assert.assertEquals(partido.interesados.get(1), diego);
-		Assert.assertEquals(partido.interesados.get(2), lean);
-		Assert.assertEquals(partido.interesados.get(3), osva);
+		partido.inscribirA(diego)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)
+		
+		Assert.assertEquals(partido.interesados.get(0), maqi)
+		Assert.assertEquals(partido.interesados.get(1), diego)
+		Assert.assertEquals(partido.interesados.get(2), lean)
+		Assert.assertEquals(partido.interesados.get(3), osva)
 
 	}
 
 	@Test(expected=typeof(RuntimeException))
 	def void corroboroExceptionCuandoHayMenosDeDiezJugadores() {
 
-		//partido.inscribirA(osva);
-		partido.inscribirA(diego);
-		partido.inscribirA(osva);
-		partido.inscribirA(maqi);
-		partido.inscribirA(lean);
+		//partido.inscribirA(osva)
+		partido.inscribirA(diego)
+		partido.inscribirA(osva)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
 
 		partido.jugadoresFinales
 	}
@@ -61,14 +66,63 @@ class PartidoTest {
 	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales() {
 
 		
-		while (partido.interesados.size < 11) {
-			partido.inscribirA(diego);
+		while (partido.interesados.size < 10) {
+			partido.inscribirA(diego)
 		}
 
-		partido.inscribirA(osva);
+		partido.inscribirA(osva)
 
 		Assert.assertTrue(!partido.jugadoresFinales.contains(osva))
 
 	}
+	
+	@Test
+	def comprobarSiInteresadoCondicionalEsDeplazadoTresLugares() {
+
+		partido.inscribirA(osva)	// condicional
+		partido.inscribirA(diego)	// estandar
+		partido.inscribirA(maqi)	// estandar
+		partido.inscribirA(lean)	// solidario
+
+		Assert.assertEquals(partido.interesados.get(3), osva)
+	}
+
+	@Test
+	def comprobarSiCondicionSeAplicaAlPartidoConExito() {
+
+		partido.inscribirA(gonza)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)	// condicional
+
+		val (List<Interesado>)=>Boolean condicionPartido = osva.condicionDelPartido
+
+		Assert.assertEquals(condicionPartido.apply(partido.interesados), true)
+	}
+	
+	@Test
+	def comprobarUmbralDeJugadores() {
+
+		partido.inscribirA(gonza)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)
+		partido.inscribirA(gonza)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)
+		partido.inscribirA(osva)
+		partido.inscribirA(gonza)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)
+		partido.inscribirA(gonza)
+		partido.inscribirA(maqi)
+		partido.inscribirA(lean)
+		partido.inscribirA(osva)		
+
+		Assert.assertEquals(partido.jugadoresFinales.size, 10)
+
+	}		
 
 }
