@@ -14,8 +14,7 @@ class Partido {
 	@Property DateTime fechaInicio;
 	@Property List<Interesado> interesados = new ArrayList;
 	@Property List<PartidoObservador> observers = new ArrayList;
-	@Property private String admin
-	@Property private Interesado ultimoInteresadoAgregado
+	@Property private Admin admin
 
 	def void inscribirA(Interesado interesado) {
 
@@ -23,10 +22,9 @@ class Partido {
 
 		if (cantInteresadosEstandar <= MAX_CANTIDAD_JUGADORES) {
 			interesado.inscribite(this)
-			this.ultimoInteresadoAgregado = interesado
 		}
 
-		this.observers.forEach[observer|observer.notificar(this)]
+		this.observers.forEach[observer|observer.notificar(this, interesado)]
 
 	}
 
@@ -58,22 +56,26 @@ class Partido {
 		}
 
 	}
+	
+	def Boolean esUnInteresado(Interesado interesado){
+		return this.interesados.contains(interesado)
+	}
 
-	def void darDeBajaA(Interesado interesado,Infraccion infraccion) {
+	def void darDeBajaA(Interesado interesado, Infraccion infraccion) {
 
 		if (this.interesados.contains(interesado)) {
 
 			try {
-				this.interesados.remove(interesado)
 				this.inscribirA(interesado.getReemplazante)
 			} catch (RuntimeException e) {
 				interesado.agregarInfraccion(infraccion)
+			} finally {
+				this.interesados.remove(interesado)
+				this.observers.forEach[observer|observer.notificar(this, interesado)]
 			}
-
-		} else {
-			//throw some exception 
 		}
-
 	}
-
+	
+	
+	
 }
