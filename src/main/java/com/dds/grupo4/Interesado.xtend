@@ -57,4 +57,8 @@ class Interesado {
 		this.infracciones.add(infraccion)
 	}
 	
+	def void agregarAmigo(Interesado amigo){
+		this.amigos.add(amigo)
+	}
+	
 }
