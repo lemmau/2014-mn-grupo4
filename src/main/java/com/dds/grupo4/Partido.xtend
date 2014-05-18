@@ -38,7 +38,6 @@ class Partido {
 		}
 	}
 
-
 	def Boolean esUnInteresado(Interesado interesado) {
 		return this.interesados.contains(interesado)
 	}

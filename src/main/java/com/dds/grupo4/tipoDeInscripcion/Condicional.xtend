@@ -1,21 +1,19 @@
 package com.dds.grupo4.tipoDeInscripcion
 
-import com.dds.grupo4.Interesado
 import com.dds.grupo4.Partido
-import java.util.List
 
 class Condicional extends TipoDeInscripcion {
 	
 	Integer prioridad = 3
 	
-	(List<Interesado>) => Boolean condicionDelPartido;
+	(Partido) => Boolean condicionDelPartido;
 
-	new((List<Interesado>) => Boolean predicate){
+	new((Partido) => Boolean predicate){
 		this.condicionDelPartido = predicate
 	}
 	
 	override
-	def (List<Interesado>) => Boolean getCondicionDelPartido(){
+	def (Partido) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
 	}
 	

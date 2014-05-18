@@ -18,7 +18,7 @@ class PartidoTest {
 	Interesado lean
 	Interesado pepe
 	Interesado gonza
-	(List<Interesado>)=>Boolean condicionInteresadoCondicional
+	(Partido)=>Boolean condicionInteresadoCondicional
 	Infraccion infraccion
 	
 	@Before
@@ -27,8 +27,8 @@ class PartidoTest {
 		
 		infraccion = new Infraccion("un motivo",DateTime.now.plusDays(5))
 
-		condicionInteresadoCondicional = [List<Interesado> interesados|
-			interesados.filter[interesado|interesado.getEdad > 22].size > 2]
+		condicionInteresadoCondicional = [Partido partido|
+			partido.interesados.filter[interesado|interesado.getEdad > 22].size > 2]
 
 		diego = new Interesado("Diego", "Anazonian", 23, new Estandar)
 		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
@@ -118,9 +118,9 @@ class PartidoTest {
 		partido.inscribirA(lean)
 		partido.inscribirA(osva)	// condicional
 
-		val (List<Interesado>)=>Boolean condicionPartido = osva.condicionDelPartido
+		val (Partido)=>Boolean condicionPartido = osva.condicionDelPartido
 
-		Assert.assertEquals(condicionPartido.apply(partido.interesados), true)
+		Assert.assertEquals(condicionPartido.apply(partido), true)
 	}
 	
 	@Test

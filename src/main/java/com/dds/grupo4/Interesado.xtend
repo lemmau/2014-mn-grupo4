@@ -33,7 +33,7 @@ class Interesado {
 		this.tipoDeInscripcion = inscripcion;
 	}
 	
-	def (List<Interesado>) => Boolean condicionDelPartido(){
+	def (Partido) => Boolean condicionDelPartido(){
 		return this.tipoDeInscripcion.getCondicionDelPartido;
 	}
 	
