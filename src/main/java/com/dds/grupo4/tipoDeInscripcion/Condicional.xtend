@@ -16,11 +16,7 @@ class Condicional extends TipoDeInscripcion {
 	def (Partido) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
 	}
-	
-	override estasConfirmado(Partido partido) {
-		return false
-	}
-	
+		
 	override getPrioridad(){
 		return this.prioridad
 	}

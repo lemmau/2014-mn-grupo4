@@ -5,9 +5,10 @@ import org.junit.Before
 import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
+import com.dds.grupo4.tipoDeInscripcion.Solidario
 import java.util.List
 import org.joda.time.DateTime
-import com.dds.grupo4.tipoDeInscripcion.Solidario
+
 
 class PartidoTest {
 

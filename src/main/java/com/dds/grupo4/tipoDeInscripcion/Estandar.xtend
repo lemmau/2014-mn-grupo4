@@ -8,7 +8,7 @@ class Estandar extends TipoDeInscripcion {
 	
 	override estasConfirmado(Partido partido){
 		return true		
-	} 
+	}
 	
 	override Integer getPrioridad(){
 		return this.prioridad
