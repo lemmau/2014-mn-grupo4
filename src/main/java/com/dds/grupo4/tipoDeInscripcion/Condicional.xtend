@@ -6,12 +6,10 @@ import java.util.List
 
 class Condicional extends TipoDeInscripcion {
 	
+	Integer prioridad = 3
+	
 	(List<Interesado>) => Boolean condicionDelPartido;
 
-	override inscribime(Interesado interesado, Partido partido) {
-		partido.inscribirCondicional(interesado)
-	}
-	
 	new((List<Interesado>) => Boolean predicate){
 		this.condicionDelPartido = predicate
 	}
@@ -19,6 +17,14 @@ class Condicional extends TipoDeInscripcion {
 	override
 	def (List<Interesado>) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
+	}
+	
+	override estasConfirmado(Partido partido) {
+		return false
+	}
+	
+	override getPrioridad(){
+		return this.prioridad
 	}
 
 

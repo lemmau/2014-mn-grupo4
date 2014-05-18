@@ -6,15 +6,11 @@ import java.util.List
 
 abstract class TipoDeInscripcion {
 	
-	def void inscribime(Interesado interesado,Partido partdio);
-	
-	def Boolean sosEstandar(){
-		return Boolean.FALSE
-	}
+	def Boolean estasConfirmado(Partido partido)
 	
 	def (List<Interesado>) => Boolean getCondicionDelPartido(){
 		return null;
 	}
 	
-		
+	def Integer getPrioridad()
 }

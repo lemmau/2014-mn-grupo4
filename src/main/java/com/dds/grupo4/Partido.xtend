@@ -7,8 +7,6 @@ import com.dds.grupo4.observers.PartidoObservador
 
 class Partido {
 
-	val private static PRIMERA_POSICION = 0
-	val private static UNA_POSICION = 1
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
 	@Property DateTime fechaInicio;
@@ -16,16 +14,19 @@ class Partido {
 	@Property List<PartidoObservador> observers = new ArrayList;
 	@Property private Admin admin
 
-	def void inscribirA(Interesado interesado) {
+	def void inscribirA(Interesado nuevoInteresado) {
 
-		var cantInteresadosEstandar = this.interesados.filter[inte|inte.sosEstandar].size;
+		val Integer posicion = this.interesados.indexOf(
+			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
 
-		if (cantInteresadosEstandar <= MAX_CANTIDAD_JUGADORES) {
-			interesado.inscribite(this)
+		if (posicion < 0) {
+
+			this.interesados.add(nuevoInteresado)
+		}else{
+			this.interesados.add(posicion,nuevoInteresado)
 		}
 
-		this.observers.forEach[observer|observer.notificar(this, interesado)]
-
+		this.observers.forEach[observer|observer.notificar(this, nuevoInteresado)]
 	}
 
 	def List<Interesado> jugadoresFinales() {
@@ -37,46 +38,8 @@ class Partido {
 		}
 	}
 
-	// ESTANDAR
-	def inscribirEstandar(Interesado interesadoEstandar) {
-		this.interesados.add(PRIMERA_POSICION, interesadoEstandar)
-	}
 
-	// SOLIDARIO
-	def inscribirSolidario(Interesado interesadoSolidario) {
-		
-		if(this.interesados.size == 0) {
-			this.interesados.add(interesadoSolidario);
-		}
-		else {
-			val Interesado ultimoInteresadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
-			
-			if(ultimoInteresadoEstandar == null) {
-					// caso para cuando el ultimo de la lista de inscriptos es un condicional u otro solidario
-					// lo insertamos delante
-					this.interesados.add(PRIMERA_POSICION, interesadoSolidario)
-				}
-			else {
-				// caso para cuando hay uno o mas estandares
-				// lo insertamos detras de este/estos
-				val Integer posicion = this.interesados.indexOf(ultimoInteresadoEstandar) + UNA_POSICION
-				this.interesados.add(posicion, interesadoSolidario);
-			}
-		}
-	}
-
-	// CONDICIONAL
-	def inscribirCondicional(Interesado interesadoCondicional) {
-		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
-		
-//		this.interesados.add(interesadoCondicional)
-			
-		if (condicionPartido.apply(this.interesados)) {
-			this.interesados.add(interesadoCondicional)
-		}
-	}
-	
-	def Boolean esUnInteresado(Interesado interesado){
+	def Boolean esUnInteresado(Interesado interesado) {
 		return this.interesados.contains(interesado)
 	}
 

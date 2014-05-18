@@ -11,16 +11,6 @@ class NotificarBaja implements PartidoObservador {
 	val private static NUEVE_JUGADORES_ESTANDARES = 9
 
 	override notificar(Partido partido, Interesado interesado) {
-		if (!partido.esUnInteresado(interesado)) {
-
-			val List<Interesado> interesados = partido.getInteresados
-
-			if (interesado.sosEstandar && interesados.filter[inte|inte.sosEstandar].size.equals(NUEVE_JUGADORES_ESTANDARES)) {
-				MailHelper.sendMail("someMail", "pass", Lists.newArrayList(partido.getAdmin.getMail), "subject",
-					"Se agrego un interesado a la lista")
-			}
-
-		}
 	}
 
 }

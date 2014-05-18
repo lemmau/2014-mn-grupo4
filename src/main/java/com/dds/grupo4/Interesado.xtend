@@ -15,6 +15,8 @@ class Interesado {
 	@Property private List<Interesado> amigos = new ArrayList<Interesado>;
 	@Property private TipoDeInscripcion tipoDeInscripcion;
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
+	@Property private List<Partido> partidosALosQueMeInscribi = new ArrayList<Partido>
+	
 
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
 		this.nombre = nombre;
@@ -24,15 +26,11 @@ class Interesado {
 	}
 
 	def void inscribite(Partido partido) {
-		this.tipoDeInscripcion.inscribime(this, partido);
+		this.partidosALosQueMeInscribi.add(partido)
 	}
 
 	def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
 		this.tipoDeInscripcion = inscripcion;
-	}
-	
-	def Boolean sosEstandar(){
-		return this.tipoDeInscripcion.sosEstandar
 	}
 	
 	def (List<Interesado>) => Boolean condicionDelPartido(){
@@ -59,6 +57,15 @@ class Interesado {
 	
 	def agregarInfraccion(Infraccion infraccion) {
 		this.infracciones.add(infraccion)
+	}
+	
+	def estasConfirmado(Partido partido){
+		
+		this.tipoDeInscripcion.estasConfirmado(partido)
+	}
+	
+	def Integer getPrioridad(){
+		this.tipoDeInscripcion.getPrioridad;
 	}
 	
 }

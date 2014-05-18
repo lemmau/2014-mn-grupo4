@@ -5,9 +5,9 @@ import org.junit.Before
 import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
-import com.dds.grupo4.tipoDeInscripcion.Solidaria
 import java.util.List
 import org.joda.time.DateTime
+import com.dds.grupo4.tipoDeInscripcion.Solidario
 
 class PartidoTest {
 
@@ -34,8 +34,8 @@ class PartidoTest {
 		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
 		gonza = new Interesado("Gonzalo", "Franchino", 33, new Estandar)
 		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
-		lean = new Interesado("Leandro", "Mauro", 25, new Solidaria)
-		pepe = new Interesado("Leandro", "Mauro", 25, new Solidaria)
+		lean = new Interesado("Leandro", "Mauro", 25, new Solidario)
+		pepe = new Interesado("Leandro", "Mauro", 25, new Solidario)
 
 	}
 	
@@ -47,8 +47,8 @@ class PartidoTest {
 		partido.inscribirA(lean)
 		partido.inscribirA(osva)
 		
-		Assert.assertEquals(partido.interesados.get(0), maqi)
-		Assert.assertEquals(partido.interesados.get(1), diego)
+		Assert.assertEquals(partido.interesados.get(0), diego)
+		Assert.assertEquals(partido.interesados.get(1), maqi)
 		Assert.assertEquals(partido.interesados.get(2), lean)
 		Assert.assertEquals(partido.interesados.get(3), osva)
 
