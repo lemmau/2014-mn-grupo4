@@ -5,7 +5,6 @@ import org.junit.Before
 import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
-import java.util.List
 import org.joda.time.DateTime
 import com.dds.grupo4.tipoDeInscripcion.Solidario
 
@@ -126,26 +125,40 @@ class PartidoTest {
 	@Test
 	def comprobarUmbralDe10Jugadores() {
 
-		partido.inscribirA(gonza)
-		partido.inscribirA(maqi)
-		partido.inscribirA(lean)
-		partido.inscribirA(osva)
-		partido.inscribirA(gonza)
-		partido.inscribirA(maqi)
-		partido.inscribirA(lean)
-		partido.inscribirA(osva)
-		partido.inscribirA(osva)
-		partido.inscribirA(gonza)
-		partido.inscribirA(maqi)
-		partido.inscribirA(lean)
-		partido.inscribirA(osva)
-		partido.inscribirA(gonza)
-		partido.inscribirA(maqi)
-		partido.inscribirA(lean)
-		partido.inscribirA(osva)		
+		gonza.inscribite(partido)
+		maqi.inscribite(partido)
+		lean.inscribite(partido)
+		osva.inscribite(partido)
+		gonza.inscribite(partido)
+		maqi.inscribite(partido)
+		lean.inscribite(partido)
+		osva.inscribite(partido)
+		osva.inscribite(partido)
+		gonza.inscribite(partido)
+		maqi.inscribite(partido)
+		lean.inscribite(partido)
+		osva.inscribite(partido)
+		gonza.inscribite(partido)
+		maqi.inscribite(partido)
+		lean.inscribite(partido)
+		osva.inscribite(partido)		
 
 		Assert.assertEquals(partido.jugadoresFinales.size, 10)
 
-	}		
+	}	
+	
+	@Test
+	def chequearEnvioDeMailsDeAmigos(){
+		diego.agregarAmigo(osva)
+		diego.agregarAmigo(lean)
+		diego.mail = ("diego.anazonian@gmail.com")
+		
+		diego.inscribite(partido)
+		
+		Assert.assertEquals(osva.quantityMailsFromPerson(diego),1)
+		Assert.assertEquals(lean.quantityMailsFromPerson(diego),1)	
+	}	
+	
+	
 
 }
