@@ -15,6 +15,8 @@ class Interesado {
 	@Property private List<Interesado> amigos = new ArrayList<Interesado>;
 	@Property private TipoDeInscripcion tipoDeInscripcion;
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
+	@Property private List<Partido> partidosALosQueMeInscribi = new ArrayList<Partido>
+	
 
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
 		this.nombre = nombre;
@@ -59,6 +61,11 @@ class Interesado {
 	
 	def void agregarAmigo(Interesado amigo){
 		this.amigos.add(amigo)
+	}
+	
+	def estasConfirmado(Partido partido){
+		
+		this.tipoDeInscripcion.estasConfirmado(partido)
 	}
 	
 }

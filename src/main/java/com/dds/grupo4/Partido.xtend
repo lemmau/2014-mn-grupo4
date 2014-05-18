@@ -15,6 +15,7 @@ class Partido {
 	@Property List<Interesado> interesados = new ArrayList;
 	@Property List<PartidoObservador> observers = new ArrayList;
 	@Property private Admin admin
+	
 
 	def void inscribirA(Interesado interesado) {
 

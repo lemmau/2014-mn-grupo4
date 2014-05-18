@@ -20,6 +20,10 @@ class Condicional extends TipoDeInscripcion {
 	def (List<Interesado>) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
 	}
+	
+	override estasConfirmado(Partido partido) {
+		return false
+	}
 
 
 }

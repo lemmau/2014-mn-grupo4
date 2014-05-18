@@ -8,5 +8,9 @@ class Solidaria extends TipoDeInscripcion {
 	override inscribime(Interesado interesado, Partido partido) {
 		partido.inscribirSolidario(interesado)
 	}
+	
+	override estasConfirmado(Partido partido) {
+		return false
+	}
 
 }

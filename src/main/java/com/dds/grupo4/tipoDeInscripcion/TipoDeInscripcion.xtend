@@ -8,6 +8,8 @@ abstract class TipoDeInscripcion {
 	
 	def void inscribime(Interesado interesado,Partido partdio);
 	
+	def Boolean estasConfirmado(Partido partido)
+	
 	def Boolean sosEstandar(){
 		return Boolean.FALSE
 	}
