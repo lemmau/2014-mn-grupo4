@@ -4,6 +4,7 @@ import java.util.List
 import org.joda.time.DateTime
 import java.util.ArrayList
 import com.dds.grupo4.observers.PartidoObservador
+import com.dds.grupo4.excepciones.BusinessException
 
 class Partido {
 
@@ -19,11 +20,10 @@ class Partido {
 		val Integer posicion = this.interesados.indexOf(
 			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
 
-		if (posicion < 0) {
-
+		try {
+			this.interesados.add(posicion, nuevoInteresado)
+		} catch (BusinessException exception) {
 			this.interesados.add(nuevoInteresado)
-		}else{
-			this.interesados.add(posicion,nuevoInteresado)
 		}
 
 		this.observers.forEach[observer|observer.notificar(this, nuevoInteresado)]
