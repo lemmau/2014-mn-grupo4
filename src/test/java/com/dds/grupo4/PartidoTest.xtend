@@ -81,8 +81,8 @@ class PartidoTest {
 
 		partido.inscribirA(diego)	// estandar
 		partido.inscribirA(maqi)	// estandar
+		partido.inscribirA(lean)	// estandar
 		partido.inscribirA(osva)	// CONDICIONAL
-		partido.inscribirA(maqi)	// estandar
 		partido.inscribirA(lean)	// solidario
 		partido.inscribirA(pepe)	// solidario
 

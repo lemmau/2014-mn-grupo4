@@ -52,9 +52,13 @@ class Partido {
 			val Interesado ultimoInteresadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
 			
 			if(ultimoInteresadoEstandar == null) {
-					this.interesados.add(interesadoSolidario)
+					// caso para cuando el ultimo de la lista de inscriptos es un condicional u otro solidario
+					// lo insertamos delante
+					this.interesados.add(PRIMERA_POSICION, interesadoSolidario)
 				}
 			else {
+				// caso para cuando hay uno o mas estandares
+				// lo insertamos detras de este/estos
 				val Integer posicion = this.interesados.indexOf(ultimoInteresadoEstandar) + UNA_POSICION
 				this.interesados.add(posicion, interesadoSolidario);
 			}
