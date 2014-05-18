@@ -1,18 +1,17 @@
 package com.dds.grupo4.observers
 
-import com.dds.grupo4.Partido
-import java.util.Collection
 import com.dds.grupo4.Interesado
+import com.dds.grupo4.Partido
 import com.dds.grupo4.helper.MailHelper
 import com.google.common.collect.Lists
+import java.util.Collection
 
 class NotificarAmigos implements PartidoObservador {
 
 	override notificar(Partido partido, Interesado interesado) {
 		if (partido.esUnInteresado(interesado)) {
-			val Collection<Interesado> amigos = interesado.getAmigos
 
-			amigos.forEach[amigo|this.notificarA(interesado, amigo)]
+			interesado.getAmigos.forEach[amigo|this.notificarA(interesado, amigo)]
 		}
 	}
 
@@ -25,4 +24,5 @@ class NotificarAmigos implements PartidoObservador {
 			"Tu amigo se ha suscripto a la lista de interesados del partido"
 		)
 	}
+
 }

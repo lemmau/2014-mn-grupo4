@@ -39,6 +39,10 @@ class Interesado {
 		return this.tipoDeInscripcion.getCondicionDelPartido;
 	}
 	
+	def void agregarAmigo(Interesado interesado){
+		this.amigos.add(interesado)
+	}
+	
 	def Interesado getReemplazante(){
 		val int cantidadAmigos = this.amigos.size
 		var Interesado reemplazante;
@@ -55,10 +59,6 @@ class Interesado {
 	
 	def agregarInfraccion(Infraccion infraccion) {
 		this.infracciones.add(infraccion)
-	}
-	
-	def void agregarAmigo(Interesado amigo){
-		this.amigos.add(amigo)
 	}
 	
 }

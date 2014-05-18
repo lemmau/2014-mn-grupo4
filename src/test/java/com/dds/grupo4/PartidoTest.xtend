@@ -7,6 +7,7 @@ import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Solidaria
 import java.util.List
+import org.joda.time.DateTime
 
 class PartidoTest {
 
@@ -16,10 +17,13 @@ class PartidoTest {
 	Interesado osva
 	Interesado lean
 	(List<Interesado>)=>Boolean condicionInteresadoCondicional
-
+	Infraccion infraccion
+	
 	@Before
 	def void setUp() {
 		partido = new Partido
+		
+		infraccion = new Infraccion("un motivo",DateTime.now.plusDays(5))
 
 		condicionInteresadoCondicional = [List<Interesado> interesados|
 			interesados.filter[interesado|interesado.getEdad > 22].size > 2]
@@ -59,7 +63,6 @@ class PartidoTest {
 
 	@Test
 	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales() {
-
 		
 		while (partido.interesados.size < 11) {
 			partido.inscribirA(diego);
@@ -68,7 +71,27 @@ class PartidoTest {
 		partido.inscribirA(osva);
 
 		Assert.assertTrue(!partido.jugadoresFinales.contains(osva))
-
 	}
+	
+	@Test
+	def probarReemplazoDeJugadorCuandoSeLoDaDeBaja(){
+		diego.agregarAmigo(maqi)
+		
+		partido.inscribirA(diego)
+		partido.darDeBajaA(diego,infraccion)
+		
+		Assert.assertTrue(partido.interesados.contains(maqi))
+		Assert.assertFalse(diego.getInfracciones.contains(infraccion))
+	}
+	
+	@Test
+	def multarConInfraccionSiNoTieneReemplazante(){
+		partido.inscribirA(diego)
+		partido.darDeBajaA(diego,infraccion)	
+	
+		Assert.assertTrue(diego.getInfracciones.contains(infraccion))				
+					
+	}
+	
 
 }

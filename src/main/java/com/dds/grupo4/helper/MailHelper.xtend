@@ -35,7 +35,7 @@ class MailHelper {
 		message.setFrom(new InternetAddress(from))
 		
 		to.forEach[ destinatary |  message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatary));]
-//		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		//message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		message.setSubject(subject);
 		message.setText(mess, ISO_8859_1);
@@ -49,6 +49,7 @@ class MailHelper {
 			t.close();
 
 		} catch (Exception ex) {
+			//EXCEPTION
 		}
 		
 
