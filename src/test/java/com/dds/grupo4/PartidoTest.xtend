@@ -15,7 +15,7 @@ class PartidoTest {
 	Interesado maqi
 	Interesado osva
 	Interesado lean
-	Interesado lean2
+	Interesado pepe
 	Interesado gonza
 	(List<Interesado>)=>Boolean condicionInteresadoCondicional
 
@@ -31,7 +31,7 @@ class PartidoTest {
 		gonza = new Interesado("Gonzalo", "Franchino", 33, new Estandar)
 		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
 		lean = new Interesado("Leandro", "Mauro", 25, new Solidaria)
-		lean2 = new Interesado("Leandro", "Mauro", 25, new Solidaria)
+		pepe = new Interesado("Leandro", "Mauro", 25, new Solidaria)
 
 	}
 	
@@ -77,14 +77,16 @@ class PartidoTest {
 	}
 	
 	@Test
-	def comprobarSiInteresadoCondicionalEsDeplazadoTresLugares() {
+	def comprobarSiInteresadoCondicionalEsDeplazadoTresLugaresLuegoDeInscribirTresNuevos() {
 
-		partido.inscribirA(osva)	// condicional
 		partido.inscribirA(diego)	// estandar
 		partido.inscribirA(maqi)	// estandar
+		partido.inscribirA(osva)	// CONDICIONAL
+		partido.inscribirA(maqi)	// estandar
 		partido.inscribirA(lean)	// solidario
+		partido.inscribirA(pepe)	// solidario
 
-		Assert.assertEquals(partido.interesados.get(3), osva)
+		Assert.assertEquals(partido.interesados.get(5), osva)
 	}
 
 	@Test
@@ -101,7 +103,7 @@ class PartidoTest {
 	}
 	
 	@Test
-	def comprobarUmbralDeJugadores() {
+	def comprobarUmbralDe10Jugadores() {
 
 		partido.inscribirA(gonza)
 		partido.inscribirA(maqi)

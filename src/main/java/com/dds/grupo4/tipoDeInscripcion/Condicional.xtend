@@ -9,15 +9,11 @@ class Condicional extends TipoDeInscripcion {
 	(List<Interesado>) => Boolean condicionDelPartido;
 
 	override inscribime(Interesado interesado, Partido partido) {
-
 		partido.inscribirCondicional(interesado)
-
 	}
 	
 	new((List<Interesado>) => Boolean predicate){
-		
-		this.condicionDelPartido = predicate;	
-		
+		this.condicionDelPartido = predicate
 	}
 	
 	override

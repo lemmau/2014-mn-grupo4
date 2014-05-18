@@ -4,7 +4,6 @@ import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
 import java.util.List
 import java.util.Random
 import java.util.ArrayList
-import java.util.Collection
 
 class Interesado {
 
@@ -12,6 +11,7 @@ class Interesado {
 	@Property private String nombre;
 	@Property private String apellido;
 	@Property private String mail;
+	@Property private String password
 	@Property private List<Interesado> amigos = new ArrayList<Interesado>;
 	@Property private TipoDeInscripcion tipoDeInscripcion;
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
@@ -55,6 +55,10 @@ class Interesado {
 	
 	def agregarInfraccion(Infraccion infraccion) {
 		this.infracciones.add(infraccion)
+	}
+	
+	def void agregarAmigo(Interesado amigo){
+		this.amigos.add(amigo)
 	}
 	
 }

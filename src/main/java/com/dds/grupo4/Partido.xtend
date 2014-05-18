@@ -14,8 +14,7 @@ class Partido {
 	@Property DateTime fechaInicio;
 	@Property List<Interesado> interesados = new ArrayList;
 	@Property List<PartidoObservador> observers = new ArrayList;
-	@Property private String admin
-	@Property private Interesado ultimoInteresadoAgregado
+	@Property private Admin admin
 
 	def void inscribirA(Interesado interesado) {
 
@@ -23,10 +22,9 @@ class Partido {
 
 		if (cantInteresadosEstandar <= MAX_CANTIDAD_JUGADORES) {
 			interesado.inscribite(this)
-			this.ultimoInteresadoAgregado = interesado
 		}
 
-		this.observers.forEach[observer|observer.notificar(this)]
+		this.observers.forEach[observer|observer.notificar(this, interesado)]
 
 	}
 
@@ -38,28 +36,13 @@ class Partido {
 			throw new RuntimeException("No hay diez jugadores para realizar un partido")
 		}
 	}
-	
-	def void darDeBajaA(Interesado interesado,Infraccion infraccion) {
 
-		if (this.interesados.contains(interesado)) {
-			try {
-				this.interesados.remove(interesado)
-				this.inscribirA(interesado.getReemplazante)
-			} catch (RuntimeException e) {
-				interesado.agregarInfraccion(infraccion)
-			}
-		} else {
-			//throw some exception 
-		}
-
-	}
-
-	// Estandar
+	// ESTANDAR
 	def inscribirEstandar(Interesado interesadoEstandar) {
 		this.interesados.add(PRIMERA_POSICION, interesadoEstandar)
 	}
 
-	// Solidario
+	// SOLIDARIO
 	def inscribirSolidario(Interesado interesadoSolidario) {
 		
 		if(this.interesados.size == 0) {
@@ -78,17 +61,34 @@ class Partido {
 		}
 	}
 
-	// Condicional
+	// CONDICIONAL
 	def inscribirCondicional(Interesado interesadoCondicional) {
 		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
-
-		this.interesados.add(interesadoCondicional)
-
-	if (condicionPartido.apply(this.interesados)) {
-		this.interesados.add(interesadoCondicional)
+		
+//		this.interesados.add(interesadoCondicional)
+			
+		if (condicionPartido.apply(this.interesados)) {
+			this.interesados.add(interesadoCondicional)
+		}
+	}
+	
+	def Boolean esUnInteresado(Interesado interesado){
+		return this.interesados.contains(interesado)
 	}
 
-	}
+	def void darDeBajaA(Interesado interesado, Infraccion infraccion) {
 
+		if (this.interesados.contains(interesado)) {
+
+			try {
+				this.inscribirA(interesado.getReemplazante)
+			} catch (RuntimeException e) {
+				interesado.agregarInfraccion(infraccion)
+			} finally {
+				this.interesados.remove(interesado)
+				this.observers.forEach[observer|observer.notificar(this, interesado)]
+			}
+		}
+	}
 
 }
