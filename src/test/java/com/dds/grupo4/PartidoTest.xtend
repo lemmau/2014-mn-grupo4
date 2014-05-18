@@ -147,6 +147,14 @@ class PartidoTest {
 
 		Assert.assertEquals(partido.jugadoresFinales.size, 10)
 
-	}		
+	}
+	
+	@Test
+	def chequearPrioridadesSegunTipoDeInscipto(){
+				
+		Assert.assertEquals(maqi.getPrioridad,1)
+		Assert.assertEquals(lean.getPrioridad,2)
+		Assert.assertEquals(osva.getPrioridad,3)
+	}
 
 }
