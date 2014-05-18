@@ -37,24 +37,43 @@ class Partido {
 		}
 	}
 
+	// ESTANDAR
 	def inscribirEstandar(Interesado interesadoEstandar) {
 		this.interesados.add(PRIMERA_POSICION, interesadoEstandar)
 	}
 
+	// SOLIDARIO
 	def inscribirSolidario(Interesado interesadoSolidario) {
-		val Interesado interesadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
-		val Integer posicion = this.interesados.lastIndexOf(interesadoEstandar) + UNA_POSICION
-
-		this.interesados.add(posicion, interesadoSolidario);
+		
+		if(this.interesados.size == 0) {
+			this.interesados.add(interesadoSolidario);
+		}
+		else {
+			val Interesado ultimoInteresadoEstandar = this.interesados.findLast[inte|inte.sosEstandar]
+			
+			if(ultimoInteresadoEstandar == null) {
+					// caso para cuando el ultimo de la lista de inscriptos es un condicional u otro solidario
+					// lo insertamos delante
+					this.interesados.add(PRIMERA_POSICION, interesadoSolidario)
+				}
+			else {
+				// caso para cuando hay uno o mas estandares
+				// lo insertamos detras de este/estos
+				val Integer posicion = this.interesados.indexOf(ultimoInteresadoEstandar) + UNA_POSICION
+				this.interesados.add(posicion, interesadoSolidario);
+			}
+		}
 	}
 
+	// CONDICIONAL
 	def inscribirCondicional(Interesado interesadoCondicional) {
 		val (List<Interesado>)=>Boolean condicionPartido = interesadoCondicional.condicionDelPartido
-
+		
+//		this.interesados.add(interesadoCondicional)
+			
 		if (condicionPartido.apply(this.interesados)) {
 			this.interesados.add(interesadoCondicional)
 		}
-
 	}
 	
 	def Boolean esUnInteresado(Interesado interesado){
@@ -75,7 +94,5 @@ class Partido {
 			}
 		}
 	}
-	
-	
-	
+
 }

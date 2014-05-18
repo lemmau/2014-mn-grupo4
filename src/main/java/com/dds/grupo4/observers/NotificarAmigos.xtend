@@ -4,7 +4,6 @@ import com.dds.grupo4.Interesado
 import com.dds.grupo4.Partido
 import com.dds.grupo4.helper.MailHelper
 import com.google.common.collect.Lists
-import java.util.Collection
 
 class NotificarAmigos implements PartidoObservador {
 
