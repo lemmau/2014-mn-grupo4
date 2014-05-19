@@ -4,10 +4,8 @@ import com.dds.grupo4.Partido
 
 abstract class TipoDeInscripcion {
 	
-	def Boolean estasConfirmado(Partido partido)
-	
-	def (Partido) => Boolean getCondicionDelPartido(){
-		return null;
+	def Boolean estasConfirmado(Partido partido){
+		return Boolean.TRUE
 	}
 	
 	def Integer getPrioridad()

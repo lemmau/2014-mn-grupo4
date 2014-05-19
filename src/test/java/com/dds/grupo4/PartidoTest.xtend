@@ -7,7 +7,14 @@ import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import org.joda.time.DateTime
 import com.dds.grupo4.tipoDeInscripcion.Solidario
+import org.junit.runner.RunWith
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import static org.powermock.api.mockito.PowerMockito.*
+import javax.print.attribute.standard.DateTimeAtCompleted
 
+@RunWith(typeof(PowerMockRunner))
+@PrepareForTest(typeof(DateTime))
 class PartidoTest {
 
 	Partido partido
@@ -18,16 +25,23 @@ class PartidoTest {
 	Interesado pepe
 	Interesado gonza
 	(Partido)=>Boolean condicionInteresadoCondicional
+	(Partido)=>Boolean condicionPorFecha
 	Infraccion infraccion
 	
 	@Before
 	def void setUp() {
 		partido = new Partido
 		
+		mockStatic(typeof(DateTime));
+		when(DateTime.now).thenReturn(new DateTime(2014,5,21,14,32))
+		
 		infraccion = new Infraccion("un motivo",DateTime.now.plusDays(5))
 
 		condicionInteresadoCondicional = [Partido partido|
 			partido.interesados.filter[interesado|interesado.getEdad > 22].size > 2]
+			
+		condicionPorFecha = [Partido partido|
+			!(partido.fechaInicio.getDayOfMonth.equals(DateTime.now.getDayOfMonth))]	
 
 		diego = new Interesado("Diego", "Anazonian", 23, new Estandar)
 		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
@@ -56,7 +70,6 @@ class PartidoTest {
 	@Test(expected=typeof(RuntimeException))
 	def void corroboroExceptionCuandoHayMenosDeDiezJugadores() {
 
-		//partido.inscribirA(osva)
 		partido.inscribirA(diego)
 		partido.inscribirA(osva)
 		partido.inscribirA(maqi)
@@ -115,11 +128,9 @@ class PartidoTest {
 		partido.inscribirA(gonza)
 		partido.inscribirA(maqi)
 		partido.inscribirA(lean)
-		partido.inscribirA(osva)	// condicional
+		partido.inscribirA(osva)	
 
-		val (Partido)=>Boolean condicionPartido = osva.condicionDelPartido
-
-		Assert.assertEquals(condicionPartido.apply(partido), true)
+		Assert.assertEquals(osva.estasConfirmado(partido), true)
 	}
 	
 	@Test
@@ -158,6 +169,23 @@ class PartidoTest {
 		Assert.assertEquals(osva.quantityMailsFromPerson(diego),1)
 		Assert.assertEquals(lean.quantityMailsFromPerson(diego),1)	
 	}	
+	
+	@Test
+	def chequeoMockDeFecha(){
+		val DateTime dateTimeMocked = DateTime.now()
+		
+		Assert.assertEquals(dateTimeMocked.getYear,2014)
+		Assert.assertEquals(dateTimeMocked.getMonthOfYear,5)
+		Assert.assertEquals(dateTimeMocked.getDayOfMonth,21)
+		Assert.assertEquals(dateTimeMocked.getHourOfDay,14)
+		Assert.assertEquals(dateTimeMocked.getMinuteOfHour,32)
+	}
+	
+	@Test
+	def validarQueUnInteresadoCondicionalAunqueEsteEnListaDeJugadoresNoJueguePorSucondicionImpuestaAlPartido(){
+		diego.inscribite(partido)
+		
+	}
 	
 	
 

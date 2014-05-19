@@ -37,10 +37,6 @@ class Interesado {
 		this.tipoDeInscripcion = inscripcion;
 	}
 
-	def (Partido)=>Boolean condicionDelPartido() {
-		return this.tipoDeInscripcion.getCondicionDelPartido;
-	}
-
 	def void agregarAmigo(Interesado interesado) {
 		this.amigos.add(interesado)
 	}

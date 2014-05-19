@@ -7,7 +7,7 @@ class Solidario extends TipoDeInscripcion {
 	Integer prioridad = 2
 	
 	override estasConfirmado(Partido partido) {
-		return false
+		return Boolean.TRUE
 	}
 	
 	override getPrioridad(){

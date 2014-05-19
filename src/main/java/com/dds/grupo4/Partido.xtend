@@ -4,7 +4,6 @@ import java.util.List
 import org.joda.time.DateTime
 import java.util.ArrayList
 import com.dds.grupo4.observers.PartidoObservador
-import com.dds.grupo4.excepciones.BusinessException
 
 class Partido {
 
@@ -22,7 +21,7 @@ class Partido {
 
 		try {
 			this.interesados.add(posicion, nuevoInteresado)
-		} catch (BusinessException exception) {
+		} catch (Exception exception) {
 			this.interesados.add(nuevoInteresado)
 		}
 
@@ -31,10 +30,11 @@ class Partido {
 
 	def List<Interesado> jugadoresFinales() {
 
-		if (! (this.interesados.size < MAX_CANTIDAD_JUGADORES)) {
-			return this.interesados.subList(MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES);
-		} else {
+		if (this.interesados.size < MAX_CANTIDAD_JUGADORES) {
 			throw new RuntimeException("No hay diez jugadores para realizar un partido")
+		} else {
+			this.interesados.filter[ interesado | interesado.estasConfirmado(this)]
+			return this.interesados.subList(MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES);
 		}
 	}
 

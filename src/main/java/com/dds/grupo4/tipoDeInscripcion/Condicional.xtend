@@ -12,13 +12,12 @@ class Condicional extends TipoDeInscripcion {
 		this.condicionDelPartido = predicate
 	}
 	
-	override
 	def (Partido) => Boolean getCondicionDelPartido(){
 		return this.condicionDelPartido
 	}
 	
 	override estasConfirmado(Partido partido) {
-		return false
+		return this.getCondicionDelPartido.apply(partido)
 	}
 	
 	override getPrioridad(){
