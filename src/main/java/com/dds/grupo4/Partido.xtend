@@ -25,7 +25,7 @@ class Partido {
 			this.interesados.add(nuevoInteresado)
 		}
 
-		this.observers.forEach[observer|observer.notificar(this, nuevoInteresado)]
+	//		this.observers.forEach[observer|observer.notificar(this, nuevoInteresado)]
 	}
 
 	def List<Interesado> jugadoresFinales() {
@@ -33,8 +33,8 @@ class Partido {
 		if (this.interesados.size < MAX_CANTIDAD_JUGADORES) {
 			throw new RuntimeException("No hay diez jugadores para realizar un partido")
 		} else {
-			this.interesados.filter[ interesado | interesado.estasConfirmado(this)]
-			return this.interesados.subList(MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES);
+			return this.interesados.filter[interesado|interesado.estasConfirmado(this)].toList.subList(
+				MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES)
 		}
 	}
 

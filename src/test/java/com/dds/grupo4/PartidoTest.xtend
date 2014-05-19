@@ -4,14 +4,13 @@ import org.junit.Test
 import org.junit.Before
 import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
-import com.dds.grupo4.tipoDeInscripcion.Condicional
 import org.joda.time.DateTime
 import com.dds.grupo4.tipoDeInscripcion.Solidario
 import org.junit.runner.RunWith
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import static org.powermock.api.mockito.PowerMockito.*
-import javax.print.attribute.standard.DateTimeAtCompleted
+import com.dds.grupo4.tipoDeInscripcion.Condicional
 
 @RunWith(typeof(PowerMockRunner))
 @PrepareForTest(typeof(DateTime))
@@ -21,6 +20,7 @@ class PartidoTest {
 	Interesado diego
 	Interesado maqi
 	Interesado osva
+	Interesado osva2
 	Interesado lean
 	Interesado pepe
 	Interesado gonza
@@ -41,12 +41,15 @@ class PartidoTest {
 			partido.interesados.filter[interesado|interesado.getEdad > 22].size > 2]
 			
 		condicionPorFecha = [Partido partido|
-			!(partido.fechaInicio.getDayOfMonth.equals(DateTime.now.getDayOfMonth))]	
+			!(partido.fechaInicio.getDayOfMonth.equals(21))]	
 
+		partido.setFechaInicio(DateTime.now)
+		
 		diego = new Interesado("Diego", "Anazonian", 23, new Estandar)
 		maqi = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
 		gonza = new Interesado("Gonzalo", "Franchino", 33, new Estandar)
 		osva = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
+		osva2 = new Interesado("Osva", "Cornelli", 22, new Condicional(condicionPorFecha))
 		lean = new Interesado("Leandro", "Mauro", 25, new Solidario)
 		pepe = new Interesado("Leandro", "Mauro", 25, new Solidario)
 
@@ -183,10 +186,19 @@ class PartidoTest {
 	
 	@Test
 	def validarQueUnInteresadoCondicionalAunqueEsteEnListaDeJugadoresNoJueguePorSucondicionImpuestaAlPartido(){
-		diego.inscribite(partido)
+		lean.inscribite(partido)
+		osva2.inscribite(partido)
+		
+		while(partido.interesados.size < 10){
+			lean.inscribite(partido)
+		}
+		
+		osva.inscribite(partido)
+		
+		Assert.assertFalse(partido.jugadoresFinales.contains(osva2))
+				
 		
 	}
 	
 	
-
 }

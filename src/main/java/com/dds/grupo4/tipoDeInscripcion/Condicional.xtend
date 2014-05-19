@@ -5,24 +5,18 @@ import com.dds.grupo4.Partido
 class Condicional extends TipoDeInscripcion {
 	
 	Integer prioridad = 3
-	
 	(Partido) => Boolean condicionDelPartido;
 
 	new((Partido) => Boolean predicate){
 		this.condicionDelPartido = predicate
 	}
 	
-	def (Partido) => Boolean getCondicionDelPartido(){
-		return this.condicionDelPartido
-	}
-	
 	override estasConfirmado(Partido partido) {
-		return this.getCondicionDelPartido.apply(partido)
+		return this.condicionDelPartido.apply(partido)
 	}
 	
-	override getPrioridad(){
+	override Integer getPrioridad(){
 		return this.prioridad
 	}
-
 
 }
