@@ -3,7 +3,8 @@ package com.dds.grupo4
 import java.util.List
 import org.joda.time.DateTime
 import java.util.ArrayList
-import com.dds.grupo4.observers.PartidoObservador
+import com.dds.grupo4.observers.NotificarAdmin
+import com.dds.grupo4.excepciones.BusinessException
 
 class Partido {
 
@@ -13,19 +14,27 @@ class Partido {
 	@Property List<Interesado> interesados = new ArrayList;
 	@Property List<PartidoObservador> observers = new ArrayList;
 	@Property private Admin admin
+	@Property private NotificarAdmin notificacionAdmin = new NotificarAdmin
+	@Property private String mail
+	
 
 	def void inscribirA(Interesado nuevoInteresado) {
 
 		val Integer posicion = this.interesados.indexOf(
 			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
-
+	
+	
+		if(this.interesados.filter[inte | inte.estasConfirmado(this)].size > 10){
+			this.notificacionAdmin.notificarConfirmacion(this)		
+		}
+		
 		try {
 			this.interesados.add(posicion, nuevoInteresado)
 		} catch (Exception exception) {
 			this.interesados.add(nuevoInteresado)
 		}
 
-	//		this.observers.forEach[observer|observer.notificar(this, nuevoInteresado)]
+	
 	}
 
 	def List<Interesado> jugadoresFinales() {
@@ -52,8 +61,10 @@ class Partido {
 				interesado.agregarInfraccion(infraccion)
 			} finally {
 				this.interesados.remove(interesado)
-				this.observers.forEach[observer|observer.notificar(this, interesado)]
+				this.notificacionAdmin.notificarConfirmacion(this)
 			}
+		}else{
+			throw new BusinessException("La persona no se encuentra en la lista de interesados")
 		}
 	}
 

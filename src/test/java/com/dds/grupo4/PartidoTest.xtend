@@ -5,12 +5,12 @@ import org.junit.Before
 import org.junit.Assert
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import org.joda.time.DateTime
-import com.dds.grupo4.tipoDeInscripcion.Solidario
 import org.junit.runner.RunWith
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import static org.powermock.api.mockito.PowerMockito.*
 import com.dds.grupo4.tipoDeInscripcion.Condicional
+import com.dds.grupo4.tipoDeInscripcion.Solidario
 
 @RunWith(typeof(PowerMockRunner))
 @PrepareForTest(typeof(DateTime))
@@ -198,6 +198,19 @@ class PartidoTest {
 		Assert.assertFalse(partido.jugadoresFinales.contains(osva2))
 				
 		
+	}
+	
+	@Test
+	def chequearLaNotificacionAlAdminAlLLegarALosDiezInteresadosConfirmados(){
+		partido.setMail("partidoUno@gmail.com")
+		partido.setAdmin(new Admin)
+		
+		while(partido.interesados.size <= 10){
+			lean.inscribite(partido)
+		}	
+		
+		Assert.assertTrue(partido.getAdmin.getMailsRecibidos.keySet.contains(partido.getMail))
+		Assert.assertEquals(partido.getAdmin.mailsRecibidos.get(partido.getMail),1)
 	}
 	
 	
