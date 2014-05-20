@@ -10,6 +10,10 @@ class Admin {
 	@Property private String mail;
 	@Property private Map<String,Integer> mailsRecibidos = new HashMap<String,Integer>
 	
+	new(String mail){
+		this.mail = mail
+	}
+	
 	def void recibirMail(String mail) {
 		try {
 			this.mailsRecibidos.put(mail, this.mailsRecibidos.get(mail) + 1)

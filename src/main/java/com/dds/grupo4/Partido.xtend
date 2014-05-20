@@ -5,6 +5,7 @@ import org.joda.time.DateTime
 import java.util.ArrayList
 import com.dds.grupo4.observers.NotificarAdmin
 import com.dds.grupo4.excepciones.BusinessException
+import java.util.Random
 
 class Partido {
 
@@ -12,38 +13,41 @@ class Partido {
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
 	@Property DateTime fechaInicio;
 	@Property List<Interesado> interesados = new ArrayList;
-	@Property List<PartidoObservador> observers = new ArrayList;
 	@Property private Admin admin
 	@Property private NotificarAdmin notificacionAdmin = new NotificarAdmin
 	@Property private String mail
-	
+
+
+	new(Admin admin){
+		this.admin = admin
+	}
 
 	def void inscribirA(Interesado nuevoInteresado) {
 
 		val Integer posicion = this.interesados.indexOf(
 			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
-	
-	
-		if(this.interesados.filter[inte | inte.estasConfirmado(this)].size > 10){
-			this.notificacionAdmin.notificarConfirmacion(this)		
+
+		if (this.interesados.filter[inte|inte.estasConfirmado(this)].size > 10) {
+			this.notificacionAdmin.notificarConfirmacion(this)
 		}
-		
+
 		try {
 			this.interesados.add(posicion, nuevoInteresado)
 		} catch (Exception exception) {
 			this.interesados.add(nuevoInteresado)
 		}
 
-	
 	}
 
 	def List<Interesado> jugadoresFinales() {
 
-		if (this.interesados.size < MAX_CANTIDAD_JUGADORES) {
-			throw new RuntimeException("No hay diez jugadores para realizar un partido")
-		} else {
+		try {
 			return this.interesados.filter[interesado|interesado.estasConfirmado(this)].toList.subList(
 				MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES)
+
+		} catch (Exception ex) {
+
+			throw new BusinessException("No hay diez jugadores para realizar un partido")
 		}
 	}
 
@@ -52,19 +56,15 @@ class Partido {
 	}
 
 	def void darDeBajaA(Interesado interesado, Infraccion infraccion) {
+		var Interesado reemplazante;
+		val Random random = new Random()
 
-		if (this.interesados.contains(interesado)) {
-
-			try {
-				this.inscribirA(interesado.getReemplazante)
-			} catch (RuntimeException e) {
-				interesado.agregarInfraccion(infraccion)
-			} finally {
-				this.interesados.remove(interesado)
-				this.notificacionAdmin.notificarConfirmacion(this)
-			}
-		}else{
-			throw new BusinessException("La persona no se encuentra en la lista de interesados")
+		try {
+			this.interesados.remove(interesado)
+			reemplazante = this.interesados.get(random.nextInt(this.interesados.size))
+		} catch (Exception ex) {
+			interesado.agregarInfraccion(infraccion)
+			throw new BusinessException("No hay reemplazante para este jugador, se lo ha multado por dicho suceso")
 		}
 	}
 
