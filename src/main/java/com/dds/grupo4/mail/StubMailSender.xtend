@@ -4,12 +4,13 @@ import java.util.HashMap
 import java.util.Set
 import java.util.HashSet
 import java.util.Map
+import com.dds.grupo4.MessageSender
 
-class StubMailSender {
+class StubMailSender implements MessageSender{
 	
 	Map<String, Set<String>> mailsEnviados
 	
-	def send(Mail mail) {
+	override send(Mail mail) {
 		simularEnvioMail(mail.from, mail.message)
 		println("Simulación envío de mail | From: " + mail.from + " | To: " + mail.to + " | Message: " + mail.message)
 	}

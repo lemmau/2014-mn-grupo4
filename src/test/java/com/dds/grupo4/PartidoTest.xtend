@@ -1,20 +1,21 @@
 package com.dds.grupo4
 
-import org.junit.Test
-import org.junit.Before
-import org.junit.Assert
+import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Estandar
+import com.dds.grupo4.tipoDeInscripcion.Solidario
 import org.joda.time.DateTime
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+
 import static org.powermock.api.mockito.PowerMockito.*
-import com.dds.grupo4.tipoDeInscripcion.Condicional
-import com.dds.grupo4.tipoDeInscripcion.Solidario
-import com.dds.grupo4.excepciones.BusinessException
-import org.junit.Rule
-import org.junit.rules.ExpectedException
-import javax.xml.registry.BusinessLifeCycleManager
+import com.dds.grupo4.mail.StubMailSender
 
 @RunWith(typeof(PowerMockRunner))
 @PrepareForTest(typeof(DateTime))
@@ -32,6 +33,8 @@ class PartidoTest {
 	(Partido)=>Boolean condicionInteresadoCondicional
 	(Partido)=>Boolean condicionPorFecha
 	Infraccion infraccion
+	
+	StubMailSender stubMailSender = StubMailSender.instance
 
 	@Rule
 	public ExpectedException expectedEx = ExpectedException.none();
@@ -61,6 +64,7 @@ class PartidoTest {
 		leanSolidario = new Interesado("Leandro", "Mauro", 25, new Solidario)
 		pepeSolidario = new Interesado("Leandro", "Mauro", 25, new Solidario)
 
+		diegoEstandar.messageSender = stubMailSender
 	}
 
 	@Test
@@ -172,14 +176,12 @@ class PartidoTest {
 
 	@Test
 	def chequearEnvioDeMailsDeAmigos() {
-		diegoEstandar.agregarAmigo(osvaCondicional1)
 		diegoEstandar.agregarAmigo(leanSolidario)
 		diegoEstandar.mail = ("diego.anazonian@gmail.com")
 
 		diegoEstandar.inscribite(partido)
 
-		Assert.assertEquals(osvaCondicional1.quantityMailsFromPerson(diegoEstandar), 1)
-		Assert.assertEquals(leanSolidario.quantityMailsFromPerson(diegoEstandar), 1)
+		Assert.assertEquals(1,stubMailSender.mailsDe("diego.anazonian@gmail.com").size)
 	}
 
 	@Test
@@ -197,4 +199,12 @@ class PartidoTest {
 
 	}
 
-}
+//	@Test
+//	def validarQueSeHayanHechoLasCalificaciones(){
+//		gonzaEstandar.calificarAlResto(partido.jugadoresDelPartido, partido )
+//		Assert.assertEquals(10, partido.jugadoresFinales)
+////		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas)
+//		
+	}
+
+
