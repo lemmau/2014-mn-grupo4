@@ -16,6 +16,7 @@ class Partido {
 	@Property private Admin admin
 	@Property private NotificarAdmin notificacionAdmin = new NotificarAdmin
 	@Property private String mail
+	@Property List<Interesado> jugadoresDelPartido = new ArrayList
 
 
 	new(Admin admin){
@@ -67,5 +68,15 @@ class Partido {
 			throw new BusinessException("No hay reemplazante para este jugador, se lo ha multado por dicho suceso")
 		}
 	}
+
+//	def calificarJugadores(){
+//		
+//		jugadoresDelPartido.forEach[ jugador | jugador.calificarAlResto(this.jugadoresDelPartido, this) ]
+//		
+//	}
+//	
+//	def tratarPropuesta(Interesado interesado) {
+//		
+//	}
 
 }
