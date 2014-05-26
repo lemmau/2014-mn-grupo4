@@ -6,21 +6,23 @@ import java.util.HashSet
 import java.util.Map
 import com.dds.grupo4.MessageSender
 
-class StubMailSender implements MessageSender{
-	
+class StubMailSender implements MessageSender {
+
 	Map<String, Set<String>> mailsEnviados
-	
+
 	override send(Mail mail) {
 		simularEnvioMail(mail.from, mail.message)
-		println("Simulación envío de mail | From: " + mail.from + " | To: " + mail.to + " | Message: " + mail.message)
+		println(
+			"Simulación envío de mail | From: ".concat(mail.from).concat(" | To: ").concat(mail.to).concat(
+				" | Message: ").concat(mail.message))
 	}
-	
+
 	def simularEnvioMail(String from, String message) {
 		var mensajes = mailsDe(from)
 		mensajes.add(message)
 		mailsEnviados.put(from, mensajes)
 	}
-	
+
 	def Set<String> mailsDe(String from) {
 		var Set<String> mensajes = mailsEnviados.get(from)
 		if (mensajes == null) {
@@ -28,7 +30,7 @@ class StubMailSender implements MessageSender{
 		}
 		mensajes
 	}
-	
+
 	/**********************************************
 	 * IMPLEMENTACION DE SINGLETON
 	 * ********************************************/
@@ -42,8 +44,8 @@ class StubMailSender implements MessageSender{
 	def static getInstance() {
 		if (instance == null) {
 			instance = new StubMailSender()
-		}	
+		}
 		instance
 	}
-	
+
 }

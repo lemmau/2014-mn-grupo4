@@ -1,6 +1,7 @@
 package com.dds.grupo4
 
 import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.mail.StubMailSender
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Solidario
@@ -15,7 +16,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 
 import static org.powermock.api.mockito.PowerMockito.*
-import com.dds.grupo4.mail.StubMailSender
 
 @RunWith(typeof(PowerMockRunner))
 @PrepareForTest(typeof(DateTime))

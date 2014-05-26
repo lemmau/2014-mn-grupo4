@@ -20,7 +20,7 @@ class Interesado implements MessageSender{
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 	@Property private List<Partido> partidosALosQueMeInscribi = new ArrayList<Partido>
 	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
-	@Property private List<Calificacion> calificacionesHechas = new ArrayList<Calificacion>
+	//@Property private List<Calificacion> calificacionesHechas = new ArrayList<Calificacion>
 	@Property private MessageSender messageSender
 	
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
@@ -76,15 +76,6 @@ class Interesado implements MessageSender{
 		
 	}
 
-//	def void recibirMail(String mail) {
-//		try {
-//			this.mailsRecibidos.put(mail, this.mailsRecibidos.get(mail) + 1)
-//		} catch (Exception ex) {
-//			this.mailsRecibidos.put(mail, 1)
-//		}
-//
-//	}
-
 	def agregarInfraccion(Infraccion infraccion) {
 		this.infracciones.add(infraccion)
 	}
@@ -99,25 +90,19 @@ class Interesado implements MessageSender{
 	}
 
 
-	def calificar(Interesado jugador, Partido partido){
-		
-		var Calificacion calificacion
-		var String critica
-		var int nota
-		
-		calificacion = new Calificacion(partido, jugador, nota, critica)
-		
-		calificacionesHechas.add(calificacion)
-		
-	}
-
-	//For testing purpose
-	def Integer quantityMailsFromPerson(Interesado person) {
-		return this.mailsRecibidos.get(person.getMail)
-	}
+//	def calificar(Interesado jugador, Partido partido){
+//		
+//		var Calificacion calificacion
+//		var String critica
+//		var int nota
+//		
+//		calificacion = new Calificacion(partido, jugador, nota, critica)
+//		
+//		calificacionesHechas.add(calificacion)
+//		
+//	}
 	
 	override send(Mail mail) {
-		
 		this.messageSender.send(mail)
 	
 	}
