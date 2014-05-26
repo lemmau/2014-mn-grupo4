@@ -123,12 +123,12 @@ class Interesado implements MessageSender{
 	}
 	
 	
-//	def calificarAlResto(List<Interesado> jugadores, Partido partido) {
-//		
-//		jugadores.remove(this)
-//		jugadores.forEach[ jugador | this.calificar(jugador, partido)]
-//			
-//	}
+	def calificarAlResto(List<Interesado> jugadores, Partido partido) {
+		
+		jugadores.remove(this)
+		jugadores.forEach[ jugador | this.calificar(jugador, partido)]
+			
+	}
 //
 //	def proponerJugador(Partido partido){
 //		val int cantidadAmigos = this.amigos.size

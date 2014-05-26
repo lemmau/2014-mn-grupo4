@@ -69,12 +69,12 @@ class Partido {
 		}
 	}
 
-//	def calificarJugadores(){
-//		
-//		jugadoresDelPartido.forEach[ jugador | jugador.calificarAlResto(this.jugadoresDelPartido, this) ]
-//		
-//	}
-//	
+	def calificarJugadores(){
+		
+		jugadoresDelPartido.forEach[ jugador | jugador.calificarAlResto(this.jugadoresDelPartido, this) ]
+		
+	}
+	
 //	def tratarPropuesta(Interesado interesado) {
 //		
 //	}

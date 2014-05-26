@@ -199,12 +199,20 @@ class PartidoTest {
 
 	}
 
-//	@Test
-//	def validarQueSeHayanHechoLasCalificaciones(){
-//		gonzaEstandar.calificarAlResto(partido.jugadoresDelPartido, partido )
-//		Assert.assertEquals(10, partido.jugadoresFinales)
-////		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas)
-//		
+	@Test
+	def validarQueSeHayanHechoLasCalificaciones(){
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(gonzaEstandar)
+		
+		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido )
+		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)	
 	}
-
-
+}
