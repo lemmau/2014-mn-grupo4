@@ -12,9 +12,12 @@ class StubMailSender implements MessageSender {
 
 	override send(Mail mail) {
 		simularEnvioMail(mail.from, mail.message)
-		println(
-			"Simulación envío de mail | From: ".concat(mail.from).concat(" | To: ").concat(mail.to).concat(
-				" | Message: ").concat(mail.message))
+		var StringBuffer buf = new StringBuffer
+		
+		buf.append("Simulación envío de mail | From: ").append(mail.from).append(" | To: ").append(mail.to).append(
+			" | Message: ").append(mail.message)
+			
+		println(buf.toString)
 	}
 
 	def simularEnvioMail(String from, String message) {
