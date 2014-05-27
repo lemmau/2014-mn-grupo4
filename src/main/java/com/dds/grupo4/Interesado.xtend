@@ -28,6 +28,8 @@ class Interesado implements MessageSender{
 		this.apellido = apellido;
 		this.edad = edad;
 		this.tipoDeInscripcion = tipoDeInscripcion;
+		
+		TodosLosJugadores.agregarPosibleInteresado(this)
 	}
 
 	def void inscribite(Partido partido) {

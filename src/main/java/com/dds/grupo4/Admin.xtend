@@ -22,4 +22,12 @@ class Admin {
 		}
 
 	}
+	
+	def aprobarInteresado(Interesado interesado){
+		
+	}
+	
+	def desproborInteresado(Interesado interesado){
+		
+	}
 }
