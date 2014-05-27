@@ -8,5 +8,8 @@
 .classpath
 
 *.java
+.autosave
+.db
+.dia~
 
 /bin
