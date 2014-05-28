@@ -82,7 +82,7 @@ class PartidoTest {
 
 	}
 
-	@Test(expected=typeof(RuntimeException))
+	@Test(expected=typeof(BusinessException))
 	def void corroboroExceptionCuandoHayMenosDeDiezJugadores() {
 
 		partido.inscribirA(diegoEstandar)
@@ -215,4 +215,14 @@ class PartidoTest {
 		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido )
 		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)	
 	}
+	
+	@Test
+	def validacionAfirmativaDeAdminFrenteAlaPropuestaDeUnInteresado(){
+		diegoEstandar.agregarAmigo(leanSolidario)
+		
+		partido.quieroProponerUnAmigo(diegoEstandar.amigoAlAzar())	
+		
+		Assert.assertTrue(TodosLosJugadores.getInteresadosDelSistema.contains(leanSolidario))	
+	}
+	
 }

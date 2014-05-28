@@ -7,6 +7,7 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.Map
 import com.dds.grupo4.mail.Mail
+import com.dds.grupo4.excepciones.BusinessException
 
 class Interesado implements MessageSender{
 
@@ -28,8 +29,6 @@ class Interesado implements MessageSender{
 		this.apellido = apellido;
 		this.edad = edad;
 		this.tipoDeInscripcion = tipoDeInscripcion;
-		
-		TodosLosJugadores.agregarPosibleInteresado(this)
 	}
 
 	def void inscribite(Partido partido) {
@@ -54,7 +53,7 @@ class Interesado implements MessageSender{
 			val random = new Random();
 			reemplazante = this.amigos.get(random.nextInt(cantidadAmigos))
 		} else {
-			throw new RuntimeException("No tiene amigos de reemplazo")
+			throw new BusinessException("No tiene amigos de reemplazo")
 		}
 
 		return reemplazante
@@ -116,6 +115,14 @@ class Interesado implements MessageSender{
 		jugadores.forEach[ jugador | this.calificar(jugador, partido)]
 			
 	}
+	
+	def Interesado amigoAlAzar() {
+		val Random rm = new Random
+		return this.amigos.get(rm.nextInt(this.amigos.size));
+	}
+	
+	
+	
 //
 //	def proponerJugador(Partido partido){
 //		val int cantidadAmigos = this.amigos.size

@@ -8,12 +8,12 @@ class Admin {
 	@Property private String nombre;
 	@Property private String apellido;
 	@Property private String mail;
-	@Property private Map<String,Integer> mailsRecibidos = new HashMap<String,Integer>
-	
-	new(String mail){
+	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
+
+	new(String mail) {
 		this.mail = mail
 	}
-	
+
 	def void recibirMail(String mail) {
 		try {
 			this.mailsRecibidos.put(mail, this.mailsRecibidos.get(mail) + 1)
@@ -22,12 +22,30 @@ class Admin {
 		}
 
 	}
-	
-	def aprobarInteresado(Interesado interesado){
+
+	def aprobarInteresado(Interesado interesado) {
+	}
+
+	def desproborInteresado(Interesado interesado) {
+	}
+
+	def validarPropuesta(Interesado interesado, Partido partido) {
+
+		if (this.unCriterio(interesado)) {
+			TodosLosJugadores.agregarJugadorAlSistema(interesado)
+			partido.inscribirA(interesado)
+		} else {
+			this.registrarRechazo(interesado, partido)
+		}
 		
 	}
-	
-	def desproborInteresado(Interesado interesado){
-		
+
+	def registrarRechazo(Interesado interesado, Partido partido) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
+
+	def unCriterio(Interesado interesado) {
+		Boolean.TRUE
+	}
+
 }

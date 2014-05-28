@@ -4,13 +4,17 @@ import java.util.List
 import java.util.ArrayList
 
 static class TodosLosJugadores {
-	static List<Interesado> posiblesInteresados = new ArrayList<Interesado>
-
-	def static agregarPosibleInteresado(Interesado interesado) {
-		posiblesInteresados.add(interesado)
-	}
+	private static List<Interesado> interesadosDelSistema = new ArrayList<Interesado>
 
 	def static eliminarPosibleInteresado(Interesado interesado) {
-		posiblesInteresados.remove(interesado)
+		interesadosDelSistema.remove(interesado)
+	}
+	
+	def static agregarJugadorAlSistema(Interesado interesado) {
+		interesadosDelSistema.add(interesado)
+	}
+	
+	def static List<Interesado> getInteresadosDelSistema(){
+		interesadosDelSistema
 	}
 }
