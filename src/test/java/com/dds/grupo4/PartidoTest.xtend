@@ -33,6 +33,7 @@ class PartidoTest {
 	(Partido)=>Boolean condicionInteresadoCondicional
 	(Partido)=>Boolean condicionPorFecha
 	Infraccion infraccion
+	Calificacion calificacion
 	
 	StubMailSender stubMailSender = StubMailSender.instance
 
