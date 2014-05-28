@@ -71,8 +71,8 @@ class Partido {
 
 	def calificarJugadores(){
 		
-		jugadoresDelPartido.forEach[ jugador | jugador.calificarAlResto(this.jugadoresDelPartido, this) ]
-		
+		this.jugadoresFinales.forEach[ jugador | jugador.calificarAlResto(this.jugadoresFinales, this) ]
+	
 	}
 	
 //	def tratarPropuesta(Interesado interesado) {
