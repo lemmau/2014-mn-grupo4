@@ -33,6 +33,7 @@ class PartidoTest {
 	(Partido)=>Boolean condicionInteresadoCondicional
 	(Partido)=>Boolean condicionPorFecha
 	Infraccion infraccion
+	Calificacion calificacion
 	
 	StubMailSender stubMailSender = StubMailSender.instance
 
@@ -225,4 +226,36 @@ class PartidoTest {
 		Assert.assertTrue(TodosLosJugadores.getInteresadosDelSistema.contains(leanSolidario))	
 	}
 	
+	@Test
+	def comprobarCantidadDeCalificacionesRealizadas(){
+		partido.inscribirA(leanSolidario)
+		partido.inscribirA(diegoEstandar)
+		
+	    calificacion = new Calificacion(partido,diegoEstandar,7,"el anti futbol")
+		
+		leanSolidario.calificar(diegoEstandar,partido)
+		
+		Assert.assertEquals(1, leanSolidario.calificacionesHechas.size)
+	}
+	
+	@Test
+	def validarQueTodosLosJugadoresDelPartidoSeCalifiquen(){
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(leanSolidario)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+				
+		calificacion = new Calificacion(partido,maqiEstandar,5,"pecho frio")
+
+		partido.calificarJugadores()
+		
+		Assert.assertEquals(9,leanSolidario.calificacionesHechas.size)		
+	}
+
 }
