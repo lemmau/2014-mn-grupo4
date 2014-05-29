@@ -3,7 +3,7 @@ package com.dds.grupo4
 import java.util.List
 import java.util.ArrayList
 
-static class TodosLosJugadores {
+public class TodosLosJugadores {
 	private static List<Interesado> interesadosDelSistema = new ArrayList<Interesado>
 
 	def static eliminarPosibleInteresado(Interesado interesado) {

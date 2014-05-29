@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<xtend.version>2.4.2</xtend.version>
+		<xtend.version>2.6.0</xtend.version>
 		<jodaTime.version>2.3</jodaTime.version>
 		<junit.version>4.8.1</junit.version>
 		<guava.version>16.0.1</guava.version>
@@ -18,11 +18,13 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 
+
+
 	<dependencies>
 
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
-			<artifactId>org.eclipse.xtend.standalone</artifactId>
+			<artifactId>org.eclipse.xtend.lib</artifactId>
 			<version>${xtend.version}</version>
 		</dependency>
 
@@ -96,18 +98,28 @@
 
 	</dependencies>
 
-
-
 	<build>
-		<testResources>
-			<testResource>
-				<directory>src/test/java</directory>
-				<targetPath>/java</targetPath>
-				<includes>
-					<include>*.xml</include>
-				</includes>
-			</testResource>
-		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>
