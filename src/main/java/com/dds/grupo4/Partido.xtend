@@ -64,7 +64,7 @@ class Partido {
 	}
 
 	def calificarJugadores() {
-		this.jugadoresDelPartido.forEach[jugador|jugador.calificarAlResto(this.jugadoresDelPartido, this)]
+		jugadoresFinales.forEach[jugador|jugador.calificarAlResto(jugadoresFinales, this)]
 	}
 
 	def quieroProponerUnAmigo(Interesado interesado) {
