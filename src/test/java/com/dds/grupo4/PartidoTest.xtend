@@ -237,6 +237,15 @@ class PartidoTest {
 		Assert.assertTrue(TodosLosJugadores.esUnJugador(osvaCondicional1))
 		Assert.assertFalse(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))	
 	}
+	
+	@Test
+	def desaprobarPropuestaDeNuevoInteresado(){
+		adminJuan.proponerInteresado(osvaCondicional1);
+		adminJuan.desaprobarInteresado(osvaCondicional1)
+		
+		Assert.assertFalse(TodosLosJugadores.esUnJugador(osvaCondicional1))
+		Assert.assertTrue(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))
+	}
 
 	@Test
 	def comprobarCantidadDeCalificacionesRealizadas() {

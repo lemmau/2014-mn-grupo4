@@ -39,7 +39,7 @@ class Admin {
 		TodosLosJugadores.agregarJugadorAlSistema(interesado)
 	}
 
-	def desproborInteresado(Interesado interesado) {
+	def desaprobarInteresado(Interesado interesado) {
 		InteresadosRechazados.agregarInteresado(interesado);
 	}
 
