@@ -16,6 +16,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 
 import static org.powermock.api.mockito.PowerMockito.*
+import com.dds.grupo4.home.TodosLosJugadores
+import com.dds.grupo4.home.InteresadosRechazados
 
 @RunWith(typeof(PowerMockRunner))
 @PrepareForTest(typeof(DateTime))
@@ -34,7 +36,7 @@ class PartidoTest {
 	(Partido)=>Boolean condicionPorFecha
 	Infraccion infraccion
 	Calificacion calificacion
-	
+
 	StubMailSender stubMailSender = StubMailSender.instance
 
 	@Rule
@@ -110,7 +112,7 @@ class PartidoTest {
 	def probarReemplazoDeJugadorCuandoSeLoDaDeBaja() {
 		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(diegoEstandar)
-		
+
 		partido.darDeBajaA(diegoEstandar, infraccion)
 
 		Assert.assertTrue(partido.interesados.contains(maqiEstandar))
@@ -121,7 +123,7 @@ class PartidoTest {
 	def multarConInfraccionSiNoTieneReemplazante() {
 		expectedEx.expect(typeof(BusinessException))
 		expectedEx.expectMessage("No hay reemplazante para este jugador, se lo ha multado por dicho suceso")
-		
+
 		partido.inscribirA(diegoEstandar)
 
 		partido.darDeBajaA(diegoEstandar, infraccion)
@@ -129,12 +131,12 @@ class PartidoTest {
 
 	def comprobarSiInteresadoCondicionalEsDeplazadoTresLugaresLuegoDeInscribirTresNuevos() {
 
-		partido.inscribirA(diegoEstandar) 
-		partido.inscribirA(maqiEstandar) 
-		partido.inscribirA(leanSolidario) 
-		partido.inscribirA(osvaCondicional1) 
-		partido.inscribirA(leanSolidario) 
-		partido.inscribirA(pepeSolidario) 
+		partido.inscribirA(diegoEstandar)
+		partido.inscribirA(maqiEstandar)
+		partido.inscribirA(leanSolidario)
+		partido.inscribirA(osvaCondicional1)
+		partido.inscribirA(leanSolidario)
+		partido.inscribirA(pepeSolidario)
 
 		Assert.assertEquals(partido.interesados.get(5), osvaCondicional1)
 	}
@@ -182,7 +184,7 @@ class PartidoTest {
 
 		diegoEstandar.inscribite(partido)
 
-		Assert.assertEquals(1,stubMailSender.mailsDe("diego.anazonian@gmail.com").size)
+		Assert.assertEquals(1, stubMailSender.mailsDe("diego.anazonian@gmail.com").size)
 	}
 
 	@Test
@@ -201,7 +203,7 @@ class PartidoTest {
 	}
 
 	@Test
-	def validarQueSeHayanHechoLasCalificaciones(){
+	def validarQueSeHayanHechoLasCalificaciones() {
 		partido.inscribirA(diegoEstandar)
 		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(diegoEstandar)
@@ -212,34 +214,44 @@ class PartidoTest {
 		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(diegoEstandar)
 		partido.inscribirA(gonzaEstandar)
-		
-		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido )
-		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)	
+
+		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido)
+		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)
+	}
+
+	@Test
+	def unNuevoInteresadoPropuestoAlAdminNoDebePertenecerAlSistemaHastaQueElAdminLoEvalue() {
+
+		adminJuan.proponerInteresado(osvaCondicional1);
+
+		Assert.assertFalse(TodosLosJugadores.getInteresadosDelSistema.contains(osvaCondicional1))
+		Assert.assertFalse(InteresadosRechazados.getInteresadosRechazados.contains(osvaCondicional1))
 	}
 	
 	@Test
-	def validacionAfirmativaDeAdminFrenteAlaPropuestaDeUnInteresado(){
-		diegoEstandar.agregarAmigo(leanSolidario)
+	def aprobacionDeNuevoInteresadoPorElAdmin(){
 		
-		partido.quieroProponerUnAmigo(diegoEstandar.amigoAlAzar())	
+		adminJuan.proponerInteresado(osvaCondicional1);
+		adminJuan.aprobarInteresado(osvaCondicional1)
 		
-		Assert.assertTrue(TodosLosJugadores.getInteresadosDelSistema.contains(leanSolidario))	
+		Assert.assertTrue(TodosLosJugadores.esUnJugador(osvaCondicional1))
+		Assert.assertFalse(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))	
 	}
-	
+
 	@Test
-	def comprobarCantidadDeCalificacionesRealizadas(){
+	def comprobarCantidadDeCalificacionesRealizadas() {
 		partido.inscribirA(leanSolidario)
 		partido.inscribirA(diegoEstandar)
-		
-	    calificacion = new Calificacion(partido,diegoEstandar,7,"el anti futbol")
-		
-		leanSolidario.calificar(diegoEstandar,partido)
-		
+
+		calificacion = new Calificacion(partido, diegoEstandar, 7, "el anti futbol")
+
+		leanSolidario.calificar(diegoEstandar, partido)
+
 		Assert.assertEquals(1, leanSolidario.calificacionesHechas.size)
 	}
-	
+
 	@Test
-	def validarQueTodosLosJugadoresDelPartidoSeCalifiquen(){
+	def validarQueTodosLosJugadoresDelPartidoSeCalifiquen() {
 		partido.inscribirA(diegoEstandar)
 		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(maqiEstandar)
@@ -250,12 +262,12 @@ class PartidoTest {
 		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(diegoEstandar)
 		partido.inscribirA(maqiEstandar)
-				
-		calificacion = new Calificacion(partido,maqiEstandar,5,"pecho frio")
+
+		calificacion = new Calificacion(partido, maqiEstandar, 5, "pecho frio")
 
 		partido.calificarJugadores()
-		
-		Assert.assertEquals(9,leanSolidario.calificacionesHechas.size)		
+
+		Assert.assertEquals(9, leanSolidario.calificacionesHechas.size)
 	}
 
 }

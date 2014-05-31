@@ -2,12 +2,17 @@ package com.dds.grupo4
 
 import java.util.Map
 import java.util.HashMap
+import java.util.ArrayList
+import java.util.List
+import com.dds.grupo4.home.InteresadosRechazados
+import com.dds.grupo4.home.TodosLosJugadores
 
 class Admin {
 	@Property private Integer edad;
 	@Property private String nombre;
 	@Property private String apellido;
 	@Property private String mail;
+	@Property private List<Interesado> nuevosInteresadosPosibles = new ArrayList<Interesado>;
 	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
 
 	new(String mail) {
@@ -23,29 +28,19 @@ class Admin {
 
 	}
 
+	def proponerInteresado(Interesado interesado) {
+		nuevosInteresadosPosibles.add(interesado);
+	}
+
+	def validarPropuesta(Interesado interesado) {
+	}
+
 	def aprobarInteresado(Interesado interesado) {
+		TodosLosJugadores.agregarJugadorAlSistema(interesado)
 	}
 
 	def desproborInteresado(Interesado interesado) {
-	}
-
-	def validarPropuesta(Interesado interesado, Partido partido) {
-
-		if (this.unCriterio(interesado)) {
-			TodosLosJugadores.agregarJugadorAlSistema(interesado)
-			partido.inscribirA(interesado)
-		} else {
-			this.registrarRechazo(interesado, partido)
-		}
-		
-	}
-
-	def registrarRechazo(Interesado interesado, Partido partido) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
-	def unCriterio(Interesado interesado) {
-		Boolean.TRUE
+		InteresadosRechazados.agregarInteresado(interesado);
 	}
 
 }

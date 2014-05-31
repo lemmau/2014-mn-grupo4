@@ -67,8 +67,4 @@ class Partido {
 		this.jugadoresFinales.forEach[jugador|jugador.calificarAlResto(this.jugadoresFinales, this)]
 	}
 
-	def quieroProponerUnAmigo(Interesado interesado) {
-		this.admin.validarPropuesta(interesado, this);
-	}
-
 }

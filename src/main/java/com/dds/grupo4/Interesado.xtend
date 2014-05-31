@@ -103,10 +103,4 @@ class Interesado implements MessageSender {
 		jugadores.remove(this)
 		jugadores.forEach[jugador|this.calificar(jugador, partido)]
 	}
-
-	def Interesado amigoAlAzar() {
-		val Random rm = new Random
-		return this.amigos.get(rm.nextInt(this.amigos.size));
-	}
-
 }
