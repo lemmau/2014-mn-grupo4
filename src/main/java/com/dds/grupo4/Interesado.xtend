@@ -9,7 +9,7 @@ import java.util.Map
 import com.dds.grupo4.mail.Mail
 import com.dds.grupo4.excepciones.BusinessException
 
-class Interesado implements MessageSender{
+class Interesado implements MessageSender {
 
 	@Property private Integer edad;
 	@Property private String nombre;
@@ -23,12 +23,16 @@ class Interesado implements MessageSender{
 	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
 	@Property private List<Calificacion> calificacionesHechas = new ArrayList<Calificacion>
 	@Property private MessageSender messageSender
-	
+
 	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.edad = edad;
 		this.tipoDeInscripcion = tipoDeInscripcion;
+	}
+
+	override send(Mail mail) {
+		this.messageSender.send(mail)
 	}
 
 	def void inscribite(Partido partido) {
@@ -60,21 +64,18 @@ class Interesado implements MessageSender{
 	}
 
 	def void notificarAMisAmigos() {
-				
-		this.amigos.forEach[amigo| this.mandarMail(amigo)]
+		this.amigos.forEach[amigo|this.mandarMail(amigo)]
 	}
-	
+
 	def mandarMail(Interesado interesado) {
-			
 		var mailAEnviar = new Mail
-		
+
 		mailAEnviar.from = this.mail
 		mailAEnviar.to = interesado.mail
 		mailAEnviar.titulo = "Me inscribi a un partido!"
 		mailAEnviar.message = ""
-			
+
 		send(mailAEnviar)
-		
 	}
 
 	def agregarInfraccion(Infraccion infraccion) {
@@ -82,7 +83,6 @@ class Interesado implements MessageSender{
 	}
 
 	def estasConfirmado(Partido partido) {
-
 		this.tipoDeInscripcion.estasConfirmado(partido)
 	}
 
@@ -90,50 +90,23 @@ class Interesado implements MessageSender{
 		this.tipoDeInscripcion.getPrioridad;
 	}
 
-
-	def calificar(Interesado jugador, Partido partido){
-		
+	def calificar(Interesado jugador, Partido partido) {
 		var Calificacion calificacion
 		var String critica
 		var int nota
-		
+
 		calificacion = new Calificacion(partido, jugador, nota, critica)
-		
 		calificacionesHechas.add(calificacion)
-		
 	}
-	
-	override send(Mail mail) {
-		this.messageSender.send(mail)
-	
-	}
-	
-	
+
 	def calificarAlResto(List<Interesado> jugadores, Partido partido) {
-		
 		jugadores.remove(this)
-		jugadores.forEach[ jugador | this.calificar(jugador, partido)]
-			
+		jugadores.forEach[jugador|this.calificar(jugador, partido)]
 	}
-	
+
 	def Interesado amigoAlAzar() {
 		val Random rm = new Random
 		return this.amigos.get(rm.nextInt(this.amigos.size));
 	}
-	
-	
-	
-//
-//	def proponerJugador(Partido partido){
-//		val int cantidadAmigos = this.amigos.size
-//		var	Interesado amigo
-//		val random = new Random();
-//		
-//		amigo = this.amigos.get(random.nextInt(cantidadAmigos))
-//		
-//		partido.tratarPropuesta(amigo)
-//		
-//		
-//	}
 
 }
