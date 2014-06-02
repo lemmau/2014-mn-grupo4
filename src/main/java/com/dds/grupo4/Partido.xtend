@@ -4,7 +4,6 @@ import java.util.List
 import org.joda.time.DateTime
 import java.util.ArrayList
 import com.dds.grupo4.excepciones.BusinessException
-import java.util.Random
 
 class Partido {
 
@@ -50,17 +49,21 @@ class Partido {
 		return this.interesados.contains(interesado)
 	}
 
-	def void darDeBajaA(Interesado interesado, Infraccion infraccion) {
-		var Interesado reemplazante;
-		val Random random = new Random()
+	def void darDeBajaA(Interesado interesado) {
+		this.interesados.remove(interesado)
+		this.generarInfraccionA(interesado)
+	}
+	
+	def void darDeBajaA(Interesado resagado,Interesado reemplazante){
+		this.interesados.remove(resagado)
+		this.inscribirA(reemplazante)
+	}
 
-		try {
-			this.interesados.remove(interesado)
-			reemplazante = this.interesados.get(random.nextInt(this.interesados.size))
-		} catch (Exception ex) {
-			interesado.agregarInfraccion(infraccion)
-			throw new BusinessException("No hay reemplazante para este jugador, se lo ha multado por dicho suceso")
-		}
+	def void generarInfraccionA(Interesado interesado) {
+		val String motivo = "No tiene reemplazante"
+		val vencimientoInfraccion = DateTime.now().plusWeeks(1)
+		
+		interesado.agregarInfraccion(new Infraccion(motivo, vencimientoInfraccion))
 	}
 
 	def calificarJugadores() {

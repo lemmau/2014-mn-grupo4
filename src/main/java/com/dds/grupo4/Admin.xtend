@@ -23,7 +23,7 @@ class Admin {
 	def void recibirMail(String mail) {
 		try {
 			this.mailsRecibidos.put(mail, this.mailsRecibidos.get(mail) + 1)
-		} catch (Exception ex) {
+		} catch (BusinessException ex) {
 			this.mailsRecibidos.put(mail, 1)
 		}
 

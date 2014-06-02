@@ -110,23 +110,21 @@ class PartidoTest {
 
 	@Test
 	def probarReemplazoDeJugadorCuandoSeLoDaDeBaja() {
-		partido.inscribirA(maqiEstandar)
 		partido.inscribirA(diegoEstandar)
-
-		partido.darDeBajaA(diegoEstandar, infraccion)
+		partido.darDeBajaA(diegoEstandar, maqiEstandar)
 
 		Assert.assertTrue(partido.interesados.contains(maqiEstandar))
-		Assert.assertFalse(diegoEstandar.getInfracciones.contains(infraccion))
+		Assert.assertFalse(partido.esUnInteresado(diegoEstandar))
+		Assert.assertTrue(diegoEstandar.getInfracciones.empty)
 	}
 
 	@Test
 	def multarConInfraccionSiNoTieneReemplazante() {
-		expectedEx.expect(typeof(BusinessException))
-		expectedEx.expectMessage("No hay reemplazante para este jugador, se lo ha multado por dicho suceso")
-
 		partido.inscribirA(diegoEstandar)
-
-		partido.darDeBajaA(diegoEstandar, infraccion)
+		partido.darDeBajaA(diegoEstandar)
+		
+		Assert.assertEquals(diegoEstandar.infracciones.size,1)
+		Assert.assertFalse(partido.esUnInteresado(diegoEstandar))
 	}
 
 	def comprobarSiInteresadoCondicionalEsDeplazadoTresLugaresLuegoDeInscribirTresNuevos() {
