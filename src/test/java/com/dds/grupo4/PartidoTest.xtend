@@ -224,8 +224,8 @@ class PartidoTest {
 
 		adminJuan.proponerInteresado(osvaCondicional1);
 
-		Assert.assertFalse(TodosLosJugadores.getInteresadosDelSistema.contains(osvaCondicional1))
-		Assert.assertFalse(InteresadosRechazados.getInteresadosRechazados.contains(osvaCondicional1))
+		Assert.assertFalse(TodosLosJugadores.esUnInteresadoDelSistema(osvaCondicional1))
+		Assert.assertFalse(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))
 	}
 	
 	@Test
@@ -250,7 +250,7 @@ class PartidoTest {
 		adminJuan.proponerInteresado(osvaCondicional1);
 		adminJuan.aprobarInteresado(osvaCondicional1)
 		
-		Assert.assertTrue(TodosLosJugadores.esUnJugador(osvaCondicional1))
+		Assert.assertTrue(TodosLosJugadores.esUnInteresadoDelSistema(osvaCondicional1))
 		Assert.assertFalse(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))	
 	}
 	
@@ -259,7 +259,7 @@ class PartidoTest {
 		adminJuan.proponerInteresado(osvaCondicional1);
 		adminJuan.desaprobarInteresado(osvaCondicional1)
 		
-		Assert.assertFalse(TodosLosJugadores.esUnJugador(osvaCondicional1))
+		Assert.assertFalse(TodosLosJugadores.esUnInteresadoDelSistema(osvaCondicional1))
 		Assert.assertTrue(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))
 	}
 
