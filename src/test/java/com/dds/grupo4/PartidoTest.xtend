@@ -229,6 +229,22 @@ class PartidoTest {
 	}
 	
 	@Test
+	def noSePuedeAprobarUnInteresadoQueNoHaSidoPropuestoAlAdmin(){
+		expectedEx.expect(typeof(BusinessException))
+		expectedEx.expectMessage("El interesado no ha sido propuesto al admin")
+		
+		adminJuan.aprobarInteresado(diegoEstandar)
+	}
+	
+	@Test
+	def noSePuedeDesaprobarUnInteresadoQueNoHaSidoPropuestoAlAdmin(){
+		expectedEx.expect(typeof(BusinessException))
+		expectedEx.expectMessage("El interesado no ha sido propuesto al admin")
+		
+		adminJuan.desaprobarInteresado(diegoEstandar)
+	}
+	
+	@Test
 	def aprobacionDeNuevoInteresadoPorElAdmin(){
 		
 		adminJuan.proponerInteresado(osvaCondicional1);

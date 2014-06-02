@@ -6,6 +6,7 @@ import java.util.ArrayList
 import java.util.List
 import com.dds.grupo4.home.InteresadosRechazados
 import com.dds.grupo4.home.TodosLosJugadores
+import com.dds.grupo4.excepciones.BusinessException
 
 class Admin {
 	@Property private Integer edad;
@@ -32,15 +33,21 @@ class Admin {
 		nuevosInteresadosPosibles.add(interesado);
 	}
 
-	def validarPropuesta(Interesado interesado) {
+	def realizarOperacionPropuesta(Interesado interesado, (Interesado)=>void operacion) {
+		if (!this.nuevosInteresadosPosibles.contains(interesado)) {
+			throw new BusinessException("El interesado no ha sido propuesto al admin")
+		} else {
+			this.nuevosInteresadosPosibles.remove(interesado)
+			operacion.apply(interesado)
+		}
 	}
 
 	def aprobarInteresado(Interesado interesado) {
-		TodosLosJugadores.agregarJugadorAlSistema(interesado)
+		this.realizarOperacionPropuesta(interesado, [TodosLosJugadores.agregarJugadorAlSistema(interesado)])
 	}
 
 	def desaprobarInteresado(Interesado interesado) {
-		InteresadosRechazados.agregarInteresado(interesado);
+		this.realizarOperacionPropuesta(interesado, [InteresadosRechazados.agregarInteresado(interesado)])
 	}
 
 }
