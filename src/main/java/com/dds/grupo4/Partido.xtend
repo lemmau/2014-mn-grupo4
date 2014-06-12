@@ -1,15 +1,15 @@
 package com.dds.grupo4
 
 import java.util.List
-import org.joda.time.DateTime
 import java.util.ArrayList
 import com.dds.grupo4.excepciones.BusinessException
+import java.time.LocalDateTime
 
 class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
-	@Property DateTime fechaInicio;
+	@Property LocalDateTime fechaInicio;
 	@Property List<Interesado> interesados = new ArrayList;
 	@Property private Admin admin
 	@Property private String mail
@@ -24,6 +24,7 @@ class Partido {
 		val Integer posicion = this.interesados.indexOf(
 			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
 
+		// TODO este if no hace nada?
 		if (this.interesados.filter[inte|inte.estasConfirmado(this)].size > 10) {
 			//this.notificacionAdmin.notificarConfirmacion(this)
 		}
@@ -45,6 +46,10 @@ class Partido {
 		}
 	}
 
+	def cantidadInteresados () {
+		this.interesados.size 
+	}
+
 	def Boolean esUnInteresado(Interesado interesado) {
 		return this.interesados.contains(interesado)
 	}
@@ -61,13 +66,22 @@ class Partido {
 
 	def void generarInfraccionA(Interesado interesado) {
 		val String motivo = "No tiene reemplazante"
-		val vencimientoInfraccion = DateTime.now().plusWeeks(1)
+		val vencimientoInfraccion = LocalDateTime.now().plusWeeks(1)
 		
 		interesado.agregarInfraccion(new Infraccion(motivo, vencimientoInfraccion))
 	}
 
 	def calificarJugadores() {
 		this.jugadoresFinales.forEach[jugador|jugador.calificarAlResto(this.jugadoresFinales, this)]
+	}
+
+	def void calificarA(Interesado jugador, Integer puntaje, String critica) {
+		val Interesado jugadorAcalificar = this.jugadoresFinales.findFirst[ j | j.equals(jugador) ]
+
+		if (null == jugadorAcalificar)
+			throw new BusinessException("Solo se puede calificar a jugadores del partido");
+
+		jugadorAcalificar.calificarJugador( new Calificacion(this, puntaje, critica ) )
 	}
 
 }
