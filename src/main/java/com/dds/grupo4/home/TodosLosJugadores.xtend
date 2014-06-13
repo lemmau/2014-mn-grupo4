@@ -1,22 +1,19 @@
 package com.dds.grupo4.home
 
 import java.util.List
-import com.dds.grupo4.Interesado
 import java.util.ArrayList
-import java.time.LocalDateTime
+
+import com.dds.grupo4.Interesado
+import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 
 class TodosLosJugadores {
 
-	private List<Interesado> interesadosDelSistema = new ArrayList<Interesado>
-	private List<Denegacion> interesadosRechazados = new ArrayList<Denegacion>
+	private List<Interesado> interesadosPendientes = new ArrayList<Interesado>
 	private List<Interesado> interesadosAceptados = new ArrayList<Interesado>
+	private InteresadosRechazados rechazados = new InteresadosRechazados
 
 	def esUnInteresadoDelSistema(Interesado interesado) {
-		interesadosDelSistema.contains(interesado)
-	}
-
-	def esUnInteresadoRechazado(Interesado interesado) {
-		interesadosRechazados.contains(interesado)
+		interesadosPendientes.contains(interesado)
 	}
 
 	def esUnInteresadoAceptado(Interesado interesado) {
@@ -24,35 +21,33 @@ class TodosLosJugadores {
 	}
 
 	def eliminarInteresado(Interesado interesado) {
-		interesadosDelSistema.remove(interesado)
+		if (!interesadosPendientes.remove(interesado))
+			throw new NoExisteJugadorPendienteException("El jugador no existe entre los pendientes de aprobacion")
 	}
 
 	def getInteresadosDelSistema() {
-		interesadosDelSistema.clone
-	}
-
-	def getInteresadosRechazados() {
-		interesadosRechazados.clone
+		interesadosPendientes.clone
 	}
 
 	def getInteresadosAceptados() {
 		interesadosAceptados.clone
 	}
 
-	def Integer getCantInteresadosDelSistema() {
-		interesadosDelSistema.size
+	def Integer cantInteresadosPendientes() {
+		interesadosPendientes.size
 	}
 
-	def Integer getCantInteresadosRechazados() {
-		interesadosRechazados.size
-	}
-
-	def Integer getCantInteresadosAceptados() {
+	def Integer cantInteresadosAceptados() {
 		interesadosAceptados.size
 	}
 
+	// TODO este Pasamanos no me gusta mucho
+	def Integer cantInteresadosRechazados() {
+		rechazados.cantInteresadosRechazados
+	}
+
 	def proponerJugador(Interesado interesado) {
-		interesadosDelSistema.add(interesado)
+		interesadosPendientes.add(interesado)
 	}
 
 	def aceptarInteresado(Interesado interesado) {
@@ -62,7 +57,7 @@ class TodosLosJugadores {
 
 	def rechazarInteresado(Interesado interesado, String motivo) {
 		eliminarInteresado(interesado)
-		interesadosRechazados.add(new Denegacion(interesado, LocalDateTime.now, motivo))
+		rechazados.agregarRechazado(interesado, motivo)
 	}
 
 }

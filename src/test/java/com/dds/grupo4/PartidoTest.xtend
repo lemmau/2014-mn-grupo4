@@ -11,7 +11,8 @@ import com.dds.grupo4.excepciones.BusinessException
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Solidario
-
+import com.dds.grupo4.excepciones.SuperaMaximoCalificacionesException
+import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 
 class PartidoTest {
 
@@ -28,34 +29,32 @@ class PartidoTest {
 	Interesado gonzaEstandar
 	(Partido)=>Boolean condicionInteresadoCondicional
 	(Partido)=>Boolean condicionPorFecha
-	Infraccion infraccion
+
 	//Calificacion calificacion
 
 	StubMailSender stubMailSender = StubMailSender.instance
 
 	@Before
 	def void setUp() {
+
 		adminJuan = new Admin("juan@gmail.com")
 		partido = new Partido(adminJuan)
-
-		infraccion = new Infraccion("un motivo", LocalDateTime.now().plusDays(5))
+		partido.setFechaInicio(LocalDateTime.of(2014, 06, 12, 21, 00))
 
 		condicionInteresadoCondicional = [Partido partido|
-			partido.interesados.filter[interesado|interesado.getEdad > 22].size > 2]
+			partido.interesados.filter[interesado|interesado.edad > 22].size > 2]
 
 		// Condicion fecha partido que sea dia 21
 		condicionPorFecha = [Partido partido | (partido.fechaInicio.getDayOfMonth.equals(21))]
 
-		partido.setFechaInicio(LocalDateTime.now)
-
-		lioEstandar = new Interesado("Lionel", "Messi", LocalDate.now, new Estandar)
-		diegoEstandar = new Interesado("Diego", "Anazonian", 23, new Estandar)
-		maqiEstandar = new Interesado("Maximiliano", "Anazonian", 23, new Estandar)
-		gonzaEstandar = new Interesado("Gonzalo", "Franchino", 33, new Estandar)
-		osvaCondicional1 = new Interesado("Osva", "Cornelli", 32, new Condicional(condicionInteresadoCondicional))
-		osvaCondicional2 = new Interesado("Osva", "Cornelli", 22, new Condicional(condicionPorFecha))
-		leanSolidario = new Interesado("Leandro", "Mauro", 25, new Solidario)
-		pepeSolidario = new Interesado("Leandro", "Mauro", 25, new Solidario)
+		lioEstandar = new Interesado("Lionel", "Messi", LocalDate.of(1987, 06, 24), new Estandar)
+		diegoEstandar = new Interesado("Diego", "Anazonian", LocalDate.of(1992, 12, 14), new Estandar)
+		maqiEstandar = new Interesado("Maximiliano", "Anazonian", LocalDate.of(1992, 04, 05), new Estandar)
+		gonzaEstandar = new Interesado("Gonzalo", "Franchino",  LocalDate.of(1981, 06, 30), new Estandar)
+		osvaCondicional1 = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionInteresadoCondicional))
+		osvaCondicional2 = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionPorFecha))
+		leanSolidario = new Interesado("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
+		pepeSolidario = new Interesado("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
 
 		diegoEstandar.messageSender = stubMailSender
 	}
@@ -105,7 +104,7 @@ class PartidoTest {
 
 		Assert.assertTrue(partido.interesados.contains(maqiEstandar))
 		Assert.assertFalse(partido.esUnInteresado(diegoEstandar))
-		Assert.assertTrue(diegoEstandar.getInfracciones.empty)
+		Assert.assertEquals(0, diegoEstandar.cantidadInfracciones)
 	}
 
 	@Test
@@ -113,7 +112,7 @@ class PartidoTest {
 		partido.inscribirA(diegoEstandar)
 		partido.darDeBajaA(diegoEstandar)
 		
-		Assert.assertEquals(diegoEstandar.infracciones.size,1)
+		Assert.assertEquals(1, diegoEstandar.cantidadInfracciones)
 		Assert.assertFalse(partido.esUnInteresado(diegoEstandar))
 	}
 
@@ -218,7 +217,7 @@ class PartidoTest {
 		Assert.assertEquals(1, diegoEstandar.cantidadCalificaciones)
 	}
  
-	@Test(expected=typeof(BusinessException))
+	@Test(expected=typeof(NoEsJugadorDelPartidoException))
 	def calificarJugadorQueNoJugoPartido() {
 		while (partido.cantidadInteresados < 10) {
 			leanSolidario.inscribite(partido)
@@ -227,7 +226,7 @@ class PartidoTest {
 	}
 
 	// TODO El jugador solo debe aceptar un maximo de 9 calificaciones por partido
-	@Test(expected=typeof(BusinessException))
+	@Test(expected=typeof(SuperaMaximoCalificacionesException))
 	def calificarDeMas() {
 		while (partido.cantidadInteresados < 10) {
 			leanSolidario.inscribite(partido)
@@ -236,6 +235,7 @@ class PartidoTest {
 		while(diegoEstandar.cantidadCalificaciones < 11)
 			partido.calificarA( leanSolidario, 8, "Muy bien" )
 	}
+
 
 /* */
 
@@ -247,22 +247,6 @@ class PartidoTest {
 //
 //		Assert.assertFalse(TodosLosJugadores.esUnInteresadoDelSistema(osvaCondicional1))
 //		Assert.assertFalse(InteresadosRechazados.esUnInteresadoRechazado(osvaCondicional1))
-//	}
-//	
-//	@Test
-//	def noSePuedeAprobarUnInteresadoQueNoHaSidoPropuestoAlAdmin(){
-//		expectedEx.expect(typeof(BusinessException))
-//		expectedEx.expectMessage("El interesado no ha sido propuesto al admin")
-//		
-//		adminJuan.aprobarInteresado(diegoEstandar)
-//	}
-//	
-//	@Test
-//	def noSePuedeDesaprobarUnInteresadoQueNoHaSidoPropuestoAlAdmin(){
-//		expectedEx.expect(typeof(BusinessException))
-//		expectedEx.expectMessage("El interesado no ha sido propuesto al admin")
-//		
-//		adminJuan.desaprobarInteresado(diegoEstandar)
 //	}
 //	
 //	@Test

@@ -2,8 +2,10 @@ package com.dds.grupo4
 
 import java.util.List
 import java.util.ArrayList
-import com.dds.grupo4.excepciones.BusinessException
 import java.time.LocalDateTime
+
+import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 
 class Partido {
 
@@ -64,11 +66,10 @@ class Partido {
 		this.inscribirA(reemplazante)
 	}
 
+	
 	def void generarInfraccionA(Interesado interesado) {
 		val String motivo = "No tiene reemplazante"
-		val vencimientoInfraccion = LocalDateTime.now().plusWeeks(1)
-		
-		interesado.agregarInfraccion(new Infraccion(motivo, vencimientoInfraccion))
+		interesado.agregarInfraccion(motivo)
 	}
 
 	def calificarJugadores() {
@@ -79,7 +80,7 @@ class Partido {
 		val Interesado jugadorAcalificar = this.jugadoresFinales.findFirst[ j | j.equals(jugador) ]
 
 		if (null == jugadorAcalificar)
-			throw new BusinessException("Solo se puede calificar a jugadores del partido");
+			throw new NoEsJugadorDelPartidoException("Solo se puede calificar a jugadores del partido");
 
 		jugadorAcalificar.calificarJugador( new Calificacion(this, puntaje, critica ) )
 	}
