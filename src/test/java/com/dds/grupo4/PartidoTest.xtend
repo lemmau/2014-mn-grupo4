@@ -42,7 +42,7 @@ class PartidoTest {
 		partido.setFechaInicio(LocalDateTime.of(2014, 06, 12, 21, 00))
 
 		condicionInteresadoCondicional = [Partido partido|
-			partido.interesados.filter[interesado|interesado.edad > 22].size > 2]
+			partido.inscripciones.filter[inscripcion|inscripcion.jugador.edad > 22].size > 2]
 
 		// Condicion fecha partido que sea dia 21
 		condicionPorFecha = [Partido partido | (partido.fechaInicio.getDayOfMonth.equals(21))]
@@ -67,10 +67,10 @@ class PartidoTest {
 		partido.inscribirA(leanSolidario)
 		partido.inscribirA(osvaCondicional1)
 
-		Assert.assertEquals(partido.interesados.get(0), diegoEstandar)
-		Assert.assertEquals(partido.interesados.get(1), maqiEstandar)
-		Assert.assertEquals(partido.interesados.get(2), leanSolidario)
-		Assert.assertEquals(partido.interesados.get(3), osvaCondicional1)
+		Assert.assertEquals(partido.inscripciones.get(0).jugador, diegoEstandar)
+		Assert.assertEquals(partido.inscripciones.get(1).jugador, maqiEstandar)
+		Assert.assertEquals(partido.inscripciones.get(2).jugador, leanSolidario)
+		Assert.assertEquals(partido.inscripciones.get(3).jugador, osvaCondicional1)
 
 	}
 
@@ -88,13 +88,13 @@ class PartidoTest {
 	@Test
 	def siAgregoDiezEstandarALoUltimoEsosSonLosQueDebenQuedarComoJugadoresFinales() {
 
-		while (partido.interesados.size < 10) {
+		while (partido.cantidadInteresados < 10) {
 			partido.inscribirA(diegoEstandar)
 		}
 
 		partido.inscribirA(osvaCondicional1)
 
-		Assert.assertTrue(!partido.jugadoresFinales.contains(osvaCondicional1))
+		Assert.assertFalse(partido.esUnJugadorFinal(osvaCondicional1))
 	}
 
 	@Test
@@ -102,7 +102,7 @@ class PartidoTest {
 		partido.inscribirA(diegoEstandar)
 		partido.darDeBajaA(diegoEstandar, maqiEstandar)
 
-		Assert.assertTrue(partido.interesados.contains(maqiEstandar))
+		Assert.assertTrue(partido.esUnInteresado(maqiEstandar))
 		Assert.assertFalse(partido.esUnInteresado(diegoEstandar))
 		Assert.assertEquals(0, diegoEstandar.cantidadInfracciones)
 	}
@@ -126,7 +126,7 @@ class PartidoTest {
 		partido.inscribirA(leanSolidario)
 		partido.inscribirA(pepeSolidario)
 
-		Assert.assertEquals(partido.interesados.get(5), osvaCondicional1)
+		Assert.assertEquals(partido.inscripciones.get(5).jugador, osvaCondicional1)
 	}
 
 	@Test
@@ -190,22 +190,6 @@ class PartidoTest {
 
 	}
 
-	@Test
-	def validarQueSeHayanHechoLasCalificaciones() {
-		partido.inscribirA(diegoEstandar)
-		partido.inscribirA(maqiEstandar)
-		partido.inscribirA(diegoEstandar)
-		partido.inscribirA(maqiEstandar)
-		partido.inscribirA(diegoEstandar)
-		partido.inscribirA(maqiEstandar)
-		partido.inscribirA(diegoEstandar)
-		partido.inscribirA(maqiEstandar)
-		partido.inscribirA(diegoEstandar)
-		partido.inscribirA(gonzaEstandar)
-
-		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido)
-		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)
-	}
 
 	@Test
 	def calificarJugadorQueJugoPartido() {
@@ -214,9 +198,9 @@ class PartidoTest {
 		}
 		partido.calificarA( diegoEstandar, 8, "Muy bien" )
 		
-		Assert.assertEquals(1, diegoEstandar.cantidadCalificaciones)
+		Assert.assertEquals(1, partido.obtenerJugadorFinal(diegoEstandar).cantidadCalificaciones)
 	}
- 
+
 	@Test(expected=typeof(NoEsJugadorDelPartidoException))
 	def calificarJugadorQueNoJugoPartido() {
 		while (partido.cantidadInteresados < 10) {
@@ -232,12 +216,30 @@ class PartidoTest {
 			leanSolidario.inscribite(partido)
 		}
 
-		while(diegoEstandar.cantidadCalificaciones < 11)
+		while(partido.cantidadCalificaciones(leanSolidario) < 11)
 			partido.calificarA( leanSolidario, 8, "Muy bien" )
 	}
 
 
 /* */
+
+
+//	@Test
+//	def validarQueSeHayanHechoLasCalificaciones() {
+//		partido.inscribirA(diegoEstandar)
+//		partido.inscribirA(maqiEstandar)
+//		partido.inscribirA(diegoEstandar)
+//		partido.inscribirA(maqiEstandar)
+//		partido.inscribirA(diegoEstandar)
+//		partido.inscribirA(maqiEstandar)
+//		partido.inscribirA(diegoEstandar)
+//		partido.inscribirA(maqiEstandar)
+//		partido.inscribirA(diegoEstandar)
+//		partido.inscribirA(gonzaEstandar)
+//
+//		gonzaEstandar.calificarAlResto(partido.jugadoresFinales, partido)
+//		Assert.assertEquals(9, gonzaEstandar.calificacionesHechas.size)
+//	}
 
 
 //	@Test

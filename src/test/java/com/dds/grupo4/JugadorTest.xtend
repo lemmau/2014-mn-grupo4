@@ -25,6 +25,8 @@ class JugadorTest {
 		gonzaEstandar = new Interesado("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
 		osvaEstandar = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
 		leanEstandar = new Interesado("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
+		
+		diegoEstandar.handicap = 8
 	}
 
 	@Test
@@ -47,8 +49,8 @@ class JugadorTest {
 	}
 
 	@Test
-	def verificarCantCalificaciones() {
-		Assert.assertEquals(0, diegoEstandar.cantidadCalificaciones)
+	def verificarHandicap() {
+		Assert.assertEquals(8, diegoEstandar.handicap)
 	}
 
 	@Test
