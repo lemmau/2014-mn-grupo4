@@ -10,7 +10,7 @@ class InteresadosRechazados {
 	private List<Denegacion> interesadosRechazados = new ArrayList<Denegacion>
 	
 	def esUnInteresadoRechazado(Interesado interesado) {
-		interesadosRechazados.contains(interesado)
+		interesadosRechazados.exists[rechazado | rechazado.interesado.equals(interesado)]
 	}
 
 	def getInteresadosRechazados() {

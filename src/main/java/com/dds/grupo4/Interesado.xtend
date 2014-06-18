@@ -11,9 +11,9 @@ import java.time.LocalDateTime
 
 class Interesado implements MessageSender {
 
-	@Property private LocalDate fechaNacimiento
 	@Property private String nombre;
 	@Property private String apellido;
+	@Property private LocalDate fechaNacimiento
 	@Property private String mail;
 	@Property private Integer handicap;
 	
@@ -21,7 +21,6 @@ class Interesado implements MessageSender {
 	@Property private TipoDeInscripcion tipoDeInscripcion
 
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
-	//@Property private List<Calificacion> calificaciones = new ArrayList<Calificacion>
 
 	// TODO Delegaria esta responsabilidad al objeto MessageSender
 	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>	
@@ -93,36 +92,6 @@ class Interesado implements MessageSender {
 	def Integer cantidadInfracciones() {
 		this.infracciones.size
 	}
-
-//	def Integer cantidadCalificaciones() {
-//		this.calificaciones.size
-//	}
-//
-//	def calificarJugador(Calificacion calificacion) {
-//		if (cantidadCalificaciones >= 9)
-//			throw new SuperaMaximoCalificacionesException("El jugador ya tiene el maximo de calificaciones por partido")
-//
-//		calificaciones.add(calificacion)
-//		
-//	}
-
-//	def calificarAlResto(List<Interesado> jugadores, Partido partido) {
-//		jugadores.remove(this)
-//		jugadores.forEach[jugador|this.calificar(jugador, partido)]
-//	}
-
-	// TODO La critica deberia poder ingresarse por pantalla en algun momento 
-	// y recibirla en algun parametro.
-//	def calificar(Interesado jugador, Partido partido) {
-//		var Calificacion calificacion
-//		var String critica
-//		var int nota
-//
-//		//calificacion = new Calificacion(partido, jugador, nota, critica)
-//		calificacion = new Calificacion(partido, nota, critica)
-//		calificacionesHechas.add(calificacion)
-//	}
-
 
 
 

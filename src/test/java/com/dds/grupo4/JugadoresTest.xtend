@@ -55,6 +55,18 @@ class JugadoresTest {
 		Assert.assertEquals(5, todosLosJugadores.cantInteresadosRechazados)
 	}
 
+	@Test
+	def void aceptoUnCandidato() {
+		todosLosJugadores.aceptarInteresado(diegoEstandar)
+		Assert.assertTrue( todosLosJugadores.esUnInteresadoAceptado(diegoEstandar) )
+	}
+
+	@Test
+	def void rechazoUnCandidato() {
+		todosLosJugadores.rechazarInteresado(maqiEstandar, "Cupo completo")
+		Assert.assertTrue( todosLosJugadores.esUnInteresadoRechazado(maqiEstandar) )
+	}
+
 	@Test(expected=typeof(NoExisteJugadorPendienteException))
 	def void aceptoCandidatoInexistente() {
 		todosLosJugadores.aceptarInteresado(lioEstandar)

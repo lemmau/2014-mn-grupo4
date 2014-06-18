@@ -11,6 +11,7 @@ class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
+
 	@Property LocalDateTime fechaInicio;
 
 	//@Property List<Interesado> interesados = new ArrayList;
@@ -18,6 +19,8 @@ class Partido {
 	@Property private Admin admin
 	@Property private String mail
 	@Property List<Interesado> jugadoresDelPartido = new ArrayList
+	@Property List<Inscripcion> equipoA = new ArrayList;
+	@Property List<Inscripcion> equipoB = new ArrayList;
 
 	new(Admin admin) {
 		this.admin = admin

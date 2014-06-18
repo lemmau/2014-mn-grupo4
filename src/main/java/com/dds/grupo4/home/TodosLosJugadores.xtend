@@ -20,6 +20,11 @@ class TodosLosJugadores {
 		interesadosAceptados.contains(interesado)
 	}
 
+	// TODO pasamanos revisar
+	def esUnInteresadoRechazado(Interesado interesado) {
+		rechazados.esUnInteresadoRechazado(interesado)
+	}
+
 	def eliminarInteresado(Interesado interesado) {
 		if (!interesadosPendientes.remove(interesado))
 			throw new NoExisteJugadorPendienteException("El jugador no existe entre los pendientes de aprobacion")
