@@ -1,10 +1,11 @@
-package com.dds.grupo4.mail
+package com.dds.grupo4
 
 import java.util.HashMap
 import java.util.Set
 import java.util.HashSet
 import java.util.Map
 import com.dds.grupo4.MessageSender
+import com.dds.grupo4.mail.Mail
 
 class StubMailSender implements MessageSender {
 

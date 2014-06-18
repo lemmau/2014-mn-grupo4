@@ -1,19 +1,26 @@
 package com.dds.grupo4
 
 import java.util.List
-import org.joda.time.DateTime
 import java.util.ArrayList
+import java.time.LocalDateTime
+
 import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 
 class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
-	@Property DateTime fechaInicio;
-	@Property List<Interesado> interesados = new ArrayList;
+
+	@Property LocalDateTime fechaInicio;
+
+	//@Property List<Interesado> interesados = new ArrayList;
+	@Property List<Inscripcion> inscripciones = new ArrayList;
 	@Property private Admin admin
 	@Property private String mail
 	@Property List<Interesado> jugadoresDelPartido = new ArrayList
+	@Property List<Inscripcion> equipoA = new ArrayList;
+	@Property List<Inscripcion> equipoB = new ArrayList;
 
 	new(Admin admin) {
 		this.admin = admin
@@ -21,53 +28,85 @@ class Partido {
 
 	def void inscribirA(Interesado nuevoInteresado) {
 
-		val Integer posicion = this.interesados.indexOf(
-			this.interesados.findFirst[interesado|interesado.getPrioridad > nuevoInteresado.getPrioridad])
+		val Integer posicion = this.inscripciones.indexOf(
+			this.inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
 
-		if (this.interesados.filter[inte|inte.estasConfirmado(this)].size > 10) {
-			//this.notificacionAdmin.notificarConfirmacion(this)
-		}
-
-		try {
-			this.interesados.add(posicion, nuevoInteresado)
-		} catch (Exception exception) {
-			this.interesados.add(nuevoInteresado)
-		}
+		if (-1 == posicion)
+			this.inscripciones.add(new Inscripcion(nuevoInteresado))
+		else
+			this.inscripciones.add(posicion, new Inscripcion(nuevoInteresado))
 
 	}
 
-	def List<Interesado> jugadoresFinales() {
+	def List<Inscripcion> jugadoresFinales() {
 		try {
-			return this.interesados.filter[interesado|interesado.estasConfirmado(this)].toList.subList(
-				MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES)
-		} catch (Exception ex) {
+			return this.inscripciones.filter[inscripcion|inscripcion.jugador.estasConfirmado(this)].toList.
+				subList(MIN_CANTIDAD_JUGADORES, MAX_CANTIDAD_JUGADORES)
+		} catch (IndexOutOfBoundsException ex) {
 			throw new BusinessException("No hay diez jugadores para realizar un partido")
 		}
 	}
 
+	def cantidadInteresados() {
+		this.inscripciones.size
+	}
+
 	def Boolean esUnInteresado(Interesado interesado) {
-		return this.interesados.contains(interesado)
+		return this.inscripciones.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
+	}
+
+	def Boolean esUnJugadorFinal(Interesado interesado) {
+		return jugadoresFinales.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
+	}
+
+	def Inscripcion quitarJugador(Interesado interesado) {
+		val Inscripcion inscripcion = this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
+
+		if (null == inscripcion)
+			throw new NoEsJugadorDelPartidoException("El jugador no existe entre los inscriptos al partido")
+
+		this.inscripciones.remove(inscripcion)
+		return inscripcion
 	}
 
 	def void darDeBajaA(Interesado interesado) {
-		this.interesados.remove(interesado)
-		this.generarInfraccionA(interesado)
+		quitarJugador(interesado)
+		interesado.agregarInfraccion("NO tiene reemplazante")
 	}
-	
-	def void darDeBajaA(Interesado resagado,Interesado reemplazante){
-		this.interesados.remove(resagado)
+
+	def void darDeBajaA(Interesado resagado, Interesado reemplazante) {
+		quitarJugador(resagado)
 		this.inscribirA(reemplazante)
 	}
 
-	def void generarInfraccionA(Interesado interesado) {
-		val String motivo = "No tiene reemplazante"
-		val vencimientoInfraccion = DateTime.now().plusWeeks(1)
+	def Inscripcion obtenerJugadorFinal(Interesado jugador) {
+		val Inscripcion jugadorFinal = this.jugadoresFinales.findFirst[i|i.jugador.equals(jugador)]
 		
-		interesado.agregarInfraccion(new Infraccion(motivo, vencimientoInfraccion))
+		if (null == jugadorFinal)
+			throw new NoEsJugadorDelPartidoException("Solo se puede calificar a jugadores del partido");
+
+		jugadorFinal
 	}
 
-	def calificarJugadores() {
-		this.jugadoresFinales.forEach[jugador|jugador.calificarAlResto(this.jugadoresFinales, this)]
+	def void calificarA(Interesado jugador, Integer puntaje, String critica) {
+		val Inscripcion jugadorAcalificar = obtenerJugadorFinal(jugador) 
+
+		jugadorAcalificar.calificar(puntaje, critica)
+	}
+
+	def Integer cantidadCalificaciones(Interesado jugador) {
+		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
+		jugadorFinal.cantidadCalificaciones 
+	}
+
+	def Integer promedioCalificaciones(Interesado jugador) {
+		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
+		jugadorFinal.promedioCalificaciones
+	}
+
+	def Integer promedioNCalificaciones(Interesado jugador, Integer ultimasN) {
+		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
+		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
 	}
 
 }

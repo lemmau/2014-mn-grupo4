@@ -3,21 +3,26 @@ package com.dds.grupo4.home
 import com.dds.grupo4.Interesado
 import java.util.List
 import java.util.ArrayList
+import java.time.LocalDateTime
 
 class InteresadosRechazados {
 	
-	private static List<Interesado> interesadosRechazados = new ArrayList<Interesado>
+	private List<Denegacion> interesadosRechazados = new ArrayList<Denegacion>
 	
-	def static getInteresadosRechazados() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	def esUnInteresadoRechazado(Interesado interesado) {
+		interesadosRechazados.exists[rechazado | rechazado.interesado.equals(interesado)]
 	}
-	
-	def static esUnInteresadoRechazado(Interesado interesado){
-		interesadosRechazados.contains(interesado)
+
+	def getInteresadosRechazados() {
+		interesadosRechazados.clone
 	}
-	
-	def static agregarInteresado(Interesado interesado) {
-		interesadosRechazados.add(interesado)
+
+	def Integer getCantInteresadosRechazados() {
+		interesadosRechazados.size
 	}
-	
+
+	def void agregarRechazado(Interesado interesado, String motivo){
+		interesadosRechazados.add(new Denegacion(interesado, LocalDateTime.now, motivo))
+	}
+
 }

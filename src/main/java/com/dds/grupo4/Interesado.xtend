@@ -1,44 +1,49 @@
 package com.dds.grupo4
 
+import com.dds.grupo4.mail.Mail
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
-import java.util.List
-import java.util.Random
+import java.time.LocalDate
 import java.util.ArrayList
 import java.util.HashMap
+import java.util.List
 import java.util.Map
-import com.dds.grupo4.mail.Mail
-import com.dds.grupo4.excepciones.BusinessException
+import java.time.LocalDateTime
 
 class Interesado implements MessageSender {
 
-	@Property private Integer edad;
 	@Property private String nombre;
 	@Property private String apellido;
+	@Property private LocalDate fechaNacimiento
 	@Property private String mail;
-	@Property private String password
-	@Property private List<Interesado> amigos = new ArrayList<Interesado>;
-	@Property private TipoDeInscripcion tipoDeInscripcion;
+	@Property private Integer handicap;
+	
+	@Property private List<Interesado> amigos = new ArrayList<Interesado>
+	@Property private TipoDeInscripcion tipoDeInscripcion
+
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
-	@Property private List<Partido> partidosALosQueMeInscribi = new ArrayList<Partido>
-	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
-	@Property private List<Calificacion> calificacionesHechas = new ArrayList<Calificacion>
+
+	// TODO Delegaria esta responsabilidad al objeto MessageSender
+	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>	
 	@Property private MessageSender messageSender
 
-	new(String nombre, String apellido, Integer edad, TipoDeInscripcion tipoDeInscripcion) {
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.edad = edad;
-		this.tipoDeInscripcion = tipoDeInscripcion;
+
+
+	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+		this.nombre = nombre
+		this.apellido = apellido
+		this.fechaNacimiento = nacimiento
+		this.tipoDeInscripcion = tipoDeInscripcion
 	}
 
-	override send(Mail mail) {
-		this.messageSender.send(mail)
+	def Integer edad(){
+		// TODO corregir esto! calcular bien la edad
+		LocalDate.now.year - fechaNacimiento.year
 	}
 
 	def void inscribite(Partido partido) {
 		partido.inscribirA(this)
 		this.notificarAMisAmigos
-		this.partidosALosQueMeInscribi.add(partido)
+		//this.partidosALosQueMeInscribi.add(partido)
 	}
 
 	def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
@@ -49,19 +54,6 @@ class Interesado implements MessageSender {
 		this.amigos.add(interesado)
 	}
 
-	def Interesado getReemplazante() {
-		val int cantidadAmigos = this.amigos.size
-		var Interesado reemplazante;
-
-		if (cantidadAmigos > 0) {
-			val random = new Random();
-			reemplazante = this.amigos.get(random.nextInt(cantidadAmigos))
-		} else {
-			throw new BusinessException("No tiene amigos de reemplazo")
-		}
-
-		return reemplazante
-	}
 
 	def void notificarAMisAmigos() {
 		this.amigos.forEach[amigo|this.mandarMail(amigo)]
@@ -78,10 +70,12 @@ class Interesado implements MessageSender {
 		send(mailAEnviar)
 	}
 
-	def agregarInfraccion(Infraccion infraccion) {
-		this.infracciones.add(infraccion)
+	override send(Mail mail) {
+		this.messageSender.send(mail)
 	}
 
+
+	// TODO Pasamanos
 	def estasConfirmado(Partido partido) {
 		this.tipoDeInscripcion.estasConfirmado(partido)
 	}
@@ -90,17 +84,24 @@ class Interesado implements MessageSender {
 		this.tipoDeInscripcion.getPrioridad;
 	}
 
-	def calificar(Interesado jugador, Partido partido) {
-		var Calificacion calificacion
-		var String critica
-		var int nota
-
-		calificacion = new Calificacion(partido, jugador, nota, critica)
-		calificacionesHechas.add(calificacion)
+	// TODO La infraccion debe estar relacionada al partido?
+	def agregarInfraccion(String motivo) {
+		this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
 	}
 
-	def calificarAlResto(List<Interesado> jugadores, Partido partido) {
-		jugadores.remove(this)
-		jugadores.forEach[jugador|this.calificar(jugador, partido)]
+	def Integer cantidadInfracciones() {
+		this.infracciones.size
 	}
+
+
+
+	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
+	def equals(Interesado i) {
+		return (
+				this.nombre.equalsIgnoreCase(i.nombre) &&
+				this.apellido.equalsIgnoreCase(i.apellido) &&
+				this.fechaNacimiento.equals(i.fechaNacimiento)
+				)
+	}
+
 }
