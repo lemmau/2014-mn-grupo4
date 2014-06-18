@@ -9,15 +9,15 @@ import org.junit.Test
 
 class InscripcionTest {
 
-	Interesado diegoEstandar
+	Interesado jugadorEstandar
 	Inscripcion inscripcion
 
 	@Before
 	def void setUp() {
 
-		diegoEstandar = new Interesado("Diego", "Anazonian", LocalDate.of(1992, 12, 14), new Estandar)
+		jugadorEstandar = new Interesado("Diego", "Mulder", LocalDate.of(1979, 12, 14), new Estandar)
 		
-		inscripcion = new Inscripcion(diegoEstandar)
+		inscripcion = new Inscripcion(jugadorEstandar)
 
 		inscripcion.calificar(10, "Extraordinario");		
 		inscripcion.calificar(9, "Excelente");

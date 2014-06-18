@@ -1,11 +1,11 @@
 package com.dds.grupo4
 
-import java.util.List
-import java.util.ArrayList
-import java.time.LocalDateTime
-
 import com.dds.grupo4.excepciones.BusinessException
 import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import java.time.LocalDateTime
+import java.util.ArrayList
+import java.util.List
 
 class Partido {
 
@@ -21,6 +21,7 @@ class Partido {
 	@Property List<Interesado> jugadoresDelPartido = new ArrayList
 	@Property List<Inscripcion> equipoA = new ArrayList;
 	@Property List<Inscripcion> equipoB = new ArrayList;
+	@Property List<CriterioOrden> criteriosOrden = new ArrayList;
 
 	new(Admin admin) {
 		this.admin = admin
@@ -107,6 +108,16 @@ class Partido {
 	def Integer promedioNCalificaciones(Interesado jugador, Integer ultimasN) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
+	}
+
+	def agregarCriterioOrdenamiento(CriterioOrden criterio) {
+		this.criteriosOrden.add(criterio)
+	}
+	
+	def ordenarListaJugadores() {
+		//this.inscripciones.forEach[inscripcion | this.criteriosOrden.forEach[ c | c.obtenerValor(inscripcion)] ]
+		val List<Inscripcion> aux = this.inscripciones.sortBy[inscripcion | this.criteriosOrden.map[ c | c.obtenerValor(inscripcion)].reduce[p1, p2| p1 + p2] ]
+		this.inscripciones = aux
 	}
 
 }
