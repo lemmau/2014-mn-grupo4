@@ -11,6 +11,7 @@ import java.util.List
 import java.util.ArrayList
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 import com.dds.grupo4.ordenamiento.PromedioCalificaciones
+import com.dds.grupo4.excepciones.FaltaDefinirCriterioDeOrdenException
 
 class OrdenamientoTest {
 
@@ -18,6 +19,7 @@ class OrdenamientoTest {
 	Partido partido
 	Partido partido2
 
+	List<Interesado> jugadores
 	Interesado jugadorEstandar0
 	Interesado jugadorEstandar1
 	Interesado jugadorEstandar2
@@ -28,6 +30,7 @@ class OrdenamientoTest {
 	Interesado jugadorEstandar7
 	Interesado jugadorEstandar8
 	Interesado jugadorEstandar9
+	Interesado jugadorEstandar10
 	
 
 	@Before
@@ -48,50 +51,40 @@ class OrdenamientoTest {
 		jugadorEstandar7 = new Interesado("H", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 7)
 		jugadorEstandar8 = new Interesado("I", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 8)
 		jugadorEstandar9 = new Interesado("J", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 9)
+		jugadorEstandar10 = new Interesado("K", "Mulder", LocalDate.of(1979, 12, 15), new Estandar, 9)
 
-		partido.inscribirA(jugadorEstandar9)
-		partido.inscribirA(jugadorEstandar0)
-		partido.inscribirA(jugadorEstandar1)
-		partido.inscribirA(jugadorEstandar8)
-		partido.inscribirA(jugadorEstandar2)
-		partido.inscribirA(jugadorEstandar3)
-		partido.inscribirA(jugadorEstandar6)
-		partido.inscribirA(jugadorEstandar4)
-		partido.inscribirA(jugadorEstandar5)
-		partido.inscribirA(jugadorEstandar7)
+		jugadores = #[jugadorEstandar1, jugadorEstandar0, jugadorEstandar9, jugadorEstandar8, jugadorEstandar2
+			, jugadorEstandar3, jugadorEstandar6, jugadorEstandar4, jugadorEstandar5, jugadorEstandar7]
 
-		partido.calificarA(jugadorEstandar0, 10, "a")
-		partido.calificarA(jugadorEstandar1, 1, "a")
-		partido.calificarA(jugadorEstandar2, 2, "a")
-		partido.calificarA(jugadorEstandar3, 3, "a")
-		partido.calificarA(jugadorEstandar4, 4, "a")
+		partido.inscribirTodos(jugadores)
+
+
+		partido.calificarA(jugadorEstandar0, 1, "a")
+		partido.calificarA(jugadorEstandar1, 9, "a")
+		partido.calificarA(jugadorEstandar2, 8, "a")
+		partido.calificarA(jugadorEstandar3, 7, "a")
+		partido.calificarA(jugadorEstandar4, 6, "a")
 		partido.calificarA(jugadorEstandar5, 5, "a")
-		partido.calificarA(jugadorEstandar6, 6, "a")
-		partido.calificarA(jugadorEstandar7, 7, "a")
-		partido.calificarA(jugadorEstandar8, 8, "a")
-		partido.calificarA(jugadorEstandar9, 9, "a")
+		partido.calificarA(jugadorEstandar6, 4, "a")
+		partido.calificarA(jugadorEstandar7, 3, "a")
+		partido.calificarA(jugadorEstandar8, 2, "a")
+		partido.calificarA(jugadorEstandar9, 10, "a")
 
-		partido2.inscribirA(jugadorEstandar9)
-		partido2.inscribirA(jugadorEstandar0)
-		partido2.inscribirA(jugadorEstandar1)
-		partido2.inscribirA(jugadorEstandar8)
-		partido2.inscribirA(jugadorEstandar2)
-		partido2.inscribirA(jugadorEstandar3)
-		partido2.inscribirA(jugadorEstandar6)
-		partido2.inscribirA(jugadorEstandar4)
-		partido2.inscribirA(jugadorEstandar5)
-		partido2.inscribirA(jugadorEstandar7)
+		jugadores = #[jugadorEstandar10, jugadorEstandar9, jugadorEstandar1, jugadorEstandar8, jugadorEstandar2
+			, jugadorEstandar3, jugadorEstandar6, jugadorEstandar4, jugadorEstandar5, jugadorEstandar7]
 
-		partido2.calificarA(jugadorEstandar0, 10, "a")
-		partido2.calificarA(jugadorEstandar1, 1, "a")
-		partido2.calificarA(jugadorEstandar2, 2, "a")
-		partido2.calificarA(jugadorEstandar3, 3, "a")
-		partido2.calificarA(jugadorEstandar4, 4, "a")
-		partido2.calificarA(jugadorEstandar5, 5, "a")
-		partido2.calificarA(jugadorEstandar6, 6, "a")
-		partido2.calificarA(jugadorEstandar7, 7, "a")
-		partido2.calificarA(jugadorEstandar8, 8, "a")
-		partido2.calificarA(jugadorEstandar9, 9, "a")
+		partido2.inscribirTodos(jugadores)
+
+		partido2.calificarA(jugadorEstandar10, 10, "a")
+		partido2.calificarA(jugadorEstandar1, 4, "a")
+		partido2.calificarA(jugadorEstandar2, 6, "a")
+		partido2.calificarA(jugadorEstandar3, 8, "a")
+		partido2.calificarA(jugadorEstandar4, 1, "a")
+		partido2.calificarA(jugadorEstandar5, 7, "a")
+		partido2.calificarA(jugadorEstandar6, 3, "a")
+		partido2.calificarA(jugadorEstandar7, 9, "a")
+		partido2.calificarA(jugadorEstandar8, 5, "a")
+		partido2.calificarA(jugadorEstandar9, 7, "a")
 		
 		partidos.add(partido)
 		partidos.add(partido2)
@@ -101,33 +94,42 @@ class OrdenamientoTest {
 	def void verificarOrdenamientoxHandicap() {
 
 		partido.agregarCriterioOrdenamiento(new Handicap())
-		partido.ordenarListaJugadores
-//		partido.inscripciones.forEach[ins | System.out.println(ins.jugador.handicap)]
+		val ordenados = partido.ordenarJugadoresFinales
 
-		val handicapsOrdenados = partido.inscripciones.map[inscripcion | inscripcion.jugador.handicap]
+		//ordenados.forEach[ins | System.out.println("oxh: " + ins.jugador.handicap)]
+
 		val esperado = #[1,2,3,4,5,6,7,8,9,10]
+		val handicapsOrdenados = ordenados.map[inscripcion | inscripcion.jugador.handicap]
+
 		Assert.assertEquals(esperado, handicapsOrdenados)
-		//(0..9).forEach[i | Assert.assertEquals(i+1 , partido.inscripciones.get(i).jugador.handicap)]
 	}
 	
 	@Test
 	def void verificarOrdenamientoxPromedio() {
 
 		partido.agregarCriterioOrdenamiento(new PromedioCalificaciones())
-		partido.ordenarListaJugadores
-		partido.inscripciones.forEach[ins | System.out.println(ins.promedioCalificaciones)]
+		val ordenados = partido.ordenarJugadoresFinales
 
-		(0..9).forEach[i | Assert.assertEquals(i+1 , partido.inscripciones.get(i).promedioCalificaciones)]
+		//ordenados.forEach[ins | System.out.println("oxp: " + ins.jugador.handicap)]
+
+		val esperado = #["A","I","H","G","F","E","D","C","B","J"]
+		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+
+		Assert.assertEquals(esperado, nombresOrdenados)
 	}
 
 	@Test
 	def void verificarOrdenamientoxPromedioNPartidos() {
 
 		partido.agregarCriterioOrdenamiento(new PromedioUltimosPartidos(partidos, 2))
-		partido.ordenarListaJugadores
-		partido.inscripciones.forEach[ins | System.out.println(ins.promedioCalificaciones)]
+		val ordenados = partido.ordenarJugadoresFinales
 
-		(0..9).forEach[i | Assert.assertEquals(i+1 , partido.inscripciones.get(i).promedioCalificaciones)]
+		//ordenados.forEach[ins | System.out.println("oxpnp: " + ins.jugador.nombre)]
+
+		val esperado = #["A","I","G","E","F","H","B","C","D","J"]
+		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+
+		Assert.assertEquals(esperado, nombresOrdenados)
 	}
 
 
@@ -136,27 +138,20 @@ class OrdenamientoTest {
 		
 		partido.agregarCriterioOrdenamiento(new Handicap())
 		partido.agregarCriterioOrdenamiento(new PromedioCalificaciones)
-		partido.ordenarListaJugadores
-		partido.inscripciones.forEach[ins | System.out.println(ins.jugador.nombre)]
+		val ordenados = partido.ordenarJugadoresFinales
 
-		// TODO cambiar esto para chequear orden!!
-		Assert.assertEquals("B", partido.inscripciones.get(0).jugador.nombre)
-		Assert.assertEquals("C", partido.inscripciones.get(1).jugador.nombre)
-		Assert.assertEquals("D", partido.inscripciones.get(2).jugador.nombre)
-		Assert.assertEquals("E", partido.inscripciones.get(3).jugador.nombre)
-		Assert.assertEquals("F", partido.inscripciones.get(4).jugador.nombre)
-		Assert.assertEquals("G", partido.inscripciones.get(5).jugador.nombre)
-		Assert.assertEquals("H", partido.inscripciones.get(6).jugador.nombre)
-		Assert.assertEquals("I", partido.inscripciones.get(7).jugador.nombre)
-		Assert.assertEquals("J", partido.inscripciones.get(8).jugador.nombre)
-		Assert.assertEquals("A", partido.inscripciones.get(9).jugador.nombre)
+		//ordenados.forEach[ins | System.out.println("oxcomb: " + ins.jugador.nombre)]
+		
+		val esperado = #["B","I","C","D","G","E","F","H","A","J"]
+		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+		Assert.assertEquals(esperado, nombresOrdenados)
 
 	}
 
 	
-//	@Test
-//	def void verificarOrdenamientoCriterioVacio() {
-//		partido.ordenarListaJugadores
-//	}
+	@Test(expected=typeof(FaltaDefinirCriterioDeOrdenException))
+	def void verificarOrdenamientoCriterioVacio() {
+		partido.ordenarJugadoresFinales
+	}
 
 }

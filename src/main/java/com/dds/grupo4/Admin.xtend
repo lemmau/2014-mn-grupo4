@@ -7,8 +7,6 @@ import com.dds.grupo4.excepciones.BusinessException
 
 class Admin {
 	
-	// TODO es necesario tener la edad del admin?
-	@Property private Integer edad;
 	@Property private String nombre;
 	@Property private String apellido;
 	@Property private String mail;

@@ -5,7 +5,7 @@ import com.dds.grupo4.Inscripcion
 class Handicap extends CriterioOrden {
 	
 	override obtenerValor(Inscripcion inscripcion) {
-		inscripcion.jugador.handicap
+		new Double(inscripcion.jugador.handicap)
 	}
 	
 }

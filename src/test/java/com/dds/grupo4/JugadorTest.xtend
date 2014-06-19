@@ -26,9 +26,8 @@ class JugadorTest {
 		gonzaEstandar = new Interesado("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
 		osvaEstandar = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
 		leanEstandar = new Interesado("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
-		
-		//TODO desabilitar esta forma de setear handicap
-		diegoEstandar.setHandicap(8)
+
+		diegoEstandar.handicap = 8
 	}
 
 	@Test
@@ -51,18 +50,18 @@ class JugadorTest {
 	}
 
 	@Test
-	def verificarHandicap() {
-		Assert.assertEquals(8, diegoEstandar.handicap)
-	}
-
-	@Test
 	def modificarTipoInscripcion() {
 		diegoEstandar.cambiarTipoDeInscripcion(new Solidario)
 		Assert.assertEquals( typeof(Solidario), diegoEstandar.tipoDeInscripcion.class)
 	}
 
+	@Test
+	def verificarHandicap() {
+		Assert.assertEquals(8, diegoEstandar.handicap)
+	}
+
 	@Test(expected=typeof(HandicapFueraDeRangoException))
 	def void agregarHandicapFueraDeRango(){
-		maqiEstandar.setHandicap(11)
+		maqiEstandar.handicap = 11
 	}
 }

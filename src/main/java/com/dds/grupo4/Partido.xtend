@@ -6,6 +6,7 @@ import com.dds.grupo4.ordenamiento.CriterioOrden
 import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
+import com.dds.grupo4.excepciones.FaltaDefinirCriterioDeOrdenException
 
 class Partido {
 
@@ -39,6 +40,10 @@ class Partido {
 
 	}
 
+	def void inscribirTodos(List<Interesado> nuevosInteresados) {
+		nuevosInteresados.forEach[interesado|inscribirA(interesado)]
+	}
+
 	def List<Inscripcion> jugadoresFinales() {
 		try {
 			return this.inscripciones.filter[inscripcion|inscripcion.jugador.estasConfirmado(this)].toList.
@@ -64,7 +69,6 @@ class Partido {
 		this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
 	}
 
-
 	def Inscripcion quitarJugador(Interesado interesado) {
 		val Inscripcion inscripcion = this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
 
@@ -87,7 +91,7 @@ class Partido {
 
 	def Inscripcion obtenerJugadorFinal(Interesado jugador) {
 		val Inscripcion jugadorFinal = this.jugadoresFinales.findFirst[i|i.jugador.equals(jugador)]
-		
+
 		if (null == jugadorFinal)
 			throw new NoEsJugadorDelPartidoException("Solo se puede calificar a jugadores del partido");
 
@@ -95,22 +99,22 @@ class Partido {
 	}
 
 	def void calificarA(Interesado jugador, Integer puntaje, String critica) {
-		val Inscripcion jugadorAcalificar = obtenerJugadorFinal(jugador) 
+		val Inscripcion jugadorAcalificar = obtenerJugadorFinal(jugador)
 
 		jugadorAcalificar.calificar(puntaje, critica)
 	}
 
 	def Integer cantidadCalificaciones(Interesado jugador) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
-		jugadorFinal.cantidadCalificaciones 
+		jugadorFinal.cantidadCalificaciones
 	}
 
-	def Integer promedioCalificaciones(Interesado jugador) {
+	def Double promedioCalificaciones(Interesado jugador) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.promedioCalificaciones
 	}
 
-	def Integer promedioNCalificaciones(Interesado jugador, Integer ultimasN) {
+	def Double promedioNCalificaciones(Interesado jugador, Integer ultimasN) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
 	}
@@ -119,13 +123,21 @@ class Partido {
 		this.criteriosOrden.add(criterio)
 	}
 
+	def quitarCriterioOrdenamiento(CriterioOrden criterio) {
+		this.criteriosOrden.remove(criterio)
+	}
+
+	def eliminarCriteriosOrdenamiento() {
+		this.criteriosOrden.clear
+	}
+
 	// TODO delegar esta responsabilidad a criteriosOrden
-	// no usar "Lista" en nombre del metodo	
-	def ordenarListaJugadores() {
-		//this.inscripciones.forEach[inscripcion | this.criteriosOrden.forEach[ c | c.obtenerValor(inscripcion)] ]
-		// TODO No hace falta guardar la lista ordenada. 
-		val List<Inscripcion> aux = this.inscripciones.sortBy[inscripcion | this.criteriosOrden.map[ c | c.obtenerValor(inscripcion)].reduce[p1, p2| p1 + p2] ]
-		this.inscripciones = aux
+	def ordenarJugadoresFinales() {
+		if ( 0.equals(this.criteriosOrden.size) )
+			throw new FaltaDefinirCriterioDeOrdenException("Se debe agregar un criterio de orden antes de ordenar")
+
+		jugadoresFinales.sortBy[inscripcion|
+			this.criteriosOrden.map[c|c.obtenerValor(inscripcion)].reduce[p1, p2|p1 + p2]]
 	}
 
 	def generarEquiposTentativos() {
