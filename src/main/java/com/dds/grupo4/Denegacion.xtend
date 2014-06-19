@@ -1,8 +1,9 @@
-package com.dds.grupo4.home
+package com.dds.grupo4
 
 import com.dds.grupo4.Interesado
 import java.time.LocalDateTime
 
+// TODO mover esta clase a  com.dds.grupo4 NO VA EN HOME
 class Denegacion {
 
 	@Property Interesado interesado
