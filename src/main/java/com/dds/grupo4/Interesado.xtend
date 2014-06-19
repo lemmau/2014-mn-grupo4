@@ -37,14 +37,14 @@ class Interesado implements MessageSender {
 		this.apellido = apellido
 		this.fechaNacimiento = nacimiento
 		this.tipoDeInscripcion = tipoDeInscripcion
-		setearHandicap(handicap)
+		setHandicap(handicap)
 	}
 
-	def void setearHandicap(Integer h) {
+	def void setHandicap(Integer h) {
 		if (!(0 < h && 10 >= h ))
 			throw new HandicapFueraDeRangoException("Solo se acepta handicap entre 1 y 10")
 
-		this.handicap = h
+		_handicap = h
 	}
 
 	def Integer edad(){

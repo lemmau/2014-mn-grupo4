@@ -28,7 +28,7 @@ class JugadorTest {
 		leanEstandar = new Interesado("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
 		
 		//TODO desabilitar esta forma de setear handicap
-		diegoEstandar.handicap = 8
+		diegoEstandar.setHandicap(8)
 	}
 
 	@Test
@@ -63,6 +63,6 @@ class JugadorTest {
 
 	@Test(expected=typeof(HandicapFueraDeRangoException))
 	def void agregarHandicapFueraDeRango(){
-		maqiEstandar.setearHandicap(11)
+		maqiEstandar.setHandicap(11)
 	}
 }

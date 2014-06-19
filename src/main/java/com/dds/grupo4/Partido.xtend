@@ -60,6 +60,11 @@ class Partido {
 		return jugadoresFinales.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
 	}
 
+	def Inscripcion obtenerInscripcion(Interesado interesado) {
+		this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
+	}
+
+
 	def Inscripcion quitarJugador(Interesado interesado) {
 		val Inscripcion inscripcion = this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
 
@@ -113,11 +118,19 @@ class Partido {
 	def agregarCriterioOrdenamiento(CriterioOrden criterio) {
 		this.criteriosOrden.add(criterio)
 	}
-	
+
+	// TODO delegar esta responsabilidad a criteriosOrden
+	// no usar "Lista" en nombre del metodo	
 	def ordenarListaJugadores() {
 		//this.inscripciones.forEach[inscripcion | this.criteriosOrden.forEach[ c | c.obtenerValor(inscripcion)] ]
+		// TODO No hace falta guardar la lista ordenada. 
 		val List<Inscripcion> aux = this.inscripciones.sortBy[inscripcion | this.criteriosOrden.map[ c | c.obtenerValor(inscripcion)].reduce[p1, p2| p1 + p2] ]
 		this.inscripciones = aux
+	}
+
+	def generarEquiposTentativos() {
+		// TODO en este metodo llamar a ordenamiento
+		// y a dividir equipos
 	}
 
 }
