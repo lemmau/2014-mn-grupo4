@@ -1,17 +1,19 @@
 package com.dds.grupo4
 
-import com.dds.grupo4.excepciones.BusinessException
-import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
-import com.dds.grupo4.ordenamiento.CriterioOrden
 import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
 import com.dds.grupo4.excepciones.FaltaDefinirCriterioDeOrdenException
+import com.dds.grupo4.excepciones.InscripcionCerradaException
+import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
+import com.dds.grupo4.ordenamiento.CriterioOrden
 
 class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
+	val private static INSCRIPCION_CERRADA = false;
 
 	@Property LocalDateTime fechaInicio;
 
@@ -29,6 +31,9 @@ class Partido {
 	}
 
 	def void inscribirA(Interesado nuevoInteresado) {
+
+		if(INSCRIPCION_CERRADA)
+			throw new InscripcionCerradaException("La inscripción a este partido esta cerrada")
 
 		val Integer posicion = this.inscripciones.indexOf(
 			this.inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
@@ -137,7 +142,9 @@ class Partido {
 			throw new FaltaDefinirCriterioDeOrdenException("Se debe agregar un criterio de orden antes de ordenar")
 
 		jugadoresFinales.sortBy[inscripcion|
-			this.criteriosOrden.map[c|c.obtenerValor(inscripcion)].reduce[p1, p2|p1 + p2]]
+			//this.criteriosOrden.map[c|c.obtenerValor(inscripcion)].reduce[p1, p2|p1 + p2]]
+			this.criteriosOrden.fold(0D) [ result, criterio | result + criterio.obtenerValor(inscripcion) ]
+			]
 	}
 
 	def generarEquiposTentativos() {
