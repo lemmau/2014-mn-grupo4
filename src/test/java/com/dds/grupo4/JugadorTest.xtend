@@ -8,6 +8,7 @@ import org.junit.Test
 
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Solidario
+import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 
 class JugadorTest {
 
@@ -25,7 +26,7 @@ class JugadorTest {
 		gonzaEstandar = new Interesado("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
 		osvaEstandar = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
 		leanEstandar = new Interesado("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
-		
+
 		diegoEstandar.handicap = 8
 	}
 
@@ -49,14 +50,18 @@ class JugadorTest {
 	}
 
 	@Test
-	def verificarHandicap() {
-		Assert.assertEquals(8, diegoEstandar.handicap)
-	}
-
-	@Test
 	def modificarTipoInscripcion() {
 		diegoEstandar.cambiarTipoDeInscripcion(new Solidario)
 		Assert.assertEquals( typeof(Solidario), diegoEstandar.tipoDeInscripcion.class)
 	}
 
+	@Test
+	def verificarHandicap() {
+		Assert.assertEquals(8, diegoEstandar.handicap)
+	}
+
+	@Test(expected=typeof(HandicapFueraDeRangoException))
+	def void agregarHandicapFueraDeRango(){
+		maqiEstandar.handicap = 11
+	}
 }

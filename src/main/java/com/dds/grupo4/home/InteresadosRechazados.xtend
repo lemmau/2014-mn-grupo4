@@ -1,9 +1,11 @@
 package com.dds.grupo4.home
 
 import com.dds.grupo4.Interesado
+import com.dds.grupo4.Denegacion
 import java.util.List
 import java.util.ArrayList
 import java.time.LocalDateTime
+
 
 class InteresadosRechazados {
 	

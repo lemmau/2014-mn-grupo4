@@ -209,15 +209,14 @@ class PartidoTest {
 		partido.calificarA( lioEstandar, 10, "Sos un crack!!" )
 	}
 
-	// TODO El jugador solo debe aceptar un maximo de 9 calificaciones por partido
+	// El jugador solo debe aceptar un maximo de 9 calificaciones por partido
 	@Test(expected=typeof(SuperaMaximoCalificacionesException))
 	def calificarDeMas() {
 		while (partido.cantidadInteresados < 10) {
 			leanSolidario.inscribite(partido)
 		}
 
-		while(partido.cantidadCalificaciones(leanSolidario) < 11)
-			partido.calificarA( leanSolidario, 8, "Muy bien" )
+		(0..11).forEach[partido.calificarA( leanSolidario, 8, "Muy bien" )]
 	}
 
 

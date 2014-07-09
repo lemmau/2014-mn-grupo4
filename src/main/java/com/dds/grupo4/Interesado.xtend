@@ -8,6 +8,7 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 import java.time.LocalDateTime
+import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 
 class Interesado implements MessageSender {
 
@@ -27,12 +28,23 @@ class Interesado implements MessageSender {
 	@Property private MessageSender messageSender
 
 
-
 	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+		this(nombre, apellido, nacimiento, tipoDeInscripcion, 1)
+	}
+
+	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
 		this.nombre = nombre
 		this.apellido = apellido
 		this.fechaNacimiento = nacimiento
 		this.tipoDeInscripcion = tipoDeInscripcion
+		setHandicap(handicap)
+	}
+
+	def void setHandicap(Integer h) {
+		if (!(0 < h && 10 >= h ))
+			throw new HandicapFueraDeRangoException("Solo se acepta handicap entre 1 y 10")
+
+		_handicap = h
 	}
 
 	def Integer edad(){
