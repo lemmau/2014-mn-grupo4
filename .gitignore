@@ -1,20 +1,8 @@
-/src/test/xtend-gen/*
-/src/main/xtend-gen/*
-/target/
-
 .gitignore~
 .project
 .settings/
 .classpath
 
-*.java
-.autosave
-.db
-.dia~
+src/main/xtend-gen/
+target/
 
-/bin
-
-
-src/main/generated-sources/
-src/test/generated-sources/
-.metadata/
