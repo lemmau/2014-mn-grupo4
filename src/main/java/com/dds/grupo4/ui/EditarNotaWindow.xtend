@@ -8,6 +8,7 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
+import org.uqbar.arena.widgets.CheckBox
 
 class EditarNotaWindow extends Dialog<Nota> {
 
@@ -27,10 +28,9 @@ class EditarNotaWindow extends Dialog<Nota> {
 		txtDescripcion.width = 100
 		txtDescripcion.bindValueToProperty("descripcion")
 
-		//this.addFormPanel(form)
+		new Label(form).text = "Aprobado: "
+		new CheckBox(form).bindValueToProperty("aprobado")
 	}
-
-	//abstract def void addFormPanel(Panel panel)
 
 	override protected void addActions(Panel actions) {
 		new Button(actions)
@@ -52,5 +52,6 @@ class EditarNotaWindow extends Dialog<Nota> {
 	}
 
 }
+
 
 

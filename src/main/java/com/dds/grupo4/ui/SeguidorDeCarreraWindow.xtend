@@ -43,23 +43,23 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 	override createFormPanel(Panel mainPanel) {
 
-		val editorPanel = new Panel(mainPanel)
-		editorPanel.setLayout(new ColumnLayout(1))
+		val panelPrincipal = new Panel(mainPanel)
+		panelPrincipal.setLayout(new ColumnLayout(1))
+		panelPrincipal.setWidth(800)
 		
+		val titulo = new Label(panelPrincipal).setText("Seguidor De Carrera")
+		titulo.setFontSize(20)
 
-		val editorPanel2 = new Panel(mainPanel)
-		editorPanel2.setLayout(new ColumnLayout(2))
+		val subPanel = new Panel(panelPrincipal)
+		subPanel.setLayout(new ColumnLayout(2))
 
-		val titulo = new Label(editorPanel).setText("Seguidor De Carrera")
-		titulo.setFontSize(25)
+		val panelIzq = new Panel(subPanel)
+		val panelDer = new Panel(subPanel)
+		panelDer.setLayout(new ColumnLayout(2))
 
-		new Label(editorPanel2).setText("Materias")
+		new Label(panelIzq).setText("Materias")
 
-		new Label(mainPanel).bindValueToProperty("materiaSeleccionada")
-
-		
-
-		new List(editorPanel2) => [
+		new List(panelIzq) => [
 			allowNull(false)
 			//val binding = bindItemsToProperty("materiasPosibles")
 			//bindItemsToProperty("materias")
@@ -68,17 +68,19 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 			bindValueToProperty("materiaSeleccionada")
 		]
 
-		new Label(editorPanel2).setText("Año cursada:")
+		new TextBox(panelDer).setWidth(200).bindValueToProperty("materiaSeleccionada")
+		new Label(panelDer).setText("")
 
-		val textBoxAnio = new TextBox(editorPanel2)
-		textBoxAnio.width = 50
-		textBoxAnio.bindValueToProperty("materiaSeleccionada.anioCursada")
+		new Label(panelDer).setText("Año cursada:")
 
-		new Label(editorPanel2).setText("Final Aprobado")
-		new CheckBox(editorPanel2).bindValueToProperty("materiaSeleccionada.finalAprobado")
+		new TextBox(panelDer).setWidth(50)
+			.bindValueToProperty("materiaSeleccionada.anioCursada")
 
-		new Label(editorPanel2).setText("Ubicacion Materia")
-		new Selector(editorPanel2) => [
+		new Label(panelDer).setText("Final Aprobado")
+		new CheckBox(panelDer).bindValueToProperty("materiaSeleccionada.finalAprobado")
+
+		new Label(panelDer).setText("Ubicacion Materia")
+		new Selector(panelDer) => [
 			allowNull = false
 			bindItemsToProperty("tiposDeUbicacion")
 		//			bindValueToProperty("ubicacion")
