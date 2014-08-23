@@ -10,64 +10,56 @@ import com.dds.grupo4.home.HomeMaterias
 @Observable
 class SeguidorDeCarreraAppModel {
 
-	
-	List<Materia> materias
-	List<Nota> notas
+	@Property List<Materia> materias
+	@Property List<Nota> notas
 	@Property Materia materiaSeleccionada
 	@Property Nota notaSeleccionada
-	
+
 	new() {
 		materias = new ArrayList<Materia>
-		notas = new ArrayList<Nota>	
-	}
-		 
-	 def List<Materia> getMaterias(){
-	 	HomeMaterias.getInstance.materias
-	 }
-	 
-	 def List<Nota> getNotas(){
-	 	if(materiaSeleccionada != null)
-	 		notas = materiaSeleccionada.notas
-
-	 	notas
-	 }	 
-	 
-	 def agregarMateria(Materia materia){
-	 	materias.add(materia)
-	 }
-	 
-	 def agregarNota(Nota nota){
-	 	notas.add(nota)
-	 }
-	
-	def getMateriasPosibles() {
-		materias
-		//#[ "Matematica Discreta", "Ingenieria y Sociedad", "Sistemas y Organizaciones", "Algoritmos y Estructura de Datos", "Ingles I"	]
-		
+		notas = new ArrayList<Nota>
 	}
 
-//	def getMateriasPosibles() {
-//		#[	new MatematicaDiscreta, 
-//			new Algoritmos, 
-//			new Ingenieria y Sociedad, 
-//		]
-	
+	def List<Nota> getNotas() {
+		if (materiaSeleccionada != null)
+			notas = materiaSeleccionada.notas
+
+		notas
+	}
+
+	def agregarMateria(Materia materia) {
+		HomeMaterias.getInstance.agregarMateria(materia)
+	}
+
+	def agregarNota(Nota nota) {
+		if (materiaSeleccionada != null)
+			materiaSeleccionada.agregarNota(nota)
+	}
+
+	def eliminarNota(Nota nota) {
+		if (materiaSeleccionada != null)
+			materiaSeleccionada.eliminarNota(nota)
+	}
+
 	def getTiposDeUbicacion() {
-	#["1er Cuatrimestre 1° Nivel", "2do Cuatrimestre 1° Nivel", "..."]
+		#["1er Cuatrimestre 1° Nivel", "2do Cuatrimestre 1° Nivel", "..."]
 	}
-	
+
 	// ********************************************************
 	// ** Acciones
 	// ********************************************************
-	def void search() { 
+	def void search() {
 		// WORKAROUND para que refresque la grilla en las actualizaciones
 		//notas = new ArrayList<Nota>
-
 		// FIN WORKAROUND
-//		resultados = getHomeCelulares().search(numero, nombre)
+		//		resultados = getHomeCelulares().search(numero, nombre)
 		// también se puede llamar homeCelulares.search(numero, nombre) 
 	}
 
+	def void buscar() {
+		materias = HomeMaterias.instance.materias
+		if (materiaSeleccionada != null)
+			notas = materiaSeleccionada.notas
+	}
 
-	
 }

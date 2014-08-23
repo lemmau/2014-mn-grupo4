@@ -4,10 +4,12 @@ import com.dds.grupo4.domain.Materia
 
 import java.util.List
 import java.util.ArrayList
+import org.uqbar.commons.utils.Observable
 
+@Observable
 class HomeMaterias {
 
-	List<Materia> materias
+	@Property List<Materia> materias
 	
 	private static HomeMaterias instance = null
 	
@@ -18,9 +20,9 @@ class HomeMaterias {
 	}
 
 	def inicializarMaterias(){
-		materias.add(new Materia("Matematica Discreta"))
-		materias.add(new Materia("Ingenieria y Sociedad"))
-		materias.add(new Materia("Sistemas y Organizaciones"))
+		materias.add(new Materia("Matematica Discreta",2012, true))
+		materias.add(new Materia("Ingenieria y Sociedad", 2011, false))
+		materias.add(new Materia("Sistemas y Organizaciones", 2010, true))
 		materias.add(new Materia("Algoritmos y Estructura de Datos"))
 		materias.add(new Materia("Ingles I"))
 	}
@@ -41,9 +43,9 @@ class HomeMaterias {
 		doGetMateria(materia).copy 
 	}
 
-	def List<Materia> getMaterias() {
-		materias
-	}
+//	def List<Materia> getMaterias() {
+//		_materias
+//	}
 
 	/** Genero una copia de los objetos para no actualizar el que referencia el home **/
 //	def List<Abonado> getAbonados(BusquedaAbonados busquedaAbonados) {
@@ -74,7 +76,7 @@ class HomeMaterias {
 	}
 	
 	def agregarMateria(Materia materia) {
-		materias.add(materia)
+		_materias.add(materia)
 		println("Ahora materias tiene:" + materias)
 	}
 

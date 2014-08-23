@@ -25,13 +25,13 @@ class Materia {
 	}
 	
 	new(String nombre) {
-		this.nombre = nombre
-		this.anioCursada = 2014
-		this.finalAprobado = true
-		notas = new ArrayList<Nota>
+		this(nombre, 2014, true)
 	}
 	
-
+	new(String nombre, Integer anioCursada, Boolean finalAprobado) {
+		this(nombre, "", anioCursada, "profesor X", finalAprobado)
+		_notas.add(new Nota("a","b", true ))
+	}
 
 	def String getNombre(){
 		_nombre
@@ -73,6 +73,10 @@ class Materia {
 	
 	def agregarNota(Nota nota) {
 		notas.add(nota)
+	}
+
+	def eliminarNota(Nota nota) {
+		notas.remove(nota)
 	}
 	
 }

@@ -1,9 +1,9 @@
 package com.dds.grupo4.runnable
 
 import org.uqbar.arena.Application
-import com.dds.grupo4.ui.CrearSeguidorDeCarreraWindow
 import com.dds.grupo4.appModel.SeguidorDeCarreraAppModel
 import com.dds.grupo4.domain.Nota
+import com.dds.grupo4.ui.SeguidorDeCarreraWindow
 
 class SeguidorDeCarreraApp extends Application {
 	
@@ -13,7 +13,7 @@ class SeguidorDeCarreraApp extends Application {
 		appModel.agregarNota(new Nota("12/05/2014","Parcial 1",true))
 		appModel.agregarNota(new Nota("14/07/2014","Parcial 2",true))
 		
-		new CrearSeguidorDeCarreraWindow(this, appModel)
+		new SeguidorDeCarreraWindow(this, appModel)
 	}
 		
 	def static main(String[] args) {
