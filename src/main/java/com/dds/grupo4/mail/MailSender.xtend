@@ -1,6 +1,6 @@
 package com.dds.grupo4.mail
 
-import com.dds.grupo4.Admin
+import com.dds.grupo4.dominio.Admin
 
 class MailSender {
 	

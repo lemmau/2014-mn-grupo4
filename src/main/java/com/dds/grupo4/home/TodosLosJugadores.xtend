@@ -3,29 +3,29 @@ package com.dds.grupo4.home
 import java.util.List
 import java.util.ArrayList
 
-import com.dds.grupo4.Interesado
+import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 
 class TodosLosJugadores {
 
-	private List<Interesado> interesadosPendientes = new ArrayList<Interesado>
-	private List<Interesado> interesadosAceptados = new ArrayList<Interesado>
+	private List<Jugador> interesadosPendientes = new ArrayList<Jugador>
+	private List<Jugador> interesadosAceptados = new ArrayList<Jugador>
 	private InteresadosRechazados rechazados = new InteresadosRechazados
 
-	def esUnInteresadoDelSistema(Interesado interesado) {
+	def esUnInteresadoDelSistema(Jugador interesado) {
 		interesadosPendientes.contains(interesado)
 	}
 
-	def esUnInteresadoAceptado(Interesado interesado) {
+	def esUnInteresadoAceptado(Jugador interesado) {
 		interesadosAceptados.contains(interesado)
 	}
 
 	// TODO pasamanos revisar
-	def esUnInteresadoRechazado(Interesado interesado) {
+	def esUnInteresadoRechazado(Jugador interesado) {
 		rechazados.esUnInteresadoRechazado(interesado)
 	}
 
-	def eliminarInteresado(Interesado interesado) {
+	def eliminarInteresado(Jugador interesado) {
 		if (!interesadosPendientes.remove(interesado))
 			throw new NoExisteJugadorPendienteException("El jugador no existe entre los pendientes de aprobacion")
 	}
@@ -51,16 +51,16 @@ class TodosLosJugadores {
 		rechazados.cantInteresadosRechazados
 	}
 
-	def proponerJugador(Interesado interesado) {
+	def proponerJugador(Jugador interesado) {
 		interesadosPendientes.add(interesado)
 	}
 
-	def aceptarInteresado(Interesado interesado) {
+	def aceptarInteresado(Jugador interesado) {
 		eliminarInteresado(interesado)
 		interesadosAceptados.add(interesado)
 	}
 
-	def rechazarInteresado(Interesado interesado, String motivo) {
+	def rechazarInteresado(Jugador interesado, String motivo) {
 		eliminarInteresado(interesado)
 		rechazados.agregarRechazado(interesado, motivo)
 	}

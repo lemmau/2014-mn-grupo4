@@ -1,4 +1,4 @@
-package com.dds.grupo4
+package com.dds.grupo4.dominio
 
 import java.util.ArrayList
 import java.util.List
@@ -9,11 +9,11 @@ import com.dds.grupo4.excepciones.NoTieneCalificacionesException
 class Inscripcion {
 
 	val private static MAX_CALIFICACIONES_XPARTIDO = Integer.valueOf(9)
-	@Property private Interesado jugador
+	@Property private Jugador jugador
 	@Property List<Calificacion> calificaciones = new ArrayList;
 
 
-	new(Interesado interesado) {
+	new(Jugador interesado) {
 		this.jugador = interesado
 	}
 

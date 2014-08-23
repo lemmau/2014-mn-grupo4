@@ -1,6 +1,6 @@
 package com.dds.grupo4.tipoDeInscripcion
 
-import com.dds.grupo4.Partido
+import com.dds.grupo4.dominio.Partido
 
 class Condicional extends TipoDeInscripcion {
 	

@@ -1,16 +1,18 @@
-package com.dds.grupo4
+package com.dds.grupo4.dominio
 
+import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 import com.dds.grupo4.mail.Mail
+import com.dds.grupo4.mail.MessageSender
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
+
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import java.util.Map
-import java.time.LocalDateTime
-import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 
-class Interesado implements MessageSender {
+class Jugador implements MessageSender {
 
 	@Property private String nombre;
 	@Property private String apellido;
@@ -18,7 +20,7 @@ class Interesado implements MessageSender {
 	@Property private String mail;
 	@Property private Integer handicap;
 	
-	@Property private List<Interesado> amigos = new ArrayList<Interesado>
+	@Property private List<Jugador> amigos = new ArrayList<Jugador>
 	@Property private TipoDeInscripcion tipoDeInscripcion
 
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
@@ -62,7 +64,7 @@ class Interesado implements MessageSender {
 		this.tipoDeInscripcion = inscripcion;
 	}
 
-	def void agregarAmigo(Interesado interesado) {
+	def void agregarAmigo(Jugador interesado) {
 		this.amigos.add(interesado)
 	}
 
@@ -71,7 +73,7 @@ class Interesado implements MessageSender {
 		this.amigos.forEach[amigo|this.mandarMail(amigo)]
 	}
 
-	def mandarMail(Interesado interesado) {
+	def mandarMail(Jugador interesado) {
 		var mailAEnviar = new Mail
 
 		mailAEnviar.from = this.mail
@@ -108,7 +110,7 @@ class Interesado implements MessageSender {
 
 
 	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
-	def equals(Interesado i) {
+	def equals(Jugador i) {
 		return (
 				this.nombre.equalsIgnoreCase(i.nombre) &&
 				this.apellido.equalsIgnoreCase(i.apellido) &&

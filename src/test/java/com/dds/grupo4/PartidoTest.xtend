@@ -1,5 +1,15 @@
 package com.dds.grupo4
 
+import com.dds.grupo4.dominio.Admin
+import com.dds.grupo4.dominio.Jugador
+import com.dds.grupo4.dominio.Partido
+import com.dds.grupo4.excepciones.BusinessException
+import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
+import com.dds.grupo4.excepciones.SuperaMaximoCalificacionesException
+import com.dds.grupo4.tipoDeInscripcion.Condicional
+import com.dds.grupo4.tipoDeInscripcion.Estandar
+import com.dds.grupo4.tipoDeInscripcion.Solidario
+
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -7,26 +17,19 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-import com.dds.grupo4.excepciones.BusinessException
-import com.dds.grupo4.tipoDeInscripcion.Condicional
-import com.dds.grupo4.tipoDeInscripcion.Estandar
-import com.dds.grupo4.tipoDeInscripcion.Solidario
-import com.dds.grupo4.excepciones.SuperaMaximoCalificacionesException
-import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
-
 class PartidoTest {
 
 	Partido partido
 	Admin adminJuan
 
-	Interesado lioEstandar
-	Interesado diegoEstandar
-	Interesado maqiEstandar
-	Interesado osvaCondicional1
-	Interesado osvaCondicional2
-	Interesado leanSolidario
-	Interesado pepeSolidario
-	Interesado gonzaEstandar
+	Jugador lioEstandar
+	Jugador diegoEstandar
+	Jugador maqiEstandar
+	Jugador osvaCondicional1
+	Jugador osvaCondicional2
+	Jugador leanSolidario
+	Jugador pepeSolidario
+	Jugador gonzaEstandar
 	(Partido)=>Boolean condicionInteresadoCondicional
 	(Partido)=>Boolean condicionPorFecha
 
@@ -47,20 +50,20 @@ class PartidoTest {
 		// Condicion fecha partido que sea dia 21
 		condicionPorFecha = [Partido partido | (partido.fechaInicio.getDayOfMonth.equals(21))]
 
-		lioEstandar = new Interesado("Lionel", "Messi", LocalDate.of(1987, 06, 24), new Estandar)
-		diegoEstandar = new Interesado("Diego", "Anazonian", LocalDate.of(1992, 12, 14), new Estandar)
-		maqiEstandar = new Interesado("Maximiliano", "Anazonian", LocalDate.of(1992, 04, 05), new Estandar)
-		gonzaEstandar = new Interesado("Gonzalo", "Franchino",  LocalDate.of(1981, 06, 30), new Estandar)
-		osvaCondicional1 = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionInteresadoCondicional))
-		osvaCondicional2 = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionPorFecha))
-		leanSolidario = new Interesado("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
-		pepeSolidario = new Interesado("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
+		lioEstandar = new Jugador("Lionel", "Messi", LocalDate.of(1987, 06, 24), new Estandar)
+		diegoEstandar = new Jugador("Diego", "Anazonian", LocalDate.of(1992, 12, 14), new Estandar)
+		maqiEstandar = new Jugador("Maximiliano", "Anazonian", LocalDate.of(1992, 04, 05), new Estandar)
+		gonzaEstandar = new Jugador("Gonzalo", "Franchino",  LocalDate.of(1981, 06, 30), new Estandar)
+		osvaCondicional1 = new Jugador("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionInteresadoCondicional))
+		osvaCondicional2 = new Jugador("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Condicional(condicionPorFecha))
+		leanSolidario = new Jugador("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
+		pepeSolidario = new Jugador("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
 
 		diegoEstandar.messageSender = stubMailSender
 	}
 
 	@Test
-	def corroboroPosicionesDeInteresadosSegunOrdenDeInscripciones() {
+	def corroboroPosicionesDeJugadoresSegunOrdenDeInscripciones() {
 
 		partido.inscribirA(diegoEstandar)
 		partido.inscribirA(maqiEstandar)

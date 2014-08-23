@@ -1,10 +1,11 @@
 package com.dds.grupo4.ordenamiento
 
-import com.dds.grupo4.ordenamiento.CriterioOrden
-import com.dds.grupo4.Inscripcion
 import java.util.ArrayList
 import java.util.List
-import com.dds.grupo4.Partido
+
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import com.dds.grupo4.dominio.Inscripcion
+import com.dds.grupo4.dominio.Partido
 
 class PromedioUltimosPartidos extends CriterioOrden {
 

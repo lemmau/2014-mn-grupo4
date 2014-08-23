@@ -1,17 +1,16 @@
 package com.dds.grupo4.home
 
-import com.dds.grupo4.Interesado
-import com.dds.grupo4.Denegacion
+import com.dds.grupo4.dominio.Jugador
+import com.dds.grupo4.dominio.Denegacion
 import java.util.List
 import java.util.ArrayList
 import java.time.LocalDateTime
-
 
 class InteresadosRechazados {
 	
 	private List<Denegacion> interesadosRechazados = new ArrayList<Denegacion>
 	
-	def esUnInteresadoRechazado(Interesado interesado) {
+	def esUnInteresadoRechazado(Jugador interesado) {
 		interesadosRechazados.exists[rechazado | rechazado.interesado.equals(interesado)]
 	}
 
@@ -23,7 +22,7 @@ class InteresadosRechazados {
 		interesadosRechazados.size
 	}
 
-	def void agregarRechazado(Interesado interesado, String motivo){
+	def void agregarRechazado(Jugador interesado, String motivo){
 		interesadosRechazados.add(new Denegacion(interesado, LocalDateTime.now, motivo))
 	}
 

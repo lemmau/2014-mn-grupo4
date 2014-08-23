@@ -1,4 +1,4 @@
-package com.dds.grupo4
+package com.dds.grupo4.dominio
 
 class Calificacion {
 

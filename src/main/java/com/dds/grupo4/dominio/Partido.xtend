@@ -1,4 +1,4 @@
-package com.dds.grupo4
+package com.dds.grupo4.dominio
 
 import java.time.LocalDateTime
 import java.util.ArrayList
@@ -13,7 +13,8 @@ class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
-	val private static INSCRIPCION_CERRADA = false;
+	//val private static INSCRIPCION_CERRADA = false;
+	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property LocalDateTime fechaInicio;
 
@@ -21,7 +22,7 @@ class Partido {
 	@Property List<Inscripcion> inscripciones = new ArrayList;
 	@Property private Admin admin
 	@Property private String mail
-	@Property List<Interesado> jugadoresDelPartido = new ArrayList
+	@Property List<Jugador> jugadoresDelPartido = new ArrayList
 	@Property List<Inscripcion> equipoA = new ArrayList;
 	@Property List<Inscripcion> equipoB = new ArrayList;
 	@Property List<CriterioOrden> criteriosOrden = new ArrayList;
@@ -30,7 +31,7 @@ class Partido {
 		this.admin = admin
 	}
 
-	def void inscribirA(Interesado nuevoInteresado) {
+	def void inscribirA(Jugador nuevoInteresado) {
 
 		if(INSCRIPCION_CERRADA)
 			throw new InscripcionCerradaException("La inscripción a este partido esta cerrada")
@@ -45,7 +46,7 @@ class Partido {
 
 	}
 
-	def void inscribirTodos(List<Interesado> nuevosInteresados) {
+	def void inscribirTodos(List<Jugador> nuevosInteresados) {
 		nuevosInteresados.forEach[interesado|inscribirA(interesado)]
 	}
 
@@ -58,23 +59,27 @@ class Partido {
 		}
 	}
 
+	def cerrarInscripcion(){
+		INSCRIPCION_CERRADA = true;
+	}
+
 	def cantidadInteresados() {
 		this.inscripciones.size
 	}
 
-	def Boolean esUnInteresado(Interesado interesado) {
+	def Boolean esUnInteresado(Jugador interesado) {
 		return this.inscripciones.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
 	}
 
-	def Boolean esUnJugadorFinal(Interesado interesado) {
+	def Boolean esUnJugadorFinal(Jugador interesado) {
 		return jugadoresFinales.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
 	}
 
-	def Inscripcion obtenerInscripcion(Interesado interesado) {
+	def Inscripcion obtenerInscripcion(Jugador interesado) {
 		this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
 	}
 
-	def Inscripcion quitarJugador(Interesado interesado) {
+	def Inscripcion quitarJugador(Jugador interesado) {
 		val Inscripcion inscripcion = this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
 
 		if (null == inscripcion)
@@ -84,17 +89,17 @@ class Partido {
 		return inscripcion
 	}
 
-	def void darDeBajaA(Interesado interesado) {
+	def void darDeBajaA(Jugador interesado) {
 		quitarJugador(interesado)
 		interesado.agregarInfraccion("NO tiene reemplazante")
 	}
 
-	def void darDeBajaA(Interesado resagado, Interesado reemplazante) {
+	def void darDeBajaA(Jugador resagado, Jugador reemplazante) {
 		quitarJugador(resagado)
 		this.inscribirA(reemplazante)
 	}
 
-	def Inscripcion obtenerJugadorFinal(Interesado jugador) {
+	def Inscripcion obtenerJugadorFinal(Jugador jugador) {
 		val Inscripcion jugadorFinal = this.jugadoresFinales.findFirst[i|i.jugador.equals(jugador)]
 
 		if (null == jugadorFinal)
@@ -103,23 +108,23 @@ class Partido {
 		jugadorFinal
 	}
 
-	def void calificarA(Interesado jugador, Integer puntaje, String critica) {
+	def void calificarA(Jugador jugador, Integer puntaje, String critica) {
 		val Inscripcion jugadorAcalificar = obtenerJugadorFinal(jugador)
 
 		jugadorAcalificar.calificar(puntaje, critica)
 	}
 
-	def Integer cantidadCalificaciones(Interesado jugador) {
+	def Integer cantidadCalificaciones(Jugador jugador) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.cantidadCalificaciones
 	}
 
-	def Double promedioCalificaciones(Interesado jugador) {
+	def Double promedioCalificaciones(Jugador jugador) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.promedioCalificaciones
 	}
 
-	def Double promedioNCalificaciones(Interesado jugador, Integer ultimasN) {
+	def Double promedioNCalificaciones(Jugador jugador, Integer ultimasN) {
 		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
 		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
 	}
@@ -141,15 +146,34 @@ class Partido {
 		if ( 0.equals(this.criteriosOrden.size) )
 			throw new FaltaDefinirCriterioDeOrdenException("Se debe agregar un criterio de orden antes de ordenar")
 
+		//this.criteriosOrden.forEach[criterio|criterio.ordenarJugadoresFinales(this)]
+
 		jugadoresFinales.sortBy[inscripcion|
-			//this.criteriosOrden.map[c|c.obtenerValor(inscripcion)].reduce[p1, p2|p1 + p2]]
-			this.criteriosOrden.fold(0D) [ result, criterio | result + criterio.obtenerValor(inscripcion) ]
+			this.criteriosOrden.map[c|c.obtenerValor(inscripcion)].reduce[p1, p2|p1 + p2]
+			//this.criteriosOrden.fold(0D) [ result, criterio | result + criterio.obtenerValor(inscripcion) ]
 			]
+
+		
 	}
 
 	def generarEquiposTentativos() {
 		// TODO en este metodo llamar a ordenamiento
 		// y a dividir equipos
+		validarInscripcion();
+		
+	}
+	
+	def void validarInscripcion(){
+		
+		if (!INSCRIPCION_CERRADA || jugadoresFinales.size < 10 )
+			throw new InscripcionCerradaException("La inscripcion No esta cerrada")
 	}
 
+	def agregarJugadorEquipoA(Inscripcion inscripcion) {
+		this.equipoA.add(inscripcion)
+	}
+
+	def agregarJugadorEquipoB(Inscripcion inscripcion) {
+		this.equipoB.add(inscripcion)
+	}
 }

@@ -1,33 +1,35 @@
 package com.dds.grupo4
 
+import com.dds.grupo4.dominio.Jugador
+import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 import com.dds.grupo4.home.TodosLosJugadores
 import com.dds.grupo4.tipoDeInscripcion.Estandar
+
+import java.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDate
-import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 
 class JugadoresTest {
 
 	TodosLosJugadores todosLosJugadores = new TodosLosJugadores
-	Interesado diegoEstandar
-	Interesado maqiEstandar
-	Interesado osvaEstandar
-	Interesado leanEstandar
-	Interesado gonzaEstandar
-	Interesado lioEstandar
+	Jugador diegoEstandar
+	Jugador maqiEstandar
+	Jugador osvaEstandar
+	Jugador leanEstandar
+	Jugador gonzaEstandar
+	Jugador lioEstandar
 
 	@Before
 	def void setUp() {
 
-		diegoEstandar = new Interesado("Diego", "Anazonian", LocalDate.of(1991, 12, 14), new Estandar)
-		maqiEstandar = new Interesado("Maximiliano", "Anazonian", LocalDate.of(1991, 04, 05), new Estandar)
-		gonzaEstandar = new Interesado("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
-		osvaEstandar = new Interesado("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
-		leanEstandar = new Interesado("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
+		diegoEstandar = new Jugador("Diego", "Anazonian", LocalDate.of(1991, 12, 14), new Estandar)
+		maqiEstandar = new Jugador("Maximiliano", "Anazonian", LocalDate.of(1991, 04, 05), new Estandar)
+		gonzaEstandar = new Jugador("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
+		osvaEstandar = new Jugador("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
+		leanEstandar = new Jugador("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
 		
-		lioEstandar = new Interesado("Lionel", "Messi", LocalDate.of(1987, 06, 24), new Estandar)
+		lioEstandar = new Jugador("Lionel", "Messi", LocalDate.of(1987, 06, 24), new Estandar)
 
 		// Propongo 5 jugadores candidatos
 		todosLosJugadores.proponerJugador(diegoEstandar)

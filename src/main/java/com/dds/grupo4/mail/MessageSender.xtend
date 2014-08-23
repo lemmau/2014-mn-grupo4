@@ -1,4 +1,4 @@
-package com.dds.grupo4
+package com.dds.grupo4.mail
 
 import com.dds.grupo4.mail.Mail
 
