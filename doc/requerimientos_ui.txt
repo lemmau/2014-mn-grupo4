@@ -1,0 +1,9 @@
+Para la prueba de concepto de la parte de interfaces les sugerimos que las pantallas que hagan tengan:
+
+-   Una pantalla compleja que se componga de varios objetos
+-    Al menos un boton que implique enviar mensajes al dominio
+-    Al menos un boton que abra una nueva ventana/pase a otra página
+-    Al menos una grilla con un campo que no sea exactamente lo que quieren mostrar (los booleanos son un ejemplo de esto)
+-    Variedad de controles visuales.
+-    Al menos una pantalla simple que muestre exactamente un objeto de dominio
+-    Validaciones
