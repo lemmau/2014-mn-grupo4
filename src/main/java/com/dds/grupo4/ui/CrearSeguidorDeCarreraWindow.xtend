@@ -1,6 +1,7 @@
 package com.dds.grupo4.ui
 
 import com.dds.grupo4.appModel.SeguidorDeCarreraAppModel
+import com.dds.grupo4.domain.Materia
 import com.dds.grupo4.domain.Nota
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.ColumnLayout
@@ -18,54 +19,62 @@ import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.commons.utils.Observable
-import com.dds.grupo4.domain.Materia
 
 @Observable
 class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 	new(WindowOwner owner, SeguidorDeCarreraAppModel appModel) {
 		super(owner, appModel)
-		title = "Seguidor de carrera"
-		taskDescription = "Complete el avance de su carrera"
 	}
 
+	override def createMainTemplate(Panel mainPanel) {
+		title = "Seguidor de carrera"
+		taskDescription = "Complete el avance de su carrera"
+		mainPanel.setWidth(1024)
+
+		super.createMainTemplate(mainPanel)
+
+		this.createResultsGrid(mainPanel)
+		this.createGridActions(mainPanel)
+	}
+
+
 	override createFormPanel(Panel mainPanel) {
+
 		val editorPanel = new Panel(mainPanel)
 		editorPanel.setLayout(new ColumnLayout(1))
+		
+
+		val editorPanel2 = new Panel(mainPanel)
+		editorPanel2.setLayout(new ColumnLayout(2))
 
 		val titulo = new Label(editorPanel).setText("Seguidor De Carrera")
 		titulo.setFontSize(25)
 
-		new Label(editorPanel).setText("")
+		new Label(editorPanel2).setText("Materias")
 
-		new Label(editorPanel).setText("Materias")
+		new Label(mainPanel).bindValueToProperty("materiaSeleccionada")
 
-		val editorPanel2 = new Panel(mainPanel)
-		editorPanel2.setLayout(new ColumnLayout(2))
+		
 
 		new List(editorPanel2) => [
 			allowNull(false)
 			//val binding = bindItemsToProperty("materiasPosibles")
 			bindItemsToProperty("materias")
-		//			binding.setAdapter(new PropertyAdapter(typeof(ContenidoMaterias), "nombre"))
+			//			binding.setAdapter(new PropertyAdapter(typeof(ContenidoMaterias), "nombre"))
 			bindValueToProperty("materiaSeleccionada")
 		]
-
-		new Label(editorPanel).setText("[Nombre de materia aca]")
 
 		new Label(editorPanel2).setText("Año cursada:")
 
 		val textBoxAnio = new TextBox(editorPanel2)
-		textBoxAnio.width = 25
+		textBoxAnio.width = 50
+		textBoxAnio.bindValueToProperty("materiaSeleccionada.anioCursada")
 
-		//		val binding = textBoxAnio.bindValueToProperty("anioCursada")
-		//		binding.setTransformer(new DateAdapter)
-		val checkFinalAprobado = new CheckBox(editorPanel2)
-
-		//		checkFinalAprobado.bindValueToProperty("")
 		new Label(editorPanel2).setText("Final Aprobado")
+		new CheckBox(editorPanel2)
 
-		new Label(editorPanel).setText("Ubicacion Materia")
+		new Label(editorPanel2).setText("Ubicacion Materia")
 		new Selector(editorPanel2) => [
 			allowNull = false
 			bindItemsToProperty("tiposDeUbicacion")
@@ -75,14 +84,14 @@ class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppMode
 
 		this.addActions(mainPanel)
 
-		// tabla
-		this.createResultsGrid(mainPanel);
-		this.createGridActions(mainPanel);
 	}
 
 	def protected createResultsGrid(Panel mainPanel) {
 
 		var Table<Nota> tablaNotas = new Table<Nota>(mainPanel, typeof(Nota))
+		var elementSelected = new NotNullObservable("materiaSeleccionada")
+		tablaNotas.bindEnabled(elementSelected)
+
 		tablaNotas.bindItemsToProperty("notas")
 		tablaNotas.bindValueToProperty("notaSeleccionada")
 		tablaNotas.setHeigth(200)
@@ -99,14 +108,20 @@ class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppMode
 	 * (generalmente String)
 	 **/
 	def void describeResultsGrid(Table<Nota> tableNotas) {
-		new Column<Nota>(tableNotas).setTitle("Fecha").setFixedSize(50).bindContentsToProperty("fecha")
-
-		new Column<Nota>(tableNotas).setTitle("Descripcion").setFixedSize(50).bindContentsToProperty("descripcion")
+		new Column<Nota>(tableNotas)
+			.setTitle("Fecha")
+			.setFixedSize(150)
+			.bindContentsToProperty("fecha")
 
 		new Column<Nota>(tableNotas)
-				.setTitle("Aprobado")
-				.setFixedSize(50)
-				.bindContentsToTransformer([ nota | if (nota.aprobado) "SI" else "NO"])
+			.setTitle("Descripcion")
+			.setFixedSize(150)
+			.bindContentsToProperty("descripcion")
+
+		new Column<Nota>(tableNotas)
+			.setTitle("Aprobado")
+			.setFixedSize(50).
+			bindContentsToTransformer([nota|if(nota.aprobado) "SI" else "NO"])
 	}
 
 	def createGridActions(Panel mainPanel) {
@@ -115,12 +130,16 @@ class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppMode
 		actionsPanel.setLayout(new HorizontalLayout)
 
 		var edit = new Button(actionsPanel)
-						.setCaption("Editar")
-						.onClick[|this.openDialog(new EditarNotaWindow(this, new Nota))]
+				.setCaption("Editar")
+				.onClick[|this.openDialog(new EditarNotaWindow(this, modelObject.notaSeleccionada))]
 
-		var add = new Button(actionsPanel).setCaption("+").onClick[| ]
+		var add = new Button(actionsPanel)
+				.setCaption("+")
+				.onClick[|this.openDialog(new EditarNotaWindow(this, new Nota))]
 
-		var remove = new Button(actionsPanel).setCaption("-").onClick[| ]
+		var remove = new Button(actionsPanel)
+				.setCaption("-")
+				.onClick[| ]
 
 		// Deshabilitar los botones si no hay ningún elemento seleccionado en la grilla.
 		var elementSelected = new NotNullObservable("notaSeleccionada")
@@ -139,7 +158,7 @@ class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppMode
 
 		new Button(actionsPanel).setCaption("Nueva Materia")
 //				.onClick [ | this.modelObject.AgregarNuevaMateria ]
-				.onClick[|this.openDialog(new AgregarNuevaMateriaWindow(this, new Materia))]
+		.onClick[|this.openDialog(new AgregarNuevaMateriaWindow(this, new Materia))]
 	}
 
 	def void agregarNuevaMateria() {

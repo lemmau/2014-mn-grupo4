@@ -26,6 +26,7 @@ class Materia {
 	
 	new(String nombre) {
 		this.nombre = nombre
+		this.anioCursada = 2014
 	}
 	
 
@@ -67,4 +68,9 @@ class Materia {
 	override toString(){
 		_nombre
 	}
+	
+	def agregarNota(Nota nota) {
+		notas.add(nota)
+	}
+	
 }

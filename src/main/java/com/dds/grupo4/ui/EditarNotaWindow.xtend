@@ -8,6 +8,7 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
+import com.dds.grupo4.home.HomeMaterias
 
 class EditarNotaWindow extends Dialog<Nota> {
 
@@ -47,7 +48,7 @@ class EditarNotaWindow extends Dialog<Nota> {
 		/** MUY IMPORTANTE, primero hay que actualizar el abonado y luego, hacer super.accept
 		 * para que capture los errores y refresque la grilla
 		 */
-//		HomeMaterias.instance.actualizarMaterias(this.modelObject)
+		//agregarNota(this.modelObject)
 		super.accept
 	}
 
