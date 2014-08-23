@@ -72,4 +72,12 @@ public class Materia {
       throw Exceptions.sneakyThrow(_e);
     }
   }
+  
+  public void clear() {
+    this.setNombre(null);
+    this.setUbicacion(null);
+    this.setAnioCursada(null);
+    this.setProfesor(null);
+    this.setFinalAprobado(null);
+  }
 }

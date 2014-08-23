@@ -1,7 +1,7 @@
 package com.dds.grupo4.runnable;
 
 import com.dds.grupo4.appModel.SeguidorDeCarreraAppModel;
-import com.dds.grupo4.domain.Materia;
+import com.dds.grupo4.domain.Nota;
 import com.dds.grupo4.ui.CrearSeguidorDeCarreraWindow;
 import org.uqbar.arena.Application;
 import org.uqbar.arena.windows.Window;
@@ -12,12 +12,12 @@ public class SeguidorDeCarreraApp extends Application {
     CrearSeguidorDeCarreraWindow _xblockexpression = null;
     {
       SeguidorDeCarreraAppModel appModel = new SeguidorDeCarreraAppModel();
-      Materia _materia = new Materia("Ingenieria y Soc.", "1er nivel", Integer.valueOf(2010), "Nuñez", Boolean.valueOf(true));
-      appModel.agregarMateria(_materia);
-      Materia _materia_1 = new Materia("In y Soc.", "1er nivel", Integer.valueOf(2010), "Nuñez", Boolean.valueOf(true));
-      appModel.agregarMateria(_materia_1);
-      Materia _materia_2 = new Materia("ieria y Soc.", "1er nivel", Integer.valueOf(2010), "Nuñez", Boolean.valueOf(true));
-      appModel.agregarMateria(_materia_2);
+      Nota _nota = new Nota("02/05/2014", "TP", Boolean.valueOf(true));
+      appModel.agregarNota(_nota);
+      Nota _nota_1 = new Nota("12/05/2014", "Parcial 1", Boolean.valueOf(true));
+      appModel.agregarNota(_nota_1);
+      Nota _nota_2 = new Nota("14/07/2014", "Parcial 2", Boolean.valueOf(true));
+      appModel.agregarNota(_nota_2);
       _xblockexpression = new CrearSeguidorDeCarreraWindow(this, appModel);
     }
     return _xblockexpression;
