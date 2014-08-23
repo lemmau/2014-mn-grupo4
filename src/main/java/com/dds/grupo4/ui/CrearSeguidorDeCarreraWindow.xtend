@@ -72,7 +72,7 @@ class CrearSeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppMode
 		textBoxAnio.bindValueToProperty("materiaSeleccionada.anioCursada")
 
 		new Label(editorPanel2).setText("Final Aprobado")
-		new CheckBox(editorPanel2)
+		new CheckBox(editorPanel2).bindValueToProperty("materiaSeleccionada.finalAprobado")
 
 		new Label(editorPanel2).setText("Ubicacion Materia")
 		new Selector(editorPanel2) => [

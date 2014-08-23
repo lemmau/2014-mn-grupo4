@@ -27,6 +27,7 @@ class Materia {
 	new(String nombre) {
 		this.nombre = nombre
 		this.anioCursada = 2014
+		this.finalAprobado = true
 	}
 	
 
