@@ -5,4 +5,5 @@
 
 src/main/xtend-gen/
 target/
+src/main/generated-sources
 

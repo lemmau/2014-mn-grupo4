@@ -8,9 +8,8 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
-import com.dds.grupo4.home.HomeMaterias
 
-abstract class EditarNotaWindow extends Dialog<Nota> {
+class EditarNotaWindow extends Dialog<Nota> {
 
 	new(WindowOwner owner, Nota model) {
 		super(owner, model)
@@ -28,10 +27,10 @@ abstract class EditarNotaWindow extends Dialog<Nota> {
 		txtDescripcion.width = 100
 		txtDescripcion.bindValueToProperty("descripcion")
 
-		this.addFormPanel(form)
+		//this.addFormPanel(form)
 	}
 
-	abstract def void addFormPanel(Panel panel)
+	//abstract def void addFormPanel(Panel panel)
 
 	override protected void addActions(Panel actions) {
 		new Button(actions)
@@ -54,16 +53,4 @@ abstract class EditarNotaWindow extends Dialog<Nota> {
 
 }
 
-
-class EditarWindow extends EditarNotaWindow {
-
-	new(WindowOwner owner, Nota model) {
-		super(owner, model)
-		this.title = "Editar Nota"
-	}
-
-	override addFormPanel(Panel panel) {
-	}
-
-}
 

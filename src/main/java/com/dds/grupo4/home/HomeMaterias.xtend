@@ -2,8 +2,8 @@ package com.dds.grupo4.home
 
 import com.dds.grupo4.domain.Materia
 
-import java.util.ArrayList
 import java.util.List
+import java.util.ArrayList
 
 class HomeMaterias {
 
@@ -13,8 +13,18 @@ class HomeMaterias {
 	
 	private new() {
 		materias = new ArrayList<Materia>
+		inicializarMaterias
+		//materias = #[ new Materia("Matematica Discreta"), new Materia("Ingenieria y Sociedad"), new Materia("Sistemas y Organizaciones"), new Materia("Algoritmos y Estructura de Datos"), new Materia("Ingles I")	]
 	}
-	
+
+	def inicializarMaterias(){
+		materias.add(new Materia("Matematica Discreta"))
+		materias.add(new Materia("Ingenieria y Sociedad"))
+		materias.add(new Materia("Sistemas y Organizaciones"))
+		materias.add(new Materia("Algoritmos y Estructura de Datos"))
+		materias.add(new Materia("Ingles I"))
+	}
+
 	static def getInstance() {
 		if (instance == null) {
 			instance = new HomeMaterias
@@ -27,8 +37,12 @@ class HomeMaterias {
 	}
 
 	/** Genero una copia del objeto para no actualizar el que referencia el home **/
-	def getAbonado(Materia materia) {
+	def getMateria(Materia materia) {
 		doGetMateria(materia).copy 
+	}
+
+	def List<Materia> getMaterias() {
+		materias
 	}
 
 	/** Genero una copia de los objetos para no actualizar el que referencia el home **/
@@ -57,6 +71,11 @@ class HomeMaterias {
 	
 	def eliminarMateria(Materia materia) {
 		materias.remove(doGetMateria(materia))
+	}
+	
+	def agregarMateria(Materia materia) {
+		materias.add(materia)
+		println("Ahora materias tiene:" + materias)
 	}
 
 }

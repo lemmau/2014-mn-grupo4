@@ -1,23 +1,15 @@
 package com.dds.grupo4.appModel
 
-import java.util.List
-import java.util.ArrayList
-
 import com.dds.grupo4.domain.Materia
 import com.dds.grupo4.domain.Nota
-import com.dds.grupo4.home.HomeMaterias
-
-//import java.util.Date
-import java.util.Calendar
-
+import java.util.ArrayList
+import java.util.List
 import org.uqbar.commons.utils.Observable
-import org.uqbar.commons.model.ObservableUtils
+import com.dds.grupo4.home.HomeMaterias
 
 @Observable
 class SeguidorDeCarreraAppModel {
 
-//	Calendar c = Calendar.getInstance();
-//	val anioActual = Integer.toString(c.get(Calendar.YEAR));
 	
 	List<Materia> materias
 	List<Nota> notas
@@ -30,10 +22,13 @@ class SeguidorDeCarreraAppModel {
 	}
 		 
 	 def List<Materia> getMaterias(){
-	 	materias
+	 	HomeMaterias.getInstance.materias
 	 }
 	 
 	 def List<Nota> getNotas(){
+	 	if(materiaSeleccionada != null)
+	 		notas = materiaSeleccionada.notas
+
 	 	notas
 	 }	 
 	 
@@ -46,7 +41,9 @@ class SeguidorDeCarreraAppModel {
 	 }
 	
 	def getMateriasPosibles() {
-		#[ "Matematica Discreta", "Ingenieria y Sociedad", "Sistemas y Organizaciones", "Algoritmos y Estructura de Datos", "Ingles I"	]
+		materias
+		//#[ "Matematica Discreta", "Ingenieria y Sociedad", "Sistemas y Organizaciones", "Algoritmos y Estructura de Datos", "Ingles I"	]
+		
 	}
 
 //	def getMateriasPosibles() {
@@ -64,7 +61,7 @@ class SeguidorDeCarreraAppModel {
 	// ********************************************************
 	def void search() { 
 		// WORKAROUND para que refresque la grilla en las actualizaciones
-		notas = new ArrayList<Nota>
+		//notas = new ArrayList<Nota>
 
 		// FIN WORKAROUND
 //		resultados = getHomeCelulares().search(numero, nombre)

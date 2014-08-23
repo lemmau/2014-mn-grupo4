@@ -1,6 +1,5 @@
 package com.dds.grupo4.domain
 
-import java.util.Date
 
 import org.uqbar.commons.utils.Observable
 
@@ -8,7 +7,7 @@ import org.uqbar.commons.utils.Observable
 class Nota {
 	@Property String fecha
 	@Property String descripcion
-	@Property Boolean Aprobado
+	@Property Boolean aprobado
 	
 	new(String fecha, String descripcion, Boolean aprobado){
 		this.fecha = fecha 
@@ -16,19 +15,20 @@ class Nota {
 		this.aprobado = aprobado
 	}
 	
+	new() {
+		
+	}
+	
 	def String getFecha(){
-		fecha
+		_fecha
 	}
 	
 	def String getDescripcion(){
-		descripcion
+		_descripcion
 	}
 	
 	def Boolean getAprobado(){
-		aprobado
+		_aprobado
 	}
-	
-//	def void setFecha(Date fecha) {
-//		this._fecha = fecha
-//	}
+
 }

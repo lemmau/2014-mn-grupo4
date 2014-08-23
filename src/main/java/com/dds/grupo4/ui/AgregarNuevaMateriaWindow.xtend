@@ -1,7 +1,6 @@
 package com.dds.grupo4.ui
 
 import com.dds.grupo4.domain.Materia
-
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
@@ -11,7 +10,7 @@ import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
 import com.dds.grupo4.home.HomeMaterias
 
-abstract class AgregarNuevaMateriaWindow extends Dialog<Materia> {
+class AgregarNuevaMateriaWindow extends Dialog<Materia> {
 
 	new(WindowOwner owner, Materia model) {
 		super(owner, model)
@@ -28,10 +27,10 @@ abstract class AgregarNuevaMateriaWindow extends Dialog<Materia> {
 		txtDescripcion.width = 100
 		txtDescripcion.bindValueToProperty("nombre")
 
-		this.addFormPanel(form)
+		//this.addFormPanel(form)
 	}
 
-	abstract def void addFormPanel(Panel panel)
+	//def void addFormPanel(Panel panel){}
 
 	override protected void addActions(Panel actions) {
 		new Button(actions)
@@ -48,7 +47,7 @@ abstract class AgregarNuevaMateriaWindow extends Dialog<Materia> {
 		/** MUY IMPORTANTE, primero hay que actualizar el abonado y luego, hacer super.accept
 		 * para que capture los errores y refresque la grilla
 		 */
-//		HomeMaterias.instance.actualizarMaterias(this.modelObject)
+		HomeMaterias.instance.agregarMateria(this.modelObject)
 		super.accept
 	}
 
@@ -61,7 +60,6 @@ class EditarWindow extends AgregarNuevaMateriaWindow {
 		this.title = "Nueva Materia"
 	}
 
-	override addFormPanel(Panel panel) {
-	}
+	//override addFormPanel(Panel panel) {}
 }
 

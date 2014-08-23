@@ -1,6 +1,8 @@
 package com.dds.grupo4.domain
 
 import org.uqbar.commons.utils.Observable
+import java.util.List
+import java.util.ArrayList
 
 @Observable
 class Materia {
@@ -9,33 +11,43 @@ class Materia {
 	@Property Integer anioCursada
 	@Property String profesor
 	@Property Boolean finalAprobado
+	@Property List<Nota> notas
 
+	new() {}
+	
 	new(String nombre, String ubicacion, Integer anioCursada, String profesor, Boolean finalAprobado  ){
 		this.nombre = nombre
 		this.ubicacion = ubicacion
 		this.anioCursada = anioCursada
 		this.profesor = profesor
 		this.finalAprobado = finalAprobado
+		notas = new ArrayList<Nota>
 	}
 	
+	new(String nombre) {
+		this.nombre = nombre
+	}
+	
+
+
 	def String getNombre(){
-		nombre
+		_nombre
 	}
 	
 	def String getUbicacion(){
-		ubicacion
+		_ubicacion
 	}
 
 	def Integer getAnioCursada(){
-		anioCursada
+		_anioCursada
 	}
 	
 	def String getProfesor(){
-		profesor
+		_profesor
 	}
 
 	def Boolean getFinalAprobado(){
-		finalAprobado
+		_finalAprobado
 	}
 		
 	def copy() {
@@ -49,6 +61,10 @@ class Materia {
 		anioCursada = null
 		profesor = null
 		finalAprobado = null
+		notas = new ArrayList<Nota>
 	}
-	
+
+	override toString(){
+		_nombre
+	}
 }
