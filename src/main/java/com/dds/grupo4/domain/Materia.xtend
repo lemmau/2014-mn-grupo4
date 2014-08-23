@@ -13,8 +13,10 @@ class Materia {
 	@Property Boolean finalAprobado
 	@Property List<Nota> notas
 
-	new() {}
-	
+	new() {
+		this("default")
+	}
+
 	new(String nombre, String ubicacion, Integer anioCursada, String profesor, Boolean finalAprobado  ){
 		this.nombre = nombre
 		this.ubicacion = ubicacion

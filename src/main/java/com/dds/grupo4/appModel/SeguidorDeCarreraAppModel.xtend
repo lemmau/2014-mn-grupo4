@@ -53,11 +53,16 @@ class SeguidorDeCarreraAppModel {
 		//notas = new ArrayList<Nota>
 		// FIN WORKAROUND
 		//		resultados = getHomeCelulares().search(numero, nombre)
-		// también se puede llamar homeCelulares.search(numero, nombre) 
+		// también se puede llamar homeCelulares.search(numero, nombre)
+		buscar()
 	}
 
 	def void buscar() {
+		materias = new ArrayList<Materia>
+		notas = new ArrayList<Nota>
+
 		materias = HomeMaterias.instance.materias
+		materiaSeleccionada=materias.get(materias.size-1)
 		if (materiaSeleccionada != null)
 			notas = materiaSeleccionada.notas
 	}

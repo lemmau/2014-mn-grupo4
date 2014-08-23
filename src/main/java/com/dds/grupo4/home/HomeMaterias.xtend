@@ -43,10 +43,6 @@ class HomeMaterias {
 		doGetMateria(materia).copy 
 	}
 
-//	def List<Materia> getMaterias() {
-//		_materias
-//	}
-
 	/** Genero una copia de los objetos para no actualizar el que referencia el home **/
 //	def List<Abonado> getAbonados(BusquedaAbonados busquedaAbonados) {
 //		val copiaDeAbonados = abonados.map [ it.copy ]

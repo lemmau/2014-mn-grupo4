@@ -1,7 +1,6 @@
 package com.dds.grupo4.ui
 
 import com.dds.grupo4.appModel.SeguidorDeCarreraAppModel
-import com.dds.grupo4.domain.Materia
 import com.dds.grupo4.domain.Nota
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.ColumnLayout
@@ -27,6 +26,7 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 	new(WindowOwner owner, SeguidorDeCarreraAppModel appModel) {
 		super(owner, appModel)
+		modelObject.buscar()
 	}
 
 	override def createMainTemplate(Panel mainPanel) {
@@ -36,8 +36,6 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		super.createMainTemplate(mainPanel)
 
-		this.createResultsGrid(mainPanel)
-		this.createGridActions(mainPanel)
 	}
 
 
@@ -55,38 +53,38 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		val panelIzq = new Panel(subPanel)
 		val panelDer = new Panel(subPanel)
-		panelDer.setLayout(new ColumnLayout(2))
 
 		new Label(panelIzq).setText("Materias")
 
 		new List(panelIzq) => [
 			allowNull(false)
-			//val binding = bindItemsToProperty("materiasPosibles")
-			//bindItemsToProperty("materias")
-			//binding.setAdapter(new PropertyAdapter(typeof(ContenidoMaterias), "nombre"))
-			bindItems(new ObservableProperty(homeMaterias, "materias"))
+			setHeigth(300)
+			bindItems(new ObservableProperty(modelObject, "materias"))
 			bindValueToProperty("materiaSeleccionada")
 		]
 
 		new TextBox(panelDer).setWidth(200).bindValueToProperty("materiaSeleccionada")
-		new Label(panelDer).setText("")
 
-		new Label(panelDer).setText("Año cursada:")
+		val subPanelDer = new Panel(panelDer)
+		subPanelDer.setLayout(new ColumnLayout(2))
 
-		new TextBox(panelDer).setWidth(50)
+		new Label(subPanelDer).setText("Año cursada:")
+		new TextBox(subPanelDer).setWidth(50)
 			.bindValueToProperty("materiaSeleccionada.anioCursada")
 
-		new Label(panelDer).setText("Final Aprobado")
-		new CheckBox(panelDer).bindValueToProperty("materiaSeleccionada.finalAprobado")
+		new Label(subPanelDer).setText("Final Aprobado")
+		new CheckBox(subPanelDer).bindValueToProperty("materiaSeleccionada.finalAprobado")
 
-		new Label(panelDer).setText("Ubicacion Materia")
-		new Selector(panelDer) => [
+		new Label(subPanelDer).setText("Ubicacion Materia")
+		new Selector(subPanelDer) => [
 			allowNull = false
 			bindItemsToProperty("tiposDeUbicacion")
 		//			bindValueToProperty("ubicacion")
 		//			bindValue(new ObservableProperty(this.modelObject, "ubicacion"))
 		]
 
+		this.createResultsGrid(panelDer)
+		this.createGridActions(panelDer)
 	}
 
 	def protected createResultsGrid(Panel mainPanel) {
@@ -152,21 +150,22 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 	}
 
 	// ********************************************************
-	// ** Acciones
+	// ** Acciones asociadas a la pantalla principal
 	// ********************************************************
 	override protected addActions(Panel mainPanel) {
 
 		var actionsPanel = new Panel(mainPanel)
 		actionsPanel.setLayout(new HorizontalLayout)
-
-		new Button(actionsPanel).setCaption("Nueva Materia")
-//				.onClick [ | this.modelObject.AgregarNuevaMateria ]
-		.onClick[|this.agregarNuevaMateria]
+		
+		new Button(actionsPanel) //
+			.setCaption("Nueva Materia")
+			.onClick [ | this.agregarNuevaMateria ]
 	}
 
 	def void agregarNuevaMateria() {
-		this.openDialog(new AgregarNuevaMateriaWindow(this, new Materia))
+		this.openDialog(new AgregarNuevaMateriaWindow(this))
 	}
+
 
 	def openDialog(Dialog<?> dialog) {
 		dialog.onAccept[|modelObject.buscar]
