@@ -16,7 +16,6 @@ class HomeMaterias {
 	private new() {
 		materias = new ArrayList<Materia>
 		inicializarMaterias
-		//materias = #[ new Materia("Matematica Discreta"), new Materia("Ingenieria y Sociedad"), new Materia("Sistemas y Organizaciones"), new Materia("Algoritmos y Estructura de Datos"), new Materia("Ingles I")	]
 	}
 
 	def inicializarMaterias(){

@@ -6,6 +6,7 @@ import java.util.ArrayList
 import java.util.List
 import org.uqbar.commons.utils.Observable
 import com.dds.grupo4.home.HomeMaterias
+import org.uqbar.commons.model.ObservableUtils
 
 @Observable
 class SeguidorDeCarreraAppModel {
@@ -33,8 +34,11 @@ class SeguidorDeCarreraAppModel {
 	}
 
 	def agregarNota(Nota nota) {
-		if (materiaSeleccionada != null)
+		if (materiaSeleccionada != null) {
 			materiaSeleccionada.agregarNota(nota)
+			notas = materiaSeleccionada.notas
+			//ObservableUtils.firePropertyChanged(this, "notas", notas)
+		}
 	}
 
 	def eliminarNota(Nota nota) {

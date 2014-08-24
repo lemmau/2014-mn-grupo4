@@ -32,7 +32,8 @@ class Materia {
 	
 	new(String nombre, Integer anioCursada, Boolean finalAprobado) {
 		this(nombre, "", anioCursada, "profesor X", finalAprobado)
-		_notas.add(new Nota("a","b", true ))
+		//Solo para probar
+		agregarNota(new Nota("a","TP", true ))
 	}
 
 	def String getNombre(){
@@ -66,13 +67,14 @@ class Materia {
 		anioCursada = null
 		profesor = null
 		finalAprobado = null
-		notas = new ArrayList<Nota>
+		notas.clear
 	}
 
 	override toString(){
 		_nombre
 	}
-	
+
+
 	def agregarNota(Nota nota) {
 		notas.add(nota)
 	}

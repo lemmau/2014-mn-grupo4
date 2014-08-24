@@ -16,7 +16,7 @@ class Nota {
 	}
 	
 	new() {
-		
+		this("","",false)
 	}
 	
 	def String getFecha(){

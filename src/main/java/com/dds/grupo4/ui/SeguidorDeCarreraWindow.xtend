@@ -141,13 +141,14 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		new Button(actionsPanel)
 				.setCaption("+")
-				.onClick[|this.openDialog(new EditarNotaWindow(this, new Nota))]
+				//.onClick[|this.openDialog(new EditarNotaWindow(this, new Nota))]
+				.onClick[|this.agregarNuevaNota]
 				.setWidth(50)
 				//.bindEnabled(elementSelected)
 
 		new Button(actionsPanel)
 				.setCaption("-")
-				.onClick[| ]
+				.onClick[| modelObject.eliminarNota(modelObject.notaSeleccionada) ]
 				.setWidth(50)
 				.bindEnabled(elementSelected)
 
@@ -170,6 +171,12 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		this.openDialog(new AgregarNuevaMateriaWindow(this))
 	}
 
+	def void agregarNuevaNota() {
+		val nuevaNota = new Nota
+		val dialog = new EditarNotaWindow(this, nuevaNota)
+		dialog.onAccept(|modelObject.agregarNota(nuevaNota))
+		dialog.open
+	}
 
 	def openDialog(Dialog<?> dialog) {
 		dialog.onAccept[|modelObject.buscar]
