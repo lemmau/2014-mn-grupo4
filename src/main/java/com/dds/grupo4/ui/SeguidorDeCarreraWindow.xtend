@@ -75,6 +75,11 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		new Label(subPanelDer).setText("Final Aprobado")
 		new CheckBox(subPanelDer).bindValueToProperty("materiaSeleccionada.finalAprobado")
 
+		new Label(subPanelDer).setText("Profesor de cursada")
+		val textBoxProfesor = new TextBox(subPanelDer)
+		textBoxProfesor.width = 105
+		textBoxProfesor.bindValueToProperty("materiaSeleccionada.profesor")
+		
 		new Label(subPanelDer).setText("Ubicacion Materia")
 		new Selector(subPanelDer) => [
 			allowNull = false
