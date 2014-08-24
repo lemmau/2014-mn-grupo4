@@ -14,6 +14,7 @@ class AgregarNuevaMateriaWindow extends Dialog<Materia> {
 
 	new(WindowOwner owner) {
 		super(owner, new Materia)
+		this.title = "Nueva Materia"
 		this.delegate.setErrorViewer(this)
 	}
 
