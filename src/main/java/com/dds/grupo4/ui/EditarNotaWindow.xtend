@@ -20,13 +20,14 @@ class EditarNotaWindow extends Dialog<Nota> {
 	override protected createFormPanel(Panel mainPanel) {
 		val form = new Panel(mainPanel)
 		form.layout = new ColumnLayout(2)
+
 		new Label(form).text = "Fecha: "
-		new TextBox(form).bindValueToProperty("fecha")
+		new TextBox(form).setWidth(100).bindValueToProperty("fecha")
 
 		new Label(form).text = "Descripción: "
-		val txtDescripcion = new TextBox(form)
-		txtDescripcion.width = 100
-		txtDescripcion.bindValueToProperty("descripcion")
+		new TextBox(form)
+			.setWidth(100)
+			.bindValueToProperty("descripcion")
 
 		new Label(form).text = "Aprobado: "
 		new CheckBox(form).bindValueToProperty("aprobado")

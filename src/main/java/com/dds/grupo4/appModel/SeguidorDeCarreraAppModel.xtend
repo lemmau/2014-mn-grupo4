@@ -20,12 +20,13 @@ class SeguidorDeCarreraAppModel {
 		notas = new ArrayList<Nota>
 	}
 
-	def List<Nota> getNotas() {
-		if (materiaSeleccionada != null)
-			notas = materiaSeleccionada.notas
+//	def List<Nota> getNotas() {
+//		if (materiaSeleccionada != null)
+//			notas = materiaSeleccionada.notas
+//
+//		notas
+//	}
 
-		notas
-	}
 
 	def agregarMateria(Materia materia) {
 		HomeMaterias.getInstance.agregarMateria(materia)
@@ -54,7 +55,7 @@ class SeguidorDeCarreraAppModel {
 		// FIN WORKAROUND
 		//		resultados = getHomeCelulares().search(numero, nombre)
 		// también se puede llamar homeCelulares.search(numero, nombre)
-		buscar()
+		//buscar()
 	}
 
 	def void buscar() {
@@ -62,9 +63,11 @@ class SeguidorDeCarreraAppModel {
 		notas = new ArrayList<Nota>
 
 		materias = HomeMaterias.instance.materias
-		materiaSeleccionada=materias.get(materias.size-1)
-		if (materiaSeleccionada != null)
+
+		if (materiaSeleccionada == null) {
+			materiaSeleccionada=materias.get(materias.size-1)
 			notas = materiaSeleccionada.notas
+		}
 	}
 
 }

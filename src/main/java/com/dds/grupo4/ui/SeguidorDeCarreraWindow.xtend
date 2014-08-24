@@ -58,12 +58,12 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		new List(panelIzq) => [
 			allowNull(false)
-			setHeigth(300)
+			setHeigth(400)
 			bindItems(new ObservableProperty(modelObject, "materias"))
 			bindValueToProperty("materiaSeleccionada")
 		]
 
-		new TextBox(panelDer).setWidth(200).bindValueToProperty("materiaSeleccionada")
+		new Label(panelDer).setWidth(200).bindValueToProperty("materiaSeleccionada")
 
 		val subPanelDer = new Panel(panelDer)
 		subPanelDer.setLayout(new ColumnLayout(2))
@@ -93,7 +93,8 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		var elementSelected = new NotNullObservable("materiaSeleccionada")
 		tablaNotas.bindEnabled(elementSelected)
 
-		tablaNotas.bindItemsToProperty("materiaSeleccionada.notas")
+		//tablaNotas.bindItemsToProperty("materiaSeleccionada.notas")
+		tablaNotas.bindItems(new ObservableProperty(modelObject, "materiaSeleccionada.notas"))
 		tablaNotas.bindValueToProperty("notaSeleccionada")
 		tablaNotas.setHeigth(200)
 		tablaNotas.setWidth(450)
@@ -130,23 +131,26 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		var actionsPanel = new Panel(mainPanel)
 		actionsPanel.setLayout(new HorizontalLayout)
 
-		var edit = new Button(actionsPanel)
+		// Deshabilitar los botones si no hay ningún elemento seleccionado en la grilla.
+		var elementSelected = new NotNullObservable("notaSeleccionada")
+
+		new Button(actionsPanel)
 				.setCaption("Editar")
 				.onClick[|this.openDialog(new EditarNotaWindow(this, modelObject.notaSeleccionada))]
+				.bindEnabled(elementSelected)
 
 		new Button(actionsPanel)
 				.setCaption("+")
 				.onClick[|this.openDialog(new EditarNotaWindow(this, new Nota))]
+				.setWidth(50)
+				//.bindEnabled(elementSelected)
 
-		var remove = new Button(actionsPanel)
+		new Button(actionsPanel)
 				.setCaption("-")
 				.onClick[| ]
+				.setWidth(50)
+				.bindEnabled(elementSelected)
 
-		// Deshabilitar los botones si no hay ningún elemento seleccionado en la grilla.
-		var elementSelected = new NotNullObservable("notaSeleccionada")
-		remove.bindEnabled(elementSelected)
-		//add.bindEnabled(elementSelected)
-		edit.bindEnabled(elementSelected)
 	}
 
 	// ********************************************************
@@ -156,7 +160,7 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		var actionsPanel = new Panel(mainPanel)
 		actionsPanel.setLayout(new HorizontalLayout)
-		
+
 		new Button(actionsPanel) //
 			.setCaption("Nueva Materia")
 			.onClick [ | this.agregarNuevaMateria ]
