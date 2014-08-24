@@ -88,6 +88,8 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		//			bindValue(new ObservableProperty(this.modelObject, "ubicacion"))
 		]
 
+		new Label(subPanelDer).setText("Notas de cursada")
+		
 		this.createResultsGrid(panelDer)
 		this.createGridActions(panelDer)
 	}
