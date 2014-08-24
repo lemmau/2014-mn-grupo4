@@ -29,6 +29,14 @@ class SeguidorDeCarreraAppModel {
 //	}
 
 
+	def setMateriaSeleccionada(Materia materia) {
+		if(materia != null){
+			_materiaSeleccionada = materia
+			_notas = materia.notas
+			ObservableUtils.firePropertyChanged(this, "notas", materia.notas)
+		}
+	}
+
 	def agregarMateria(Materia materia) {
 		HomeMaterias.getInstance.agregarMateria(materia)
 	}
@@ -36,8 +44,8 @@ class SeguidorDeCarreraAppModel {
 	def agregarNota(Nota nota) {
 		if (materiaSeleccionada != null) {
 			materiaSeleccionada.agregarNota(nota)
-			notas = materiaSeleccionada.notas
-			//ObservableUtils.firePropertyChanged(this, "notas", notas)
+			_notas = materiaSeleccionada.notas
+			//ObservableUtils.firePropertyChanged(this, "materiaSeleccionada.notas", materiaSeleccionada.notas)
 		}
 	}
 
@@ -55,11 +63,12 @@ class SeguidorDeCarreraAppModel {
 	// ********************************************************
 	def void search() {
 		// WORKAROUND para que refresque la grilla en las actualizaciones
-		//notas = new ArrayList<Nota>
+		notas = new ArrayList<Nota>
 		// FIN WORKAROUND
-		//		resultados = getHomeCelulares().search(numero, nombre)
+		
+		materias = HomeMaterias.instance.materias
+		notas = materiaSeleccionada.notas
 		// también se puede llamar homeCelulares.search(numero, nombre)
-		//buscar()
 	}
 
 	def void buscar() {

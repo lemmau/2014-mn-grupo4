@@ -94,7 +94,8 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		tablaNotas.bindEnabled(elementSelected)
 
 		//tablaNotas.bindItemsToProperty("materiaSeleccionada.notas")
-		tablaNotas.bindItems(new ObservableProperty(modelObject, "materiaSeleccionada.notas"))
+		//tablaNotas.bindItems(new ObservableProperty(modelObject, "materiaSeleccionada.notas"))
+		tablaNotas.bindItems(new ObservableProperty(modelObject, "notas"))
 		tablaNotas.bindValueToProperty("notaSeleccionada")
 		tablaNotas.setHeigth(200)
 		tablaNotas.setWidth(450)
@@ -148,7 +149,8 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 
 		new Button(actionsPanel)
 				.setCaption("-")
-				.onClick[| modelObject.eliminarNota(modelObject.notaSeleccionada) ]
+				//.onClick[| modelObject.eliminarNota(modelObject.notaSeleccionada) ]
+				.onClick[| this.eliminarNota() ]
 				.setWidth(50)
 				.bindEnabled(elementSelected)
 
@@ -176,11 +178,18 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		val dialog = new EditarNotaWindow(this, nuevaNota)
 		dialog.onAccept(|modelObject.agregarNota(nuevaNota))
 		dialog.open
+		modelObject.search
+	}
+
+	def void eliminarNota() {
+		modelObject.eliminarNota(modelObject.notaSeleccionada)
+		modelObject.search
 	}
 
 	def openDialog(Dialog<?> dialog) {
 		dialog.onAccept[|modelObject.buscar]
 		dialog.open
+		modelObject.search
 	}
 	
 	def getHomeMaterias() {
