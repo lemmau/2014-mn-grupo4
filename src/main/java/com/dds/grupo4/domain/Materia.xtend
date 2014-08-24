@@ -14,7 +14,7 @@ class Materia {
 	@Property List<Nota> notas
 
 	new() {
-		this("default")
+		this("")
 	}
 
 	new(String nombre, String ubicacion, Integer anioCursada, String profesor, Boolean finalAprobado  ){

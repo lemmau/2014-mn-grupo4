@@ -56,3 +56,16 @@ class EditarNotaWindow extends Dialog<Nota> {
 
 
 
+class CrearNotaWindow extends EditarNotaWindow {
+	
+	new(WindowOwner owner) {
+		super(owner, new Nota)
+	}
+
+//	override def executeTask() {
+//		homeCelulares.create(modelObject)
+//		super.executeTask()
+//	}
+
+}
+
