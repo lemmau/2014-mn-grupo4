@@ -14,6 +14,7 @@ class EditarNotaWindow extends Dialog<Nota> {
 
 	new(WindowOwner owner, Nota model) {
 		super(owner, model)
+		this.title = "Editar Nota"
 		this.delegate.setErrorViewer(this)
 	}
 
