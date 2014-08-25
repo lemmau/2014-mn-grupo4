@@ -9,6 +9,7 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.widgets.CheckBox
+import org.uqbar.arena.bindings.DateAdapter
 
 class EditarNotaWindow extends Dialog<Nota> {
 
@@ -23,7 +24,12 @@ class EditarNotaWindow extends Dialog<Nota> {
 		form.layout = new ColumnLayout(2)
 
 		new Label(form).text = "Fecha: "
-		new TextBox(form).setWidth(100).bindValueToProperty("fecha")
+		val textBoxFecha = new TextBox(form)
+		textBoxFecha
+			.withFilter(new DateTextFilter)
+			.setWidth(100)
+			.bindValueToProperty("fecha")
+			.setTransformer(new DateAdapter)
 
 		new Label(form).text = "Descripción: "
 		new TextBox(form)

@@ -2,7 +2,10 @@ package com.dds.grupo4.ui
 
 import com.dds.grupo4.appModel.SeguidorDeCarreraAppModel
 import com.dds.grupo4.domain.Nota
+import com.dds.grupo4.home.HomeMaterias
+import java.text.SimpleDateFormat
 import org.uqbar.arena.bindings.NotNullObservable
+import org.uqbar.arena.bindings.ObservableProperty
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.widgets.Button
@@ -18,8 +21,6 @@ import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.commons.utils.Observable
-import com.dds.grupo4.home.HomeMaterias
-import org.uqbar.arena.bindings.ObservableProperty
 
 @Observable
 class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
@@ -121,7 +122,8 @@ class SeguidorDeCarreraWindow extends SimpleWindow<SeguidorDeCarreraAppModel> {
 		new Column<Nota>(tableNotas)
 			.setTitle("Fecha")
 			.setFixedSize(150)
-			.bindContentsToProperty("fecha")
+			//.bindContentsToProperty("fecha")
+			.bindContentsToTransformer([nota|new SimpleDateFormat("dd/MM/yyyy").format(nota.fecha)])
 
 		new Column<Nota>(tableNotas)
 			.setTitle("Descripcion")

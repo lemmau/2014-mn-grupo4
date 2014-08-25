@@ -4,6 +4,7 @@ import org.uqbar.commons.utils.Observable
 import java.util.List
 import java.util.ArrayList
 
+
 @Observable
 class Materia {
 	@Property String nombre
@@ -33,7 +34,7 @@ class Materia {
 	new(String nombre, Integer anioCursada, Boolean finalAprobado) {
 		this(nombre, "", anioCursada, "profesor X", finalAprobado)
 		//Solo para probar
-		agregarNota(new Nota("a","TP", true ))
+		//agregarNota(new Nota(LocalDate.now, "TP", true ))
 	}
 
 	def String getNombre(){
