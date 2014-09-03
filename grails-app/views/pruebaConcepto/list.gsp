@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="layout" content="main" />
+	<meta name="layout" content="mainSeguidorDeCarrera" />
 </head>
 <body>
 	<div style="width: 90%; padding: 15pt;">
@@ -25,14 +25,15 @@
 						<form>
 							<div class="row">
   								<div class="col-md-6">
+  								<table><tr><td>
 									<label>Materia</label> 
 									<input type="text" name="materia" id="materia" class="form-control" placeholder="Contiene..." value="${materia?.nombre}"> 
-  								</div>
-  								<div class="col-md-6">
-									<label>Profesor</label> 
+  									</td><td>
+  									<label>Profesor</label> 
 									<input type="text" class="form-control" name="profesor" id="profesor" placeholder="Contiene..." value="${materia?.profesor}">
+									</td></tr></table>
   								</div>
-  								<div class="col-md-12">
+  								<div class="col-md-12" align="center">
 									<br />
 									<button type="submit" class="btn btn-primary">
 										<span class="glyphicon glyphicon-search"></span>
@@ -93,11 +94,7 @@
 			</div>
 			<div class="panel-group" id="accordion3">
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a class="accordion-toggle" data-toggle="collapse"
-							data-parent="#accordion3" href="#collapseThree">Acciones
-						</a>
-					</div>
+					<div class="panel-heading"> <b> Acciones </b></div>
 					<div id="collapseThree" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<g:link class="btn btn-primary" action="create">
