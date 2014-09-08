@@ -36,13 +36,13 @@ class Partido {
 		if(INSCRIPCION_CERRADA)
 			throw new InscripcionCerradaException("La inscripción a este partido esta cerrada")
 
-		val Integer posicion = this.inscripciones.indexOf(
-			this.inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
+		val Integer posicion = _inscripciones.indexOf(
+			_inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
 
 		if (-1 == posicion)
-			this.inscripciones.add(new Inscripcion(nuevoInteresado))
+			_inscripciones.add(new Inscripcion(nuevoInteresado))
 		else
-			this.inscripciones.add(posicion, new Inscripcion(nuevoInteresado))
+			_inscripciones.add(posicion, new Inscripcion(nuevoInteresado))
 
 	}
 

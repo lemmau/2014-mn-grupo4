@@ -52,9 +52,10 @@ class OrdenamientoTest {
 		jugadorEstandar4 = new Jugador("E", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 4)
 		jugadorEstandar5 = new Jugador("F", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 5)
 		jugadorEstandar6 = new Jugador("G", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 6)
-		jugadorEstandar7 = new Jugador("I", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 8)
-		jugadorEstandar9 = new Jugador("J", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 9)
-		jugadorEstandar10 = new Jugador("K", "Mulder", LocalDate.of(1979, 12, 15), new Estandar, 9)
+		jugadorEstandar7 = new Jugador("I", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 7)
+		jugadorEstandar8 = new Jugador("J", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 8)
+		jugadorEstandar9 = new Jugador("K", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 9)
+		jugadorEstandar10 = new Jugador("L", "Mulder", LocalDate.of(1979, 12, 15), new Estandar, 9)
 
 		jugadores = #[jugadorEstandar1, jugadorEstandar0, jugadorEstandar9, jugadorEstandar8, jugadorEstandar2
 			, jugadorEstandar3, jugadorEstandar6, jugadorEstandar4, jugadorEstandar5, jugadorEstandar7]
@@ -103,10 +104,11 @@ class OrdenamientoTest {
 
 		val esperado = #[1,2,3,4,5,6,7,8,9,10]
 		val handicapsOrdenados = ordenados.map[inscripcion | inscripcion.jugador.handicap]
-
+		//handicapsOrdenados.forEach[ins | System.out.println("oxh: " + ins)]
+		
 		Assert.assertEquals(esperado, handicapsOrdenados)
 	}
-	
+
 	@Test
 	def void verificarOrdenamientoxPromedio() {
 
