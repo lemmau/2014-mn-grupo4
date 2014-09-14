@@ -8,17 +8,15 @@ import com.dds.grupo4.excepciones.InscripcionCerradaException
 import com.dds.grupo4.excepciones.BusinessException
 import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.ordenamiento.CriterioOrden
+import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 
 class Partido {
 
 	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
 	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
-	//val private static INSCRIPCION_CERRADA = false;
 	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property LocalDateTime fechaInicio;
-
-	//@Property List<Interesado> interesados = new ArrayList;
 	@Property List<Inscripcion> inscripciones = new ArrayList;
 	@Property private Admin admin
 	@Property private String mail
@@ -34,7 +32,7 @@ class Partido {
 	def void inscribirA(Jugador nuevoInteresado) {
 
 		if(INSCRIPCION_CERRADA)
-			throw new InscripcionCerradaException("La inscripción a este partido esta cerrada")
+			throw new InscripcionCerradaException("La inscripcion a este partido esta cerrada")
 
 		val Integer posicion = _inscripciones.indexOf(
 			_inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
@@ -156,11 +154,11 @@ class Partido {
 		
 	}
 
-	def generarEquiposTentativos() {
+	def generarEquiposTentativos(DivisorDeEquipos criterio) {
 		// TODO en este metodo llamar a ordenamiento
 		// y a dividir equipos
 		validarInscripcion();
-		
+		criterio.dividirEnEquipos(ordenarJugadoresFinales());
 	}
 	
 	def void validarInscripcion(){
