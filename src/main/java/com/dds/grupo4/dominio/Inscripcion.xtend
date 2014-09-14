@@ -8,7 +8,7 @@ import com.dds.grupo4.excepciones.NoTieneCalificacionesException
 
 class Inscripcion {
 
-	val private static MAX_CALIFICACIONES_XPARTIDO = Integer.valueOf(9)
+	val private static MAX_CALIFICACIONES_XPARTIDO = 9
 	@Property private Jugador jugador
 	@Property List<Calificacion> calificaciones = new ArrayList;
 
