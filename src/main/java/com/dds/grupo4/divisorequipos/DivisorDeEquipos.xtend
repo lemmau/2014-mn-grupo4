@@ -4,7 +4,6 @@ import java.util.List
 
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.dominio.Inscripcion
-import com.dds.grupo4.dominio.Jugador
 
 abstract class DivisorDeEquipos {
 	
@@ -14,11 +13,11 @@ abstract class DivisorDeEquipos {
 		this.partido = partido
 	}
 	
-	def void dividirEnEquipos(){
-		val List<Inscripcion> interesados = partido.getInscripciones
+	def void dividirEnEquipos(List<Inscripcion> jugadores){
+		//val List<Inscripcion> interesados = partido.getInscripciones
 		
-		interesados.forEach [ interesado |
-			if (debeIrAlEquipoUno(interesado.jugador,interesados)) {
+		jugadores.forEach [ interesado |
+			if (debeIrAlEquipoUno(interesado, jugadores)) {
 				partido.agregarJugadorEquipoA(interesado)
 			} else {
 				partido.agregarJugadorEquipoB(interesado)
@@ -26,7 +25,7 @@ abstract class DivisorDeEquipos {
 		]	
 	}
 	
-	def abstract Boolean debeIrAlEquipoUno(Jugador jugador,List<Inscripcion> interesados)
+	def abstract Boolean debeIrAlEquipoUno(Inscripcion jugador,List<Inscripcion> interesados)
 	
 	
 }

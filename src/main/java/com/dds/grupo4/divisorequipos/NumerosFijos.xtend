@@ -1,9 +1,8 @@
 package com.dds.grupo4.divisorequipos
 
-import java.util.List
-import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.dominio.Inscripcion
-import com.dds.grupo4.dominio.Jugador
+import com.dds.grupo4.dominio.Partido
+import java.util.List
 
 class NumerosFijos extends DivisorDeEquipos {
 
@@ -13,7 +12,7 @@ class NumerosFijos extends DivisorDeEquipos {
 		super(partido);
 	}
 
-	override Boolean debeIrAlEquipoUno(Jugador jugador, List<Inscripcion> interesados) {
+	override Boolean debeIrAlEquipoUno(Inscripcion jugador, List<Inscripcion> interesados) {
 		return NUMEROS_FIJOS.contains(interesados.indexOf(jugador))
 	}
 

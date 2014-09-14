@@ -1,9 +1,8 @@
 package com.dds.grupo4.divisorequipos
 
-import com.dds.grupo4.dominio.Partido
-import com.dds.grupo4.dominio.Jugador
-import java.util.List
 import com.dds.grupo4.dominio.Inscripcion
+import com.dds.grupo4.dominio.Partido
+import java.util.List
 
 class ParImpar extends DivisorDeEquipos {
 
@@ -15,7 +14,7 @@ class ParImpar extends DivisorDeEquipos {
 		return number % 2 == 0
 	}
 	
-	override debeIrAlEquipoUno(Jugador interesado,List<Inscripcion> interesados){
+	override debeIrAlEquipoUno(Inscripcion interesado,List<Inscripcion> interesados){
 		return isEven(interesados.indexOf(interesado))
 	}
 
