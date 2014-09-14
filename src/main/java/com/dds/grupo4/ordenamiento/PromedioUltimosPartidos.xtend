@@ -16,10 +16,6 @@ class PromedioUltimosPartidos extends CriterioOrden {
 		this.partidos = partidos
 		this.numeroCalificaciones = numeroPartidos
 	}
-	
-	new() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 
 	override obtenerValor(Inscripcion inscripcion) {
 		val Iterable<Partido> filtrado = partidos.filter[p | p.esUnInteresado(inscripcion.jugador)].take(numeroCalificaciones)
