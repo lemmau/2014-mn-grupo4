@@ -117,8 +117,10 @@ class OrdenamientoTest {
 
 		//ordenados.forEach[ins | System.out.println("oxp: " + ins.jugador.handicap)]
 
-		val esperado = #["A","I","H","G","F","E","D","C","B","J"]
+		//val esperado = #["A","I","H","G","F","E","D","C","B","J"]
+		val esperado = #["A","J","I","G","F","E","D","C","B","K"]
 		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+		//nombresOrdenados.forEach[ins | System.out.println("oxp: " + ins)]
 
 		Assert.assertEquals(esperado, nombresOrdenados)
 	}
@@ -131,8 +133,10 @@ class OrdenamientoTest {
 
 		//ordenados.forEach[ins | System.out.println("oxpnp: " + ins.jugador.nombre)]
 
-		val esperado = #["A","I","G","E","F","H","B","C","D","J"]
+		//val esperado = #["A","I","G","E","F","H","B","C","D","J"]
+		val esperado = #["A","J","G","E","F","I","B","C","D","K"]
 		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+		//nombresOrdenados.forEach[ins | System.out.println("oxpnp: " + ins)]
 
 		Assert.assertEquals(esperado, nombresOrdenados)
 	}
@@ -147,8 +151,11 @@ class OrdenamientoTest {
 
 		//ordenados.forEach[ins | System.out.println("oxcomb: " + ins.jugador.nombre)]
 		
-		val esperado = #["B","I","C","D","G","E","F","H","A","J"]
+		//val esperado = #["B","I","C","D","G","E","F","H","A","J"]
+		val esperado = #["B","J","C","D","G","E","F","I","A","K"]
 		val nombresOrdenados = ordenados.map[inscripcion | inscripcion.jugador.nombre]
+		//nombresOrdenados.forEach[ins | System.out.println("oxcomb: " + ins)]
+		
 		Assert.assertEquals(esperado, nombresOrdenados)
 
 	}
