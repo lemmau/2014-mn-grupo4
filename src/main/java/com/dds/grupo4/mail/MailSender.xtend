@@ -1,12 +1,7 @@
 package com.dds.grupo4.mail
 
-import com.dds.grupo4.dominio.Admin
+interface MailSender {
 
-class MailSender {
-	
-	def Boolean mandarMailA(Admin receptor,String mailEmisor){
-		receptor.recibirMail(mailEmisor)	
-		return true
-	}
-	
+	def void sendMail(Mail mail);
+
 }

@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import com.dds.grupo4.observadores.InscripcionAmigo
 
 class PartidoTest {
 
@@ -43,6 +44,7 @@ class PartidoTest {
 		adminJuan = new Admin("juan@gmail.com")
 		partido = new Partido(adminJuan)
 		partido.setFechaInicio(LocalDateTime.of(2014, 06, 12, 21, 00))
+		partido.agregarObservador(new InscripcionAmigo(partido, stubMailSender))
 
 		condicionInteresadoCondicional = [Partido partido|
 			partido.inscripciones.filter[inscripcion|inscripcion.jugador.edad > 22].size > 2]
@@ -59,7 +61,7 @@ class PartidoTest {
 		leanSolidario = new Jugador("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
 		pepeSolidario = new Jugador("Leandro", "Mauro",  LocalDate.of(1989, 02, 16), new Solidario)
 
-		diegoEstandar.messageSender = stubMailSender
+		//diegoEstandar.messageSender = stubMailSender
 	}
 
 	@Test
@@ -171,11 +173,12 @@ class PartidoTest {
 	@Test
 	def chequearEnvioDeMailsDeAmigos() {
 		diegoEstandar.agregarAmigo(leanSolidario)
-		diegoEstandar.mail = ("diego.anazonian@gmail.com")
+		diegoEstandar.mail = "diego.anazonian@gmail.com"
+		leanSolidario.mail = "lean@ddsutn.com"
 
 		diegoEstandar.inscribite(partido)
 
-		Assert.assertEquals(1, stubMailSender.mailsDe("diego.anazonian@gmail.com").size)
+		Assert.assertEquals(1, stubMailSender.mailsDe(diegoEstandar.mail).size)
 	}
 
 	@Test

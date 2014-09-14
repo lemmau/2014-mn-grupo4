@@ -9,6 +9,7 @@ import com.dds.grupo4.excepciones.BusinessException
 import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
+import com.dds.grupo4.observadores.InscripcionObserver
 
 class Partido {
 
@@ -17,19 +18,21 @@ class Partido {
 	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property LocalDateTime fechaInicio;
-	@Property List<Inscripcion> inscripciones = new ArrayList;
+	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin
-	@Property private String mail
+	//@Property private String mail
 	@Property List<Jugador> jugadoresDelPartido = new ArrayList
-	@Property List<Inscripcion> equipoA = new ArrayList;
-	@Property List<Inscripcion> equipoB = new ArrayList;
-	@Property List<CriterioOrden> criteriosOrden = new ArrayList;
+	@Property List<Inscripcion> equipoA = new ArrayList
+	@Property List<Inscripcion> equipoB = new ArrayList
+	@Property List<CriterioOrden> criteriosOrden = new ArrayList
+	@Property List<InscripcionObserver> observadores = new ArrayList
 
 	new(Admin admin) {
 		this.admin = admin
 	}
 
 	def void inscribirA(Jugador nuevoInteresado) {
+		val Inscripcion nuevaInscripcion = new Inscripcion(nuevoInteresado)
 
 		if(INSCRIPCION_CERRADA)
 			throw new InscripcionCerradaException("La inscripcion a este partido esta cerrada")
@@ -38,10 +41,19 @@ class Partido {
 			_inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
 
 		if (-1 == posicion)
-			_inscripciones.add(new Inscripcion(nuevoInteresado))
+			_inscripciones.add(nuevaInscripcion)
 		else
-			_inscripciones.add(posicion, new Inscripcion(nuevoInteresado))
+			_inscripciones.add(posicion, nuevaInscripcion)
 
+		notificarInscripcion(nuevaInscripcion)
+	}
+	
+	def notificarInscripcion(Inscripcion inscripcion) {
+		observadores.forEach[obs|obs.notificarNuevaInscripcion(inscripcion)]
+	}
+	
+	def notificarBajaInscripcion() {
+		observadores.forEach[obs|obs.notificarBajaInscripcion()]
 	}
 
 	def void inscribirTodos(List<Jugador> nuevosInteresados) {
@@ -90,11 +102,15 @@ class Partido {
 	def void darDeBajaA(Jugador interesado) {
 		quitarJugador(interesado)
 		interesado.agregarInfraccion("NO tiene reemplazante")
+		
+		notificarBajaInscripcion()
 	}
 
 	def void darDeBajaA(Jugador resagado, Jugador reemplazante) {
 		quitarJugador(resagado)
 		this.inscribirA(reemplazante)
+		
+		notificarBajaInscripcion()
 	}
 
 	def Inscripcion obtenerJugadorFinal(Jugador jugador) {
@@ -127,6 +143,7 @@ class Partido {
 		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
 	}
 
+	// ABM Criterios orden
 	def agregarCriterioOrdenamiento(CriterioOrden criterio) {
 		this.criteriosOrden.add(criterio)
 	}
@@ -139,9 +156,22 @@ class Partido {
 		this.criteriosOrden.clear
 	}
 
+	// ABM observadores
+	def agregarObservador(InscripcionObserver observador) {
+		observadores.add(observador)
+	}
+
+	def quitarObservador(InscripcionObserver observador) {
+		observadores.remove(observador)
+	}
+
+	def eliminarObservadores() {
+		observadores.clear
+	}
+
 	// TODO delegar esta responsabilidad a criteriosOrden
 	def ordenarJugadoresFinales() {
-		if ( 0.equals(this.criteriosOrden.size) )
+		if ( criteriosOrden.empty )
 			throw new FaltaDefinirCriterioDeOrdenException("Se debe agregar un criterio de orden antes de ordenar")
 
 		//this.criteriosOrden.forEach[criterio|criterio.ordenarJugadoresFinales(this)]

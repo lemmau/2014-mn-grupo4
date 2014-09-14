@@ -4,20 +4,20 @@ import java.util.HashMap
 import java.util.Set
 import java.util.HashSet
 import java.util.Map
-import com.dds.grupo4.mail.MessageSender
 import com.dds.grupo4.mail.Mail
+import com.dds.grupo4.mail.MailSender
 
-class StubMailSender implements MessageSender {
+class StubMailSender implements MailSender {
 
 	Map<String, Set<String>> mailsEnviados
 
-	override send(Mail mail) {
+	override sendMail(Mail mail) {
 		simularEnvioMail(mail.from, mail.message)
 		var StringBuffer buf = new StringBuffer
-		
+
 		buf.append("Simulación envío de mail | From: ").append(mail.from).append(" | To: ").append(mail.to).append(
 			" | Message: ").append(mail.message)
-			
+
 		println(buf.toString)
 	}
 
