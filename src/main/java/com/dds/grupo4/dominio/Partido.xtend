@@ -85,41 +85,37 @@ class Partido {
 		return jugadoresFinales.filter[inscripcion|inscripcion.jugador.equals(interesado)].size != 0
 	}
 
-	def Inscripcion obtenerInscripcion(Jugador interesado) {
-		this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
+	def Inscripcion obtenerInscripcion(Jugador jugador) {
+		obtenerInscripcion(jugador, inscripciones)
 	}
 
-	def Inscripcion quitarJugador(Jugador interesado) {
-		val Inscripcion inscripcion = this.inscripciones.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
-
-		if (null == inscripcion)
+	def Inscripcion obtenerInscripcion(Jugador interesado, List<Inscripcion> lista) {
+		val encontrado = lista.findFirst[inscripcion|inscripcion.jugador.equals(interesado)]
+		if( null == encontrado )
 			throw new NoEsJugadorDelPartidoException("El jugador no existe entre los inscriptos al partido")
 
-		this.inscripciones.remove(inscripcion)
-		return inscripcion
+		return encontrado
 	}
 
+	def quitarJugador(Jugador jugador) {
+		this.inscripciones.remove(obtenerInscripcion(jugador))
+	}
+
+	// TODO Logica repetida en estos 2 metodos
 	def void darDeBajaA(Jugador interesado) {
 		quitarJugador(interesado)
 		interesado.agregarInfraccion("NO tiene reemplazante")
-		
 		notificarBajaInscripcion()
 	}
 
 	def void darDeBajaA(Jugador resagado, Jugador reemplazante) {
 		quitarJugador(resagado)
 		this.inscribirA(reemplazante)
-		
 		notificarBajaInscripcion()
 	}
 
 	def Inscripcion obtenerJugadorFinal(Jugador jugador) {
-		val Inscripcion jugadorFinal = this.jugadoresFinales.findFirst[i|i.jugador.equals(jugador)]
-
-		if (null == jugadorFinal)
-			throw new NoEsJugadorDelPartidoException("Solo se puede calificar a jugadores del partido");
-
-		jugadorFinal
+		obtenerInscripcion(jugador, jugadoresFinales)
 	}
 
 	// TODO validar que un jugador no pueda calificar a otro más de una vez por partido
@@ -136,8 +132,8 @@ class Partido {
 	}
 
 	def Double promedioNCalificaciones(Jugador jugador, Integer ultimasN) {
-		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
-		jugadorFinal.promedioUltimasCalificaciones(ultimasN)
+		obtenerJugadorFinal(jugador)
+		.promedioUltimasCalificaciones(ultimasN)
 	}
 
 	// ABM Criterios orden
@@ -178,7 +174,6 @@ class Partido {
 			//this.criteriosOrden.fold(0D) [ result, criterio | result + criterio.obtenerValor(inscripcion) ]
 			]
 
-		
 	}
 
 	def generarEquiposTentativos(DivisorDeEquipos criterio) {
