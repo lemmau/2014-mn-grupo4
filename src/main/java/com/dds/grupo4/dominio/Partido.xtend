@@ -13,8 +13,8 @@ import com.dds.grupo4.observadores.InscripcionObserver
 
 class Partido {
 
-	val private static MIN_CANTIDAD_JUGADORES = Integer.valueOf(0)
-	val private static MAX_CANTIDAD_JUGADORES = Integer.valueOf(10)
+	val private static MIN_CANTIDAD_JUGADORES = 0
+	val private static MAX_CANTIDAD_JUGADORES = 10
 	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property LocalDateTime fechaInicio;
