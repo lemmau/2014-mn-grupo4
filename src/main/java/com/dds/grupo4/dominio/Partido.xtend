@@ -32,26 +32,23 @@ class Partido {
 	}
 
 	def void inscribirA(Jugador nuevoInteresado) {
-		val Inscripcion nuevaInscripcion = new Inscripcion(nuevoInteresado)
 
 		if(INSCRIPCION_CERRADA)
 			throw new InscripcionCerradaException("La inscripcion a este partido esta cerrada")
 
-		val Integer posicion = _inscripciones.indexOf(
-			_inscripciones.findFirst[inscripcion|inscripcion.jugador.getPrioridad > nuevoInteresado.getPrioridad])
+		val Inscripcion nuevaInscripcion = new Inscripcion(nuevoInteresado)
 
-		if (-1 == posicion)
-			_inscripciones.add(nuevaInscripcion)
-		else
-			_inscripciones.add(posicion, nuevaInscripcion)
+		this.inscripciones.add(nuevaInscripcion)
+
+		this.inscripciones = this.inscripciones.sortBy[inscripcion|inscripcion.jugador.getPrioridad]
 
 		notificarInscripcion(nuevaInscripcion)
 	}
-	
+
 	def notificarInscripcion(Inscripcion inscripcion) {
 		observadores.forEach[obs|obs.notificarNuevaInscripcion(inscripcion)]
 	}
-	
+
 	def notificarBajaInscripcion() {
 		observadores.forEach[obs|obs.notificarBajaInscripcion()]
 	}
