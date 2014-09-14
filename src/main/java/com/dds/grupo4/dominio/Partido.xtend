@@ -122,20 +122,17 @@ class Partido {
 		jugadorFinal
 	}
 
+	// TODO validar que un jugador no pueda calificar a otro más de una vez por partido
 	def void calificarA(Jugador jugador, Integer puntaje, String critica) {
-		val Inscripcion jugadorAcalificar = obtenerJugadorFinal(jugador)
-
-		jugadorAcalificar.calificar(puntaje, critica)
+		obtenerJugadorFinal(jugador).calificar(puntaje, critica)
 	}
 
 	def Integer cantidadCalificaciones(Jugador jugador) {
-		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
-		jugadorFinal.cantidadCalificaciones
+		obtenerJugadorFinal(jugador).cantidadCalificaciones
 	}
 
 	def Double promedioCalificaciones(Jugador jugador) {
-		val Inscripcion jugadorFinal = obtenerJugadorFinal(jugador)
-		jugadorFinal.promedioCalificaciones
+		obtenerJugadorFinal(jugador).promedioCalificaciones
 	}
 
 	def Double promedioNCalificaciones(Jugador jugador, Integer ultimasN) {

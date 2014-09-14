@@ -44,10 +44,6 @@ class JugadorTest {
 		Assert.assertEquals( typeof(Estandar), diegoEstandar.tipoDeInscripcion.class)
 	}
 
-	@Test
-	def verificarCantInfracciones() {
-		Assert.assertEquals(0, diegoEstandar.cantidadInfracciones)
-	}
 
 	@Test
 	def modificarTipoInscripcion() {

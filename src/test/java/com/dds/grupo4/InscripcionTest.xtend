@@ -35,14 +35,10 @@ class InscripcionTest {
 	}
 
 	@Test(expected=typeof(SuperaMaximoCalificacionesException))
-	def void verificarAgregarCalificacionDeMas() {
+	def void unJugadorNoPuedeTenerMasDeNueveCalificaciones() {
 		inscripcion.calificar(1, "No existis");
 	}
 
-	@Test
-	def void verificarCantCalificaciones() {
-		Assert.assertEquals(9, inscripcion.cantidadCalificaciones)
-	}
 
 	@Test
 	def void verificarSumaCalificaciones() {
