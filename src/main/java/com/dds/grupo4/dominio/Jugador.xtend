@@ -14,11 +14,13 @@ import java.util.Map
 
 class Jugador implements MessageSender {
 
-	@Property private String nombre;
-	@Property private String apellido;
+	@Property private Integer idJugador
+	@Property private String nombre
+	@Property private String apellido
+	@Property private String apodo
 	@Property private LocalDate fechaNacimiento
-	@Property private String mail;
-	@Property private Integer handicap;
+	@Property private String mail
+	@Property private Integer handicap
 	
 	@Property private List<Jugador> amigos = new ArrayList<Jugador>
 	@Property private TipoDeInscripcion tipoDeInscripcion
