@@ -4,7 +4,8 @@ import com.dds.grupo4.dominio.Partido
 
 class Condicional extends TipoDeInscripcion {
 	
-	Integer prioridad = 3
+	final Integer PRIORIDAD_CONDICIONAL = 3
+
 	(Partido) => Boolean condicionDelPartido;
 
 	new((Partido) => Boolean predicate){
@@ -16,7 +17,7 @@ class Condicional extends TipoDeInscripcion {
 	}
 	
 	override Integer getPrioridad(){
-		return this.prioridad
+		return PRIORIDAD_CONDICIONAL
 	}
 
 }
