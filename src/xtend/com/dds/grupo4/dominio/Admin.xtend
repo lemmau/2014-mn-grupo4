@@ -15,7 +15,9 @@ class Admin {
 	// TODO delegaria esta responsabilidad al MessageSender
 	@Property private Map<String, Integer> mailsRecibidos = new HashMap<String, Integer>
 
-	new(String mail) {
+	new(String nombre,String apellido,String mail) {
+		this.nombre = nombre
+		this.apellido = apellido
 		this.mail = mail
 	}
 

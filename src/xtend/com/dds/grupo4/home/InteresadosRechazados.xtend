@@ -4,7 +4,7 @@ import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Denegacion
 import java.util.List
 import java.util.ArrayList
-import java.time.LocalDateTime
+import org.joda.time.LocalDate
 
 class InteresadosRechazados {
 	
@@ -23,7 +23,7 @@ class InteresadosRechazados {
 	}
 
 	def void agregarRechazado(Jugador interesado, String motivo){
-		interesadosRechazados.add(new Denegacion(interesado, LocalDateTime.now, motivo))
+		interesadosRechazados.add(new Denegacion(interesado, LocalDate.now, motivo))
 	}
 
 }

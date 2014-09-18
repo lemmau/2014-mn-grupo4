@@ -1,13 +1,13 @@
 package com.dds.grupo4.dominio
 
-import java.time.LocalDateTime
+import org.joda.time.LocalDate
 
 class Infraccion {
 
 	@Property private String motivo
-	@Property private LocalDateTime fecha 
+	@Property private LocalDate fecha 
 
-	new(String motivo, LocalDateTime fecha) {
+	new(String motivo, LocalDate fecha) {
 		_motivo = motivo
 		_fecha = fecha
 	}

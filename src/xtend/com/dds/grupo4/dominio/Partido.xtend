@@ -1,6 +1,5 @@
 package com.dds.grupo4.dominio
 
-import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
 import com.dds.grupo4.excepciones.FaltaDefinirCriterioDeOrdenException
@@ -10,6 +9,7 @@ import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.observadores.InscripcionObserver
+import org.joda.time.LocalDate
 
 class Partido {
 
@@ -17,7 +17,8 @@ class Partido {
 	val private static MAX_CANTIDAD_JUGADORES = 10
 	private static boolean INSCRIPCION_CERRADA = false;
 
-	@Property LocalDateTime fechaInicio;
+	@Property Long id
+	@Property LocalDate fechaInicio;
 	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin
 	//@Property private String mail

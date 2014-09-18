@@ -3,15 +3,14 @@ package com.dds.grupo4.dominio
 import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
 
-import java.time.LocalDate
-import java.time.LocalDateTime
+
 import java.util.ArrayList
 import java.util.List
-
+import org.joda.time.LocalDate
 
 class Jugador {
 
-	@Property private Integer idJugador
+	@Property private Long id
 	@Property private String nombre
 	@Property private String apellido
 	@Property private String apodo
@@ -25,13 +24,14 @@ class Jugador {
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 
 
-	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
-		this(nombre, apellido, nacimiento, tipoDeInscripcion, 1)
+	new(String nombre, String apellido, String apodo, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+		this(nombre, apellido, apodo,  nacimiento, tipoDeInscripcion, 1)
 	}
 
-	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
+	new(String nombre, String apellido, String apodo, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
 		this.nombre = nombre
 		this.apellido = apellido
+		this.apodo = apodo
 		this.fechaNacimiento = nacimiento
 		this.tipoDeInscripcion = tipoDeInscripcion
 		setHandicap(handicap)
@@ -46,7 +46,8 @@ class Jugador {
 
 	def Integer edad(){
 		// TODO corregir esto! calcular bien la edad
-		LocalDate.now.year - fechaNacimiento.year
+		LocalDate.now.getYear - fechaNacimiento.getYear
+		//LocalDate.now.year - fechaNacimiento.year
 	}
 
 	def void inscribite(Partido partido) {
@@ -78,7 +79,7 @@ class Jugador {
 
 	// TODO La infraccion debe estar relacionada al partido?
 	def agregarInfraccion(String motivo) {
-		this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
+		this.infracciones.add(new Infraccion(motivo, LocalDate.now()))
 	}
 
 	def Integer cantidadInfracciones() {

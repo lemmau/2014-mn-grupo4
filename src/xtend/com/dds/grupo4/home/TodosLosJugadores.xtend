@@ -7,10 +7,29 @@ import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 
 class TodosLosJugadores {
-
+	
 	private List<Jugador> interesadosPendientes = new ArrayList<Jugador>
 	private List<Jugador> interesadosAceptados = new ArrayList<Jugador>
 	private InteresadosRechazados rechazados = new InteresadosRechazados
+	
+	
+		/** singleton **/
+	static TodosLosJugadores instance
+
+	private new() {
+		interesadosAceptados = new ArrayList<Jugador>
+		interesadosPendientes = new ArrayList<Jugador>
+	}
+
+	static def getInstance() {
+		if(instance == null) {
+			instance = new TodosLosJugadores()
+		}
+		instance
+	}
+
+	/** fin singleton **/
+	
 
 	def esUnInteresadoDelSistema(Jugador interesado) {
 		interesadosPendientes.contains(interesado)
@@ -57,12 +76,26 @@ class TodosLosJugadores {
 
 	def aceptarInteresado(Jugador interesado) {
 		eliminarInteresado(interesado)
+		interesado.id = new Long(this.ultimoIdUtilizado.longValue + 1)
 		interesadosAceptados.add(interesado)
 	}
-
+	
+	def ultimoIdUtilizado() {
+		
+		if (interesadosAceptados.isEmpty) {
+			return 1
+		}
+		return interesadosAceptados.sortBy [ -it.id ].toList.get(0).id.intValue
+	}
+	
+	
 	def rechazarInteresado(Jugador interesado, String motivo) {
 		eliminarInteresado(interesado)
 		rechazados.agregarRechazado(interesado, motivo)
+	}
+	
+		def getJugador(Long id) {
+		interesadosAceptados.findFirst[jugador|jugador.id.equals(id)]
 	}
 
 }

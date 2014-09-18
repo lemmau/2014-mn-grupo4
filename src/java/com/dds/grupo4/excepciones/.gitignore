@@ -1,0 +1,8 @@
+/.BusinessException.java._trace
+/.FaltaDefinirCriterioDeOrdenException.java._trace
+/.NoEsJugadorDelPartidoException.java._trace
+/.NoTieneCalificacionesException.java._trace
+/.HandicapFueraDeRangoException.java._trace
+/.InscripcionCerradaException.java._trace
+/.NoExisteJugadorPendienteException.java._trace
+/.SuperaMaximoCalificacionesException.java._trace
