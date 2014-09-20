@@ -17,6 +17,7 @@ class Partido {
 	val private static MAX_CANTIDAD_JUGADORES = 10
 	private static boolean INSCRIPCION_CERRADA = false;
 
+	@Property Long id
 	@Property LocalDateTime fechaInicio;
 	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin

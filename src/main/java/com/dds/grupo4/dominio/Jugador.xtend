@@ -11,7 +11,7 @@ import java.util.List
 
 class Jugador {
 
-	@Property private Integer idJugador
+	@Property private Long id
 	@Property private String nombre
 	@Property private String apellido
 	@Property private String apodo
