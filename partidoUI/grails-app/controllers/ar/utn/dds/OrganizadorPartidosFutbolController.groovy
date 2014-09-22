@@ -1,5 +1,6 @@
 package ar.utn.dds
 
+import grails.converters.JSON
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.home.Partidos
@@ -15,6 +16,7 @@ class OrganizadorPartidosFutbolController {
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
 	def index() {
+		render(view : "list")
 		redirect(action: "list", params: params)
 	}
 
@@ -23,14 +25,19 @@ class OrganizadorPartidosFutbolController {
 	//	}
 
 	def list(Integer max){
-
-		def partido = mapear(new Partido(), params)
-		def partidos = homePartidos.getPartidos()
-		[partidoInstanceList: partidos, partidoInstanceTotal: partidos.size()]
+		
+	}
+	
+	def getPartidos(){
+		def partidos = homePartidos.getPartidos().collect { partido ->
+			["id" : partido.id,"fecha" : partido.fechaInicio]
+		} as JSON
+		render partidos
 	}
 
 	def show(Long id){
-		def partido = homePartidos.getPartido(id)
+		render(view : "show")
+		/*def partido = homePartidos.getPartido(id)
 		if (!partido) {
 			flash.message = "partido " + id + " no encontrado"
 			redirect(action: "list")
@@ -38,7 +45,7 @@ class OrganizadorPartidosFutbolController {
 		else {
 			println("el partido es:" + partido.id)
 			[partidoInstance: partido]
-		}
+		}*/
 
 	}
 
@@ -68,27 +75,27 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def busqueda(){
-		println("los params son:" + params)
-		def jugadorBusqueda = mapearJugador(new Jugador(), params)
-		def jugadores = homeJugadores.getJugadores(jugadorBusqueda)
-		render(view: "busqueda", model: [jugadoresInstanceList: jugadores,jugadorBusqueda: jugadorBusqueda])
 	}
-	
-	
-	/*def buscar(){
-		redirect(action: "busquedaInterna", params: params)
-	}*/
-	
-	/*def busquedaInterna(){
+
+	def buscarJugadoresAsJson(){
 		println("los params son:" + params)
 		def jugadorBusqueda = mapearJugador(new Jugador(), params)
-		def jugadores = homeJugadores.getJugadores(jugadorBusqueda)
-		[jugadoresInstanceList: jugadores, jugadorBusqueda: jugadorBusqueda]
-	}*/
+		println("Jugador busqueda es: " + jugadorBusqueda.nombre)
+		def jugadores = homeJugadores.getJugadores(jugadorBusqueda).collect { jugador ->
+			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
+				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
+		} as JSON
+		render jugadores
+
+	}
+
+	def paginaPrincipal(){
+		render(view : "index")
+	}
 
 	def mapearJugador(jugador,params){
 		if(params.nombre){
-			jugador.nombre = params.nombre
+			jugador.nombre = params.nombre.capitalize()
 		}else{
 			jugador.nombre = ""
 		}
@@ -102,6 +109,11 @@ class OrganizadorPartidosFutbolController {
 		}else{
 			jugador.apodo = ""
 		}
+		/*if(params.handicap){
+		 jugador.handicap = params.handicap
+		 }else{
+		 jugador.handicap = 0;
+		 }*/
 		/*if(params.fechaNacimiento){
 		 jugador.fechaNacimiento = params.fechaNacimiento
 		 }else{

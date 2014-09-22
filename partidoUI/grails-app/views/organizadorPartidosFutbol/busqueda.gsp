@@ -3,6 +3,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="main" />
+<style>
+table {
+	width: 100%;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px;
+	text-align: left;
+}
+
+table#tablaJugadores tr:nth-child(even) {
+	background-color: #eee;
+}
+
+table#tablaJugadores tr:nth-child(odd) {
+	background-color: #fff;
+}
+
+#tablaJugadores th {
+	color: white;
+	background: black;
+}
+</style>
 </head>
 <body>
 	<div style="width: 90%; padding: 15pt;">
@@ -25,45 +53,55 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Nombre</label> <input type="text" name="nombre"
-										id="nombre" class="form-control" placeholder="Comienza con..."
-										value ="${jugadorBusqueda?.nombre}"	>
+										class="inputField" id="nombre" class="form-control" placeholder="Comienza con..."
+										value="${jugadorBusqueda?.nombre}">
 								</div>
 								<div class="col-md-6">
 									<label>Apodo</label> <input type="text" class="form-control"
-										name="apodo" id="apodo" placeholder="Contiene..."
-										value ="${jugadorBusqueda?.apodo}">
+										class="inputField" name="apodo" id="apodo" placeholder="Contiene..."
+										value="${jugadorBusqueda?.apodo}">
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<label>Fecha de Nacimiento desde:</label> <input type="text"
-											name="desde" id="desde" class="form-control"
+											class="inputField" name="desde" id="fechaDesde" class="form-control"
 											placeholder="Desde...">
 									</div>
 									<div class="col-md-6">
-										<label>Hasta:</label> <input type="text" class="form-control"
-											name="hasta" id="hasta" placeholder="Hasta..."
-											>
+										<label>Fecha de Nacimiento Hasta:</label> <input type="text" class="form-control"
+											class="inputField" name="hasta" id="fechaHasta" placeholder="Hasta...">
 									</div>
 									<div class="col-md-6">
-										<label>Rango handicap desde:</label> <input type="text" name="desde"
-											id="desde" class="form-control" placeholder="Desde..."
-											>
+										<label>Rango handicap desde:</label> <input type="text"
+											class="inputField" name="desde" id="handicapDesde" class="form-control"
+											placeholder="Desde...">
 									</div>
 									<div class="col-md-6">
-										<label>Rango handicap hasta:</label> <input type="text" class="form-control"
-											name="hasta" id="hasta" placeholder="Hasta..."
-											>
+										<label>Rango handicap hasta:</label> <input type="text"
+											class="inputField" class="form-control" name="hasta" id="handicapHasta"
+											placeholder="Hasta...">
 									</div>
 
 								</div>
 								<div class="col-md-12">
 									<br />
-									<g:actionSubmit class="btn btn-primary" action="busqueda"
+									<%--<g:actionSubmit class="btn btn-primary" action="busqueda"
 										value="busqueda" />
-									<%--<g:link class="btn btn-primary" action="list">
-										<g:message code="default.cancel.label" />
+									--%>
+									<table id="tablaJugadores">
+										<tr>
+											<th>Nombre</th>
+											<th>Apellido</th>
+											<th>Apodo</th>
+											<th>Fecha Nacimiento</th>
+											<th>Handicap</th>
+										</tr>
+									</table>
+									<g:link class="btn btn-primary" name="Regresar" action="index">
+										Regresar
 									</g:link>
-									--%><%--<button type="submit" class="btn btn-primary" >
+									
+									<%--<button type="submit" class="btn btn-primary" >
 										<span class="glyphicon glyphicon-search"></span>
 										Buscar
 									</button>
@@ -76,7 +114,7 @@
 			</div>
 		</div>
 
-		<div class="panel-group" id="accordion2">
+		<%--<div class="panel-group" id="accordion2">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="accordion-toggle" data-toggle="collapse"
@@ -111,7 +149,7 @@
 												${amigo.handicap}
 											</td>
 											<td>
-												${amigo.promedio}
+												4${amigo.promedio}
 											</td>
 										</tr>
 									</g:each>
@@ -123,6 +161,44 @@
 			</div>
 
 		</div>
+	--%>
 	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			makeAnAjaxCall({
+				nombre : $("#nombre").val(),
+				apodo : $("#apodo").val()
+			})
+
+			$("#nombre").keyup(function(){
+				makeAnAjaxCall({
+					nombre : $("#nombre").val(),
+					apodo : $("#apodo").val()
+				})
+			})
+			
+			
+		});
+
+		function makeAnAjaxCall(_data){
+			urlPartidos = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol/buscarJugadoresAsJson"
+				callback = function(){alert("No se pudo cargar los partidos")}
+				successFunction = function(data){
+						tablaJugadores = $("#tablaJugadores")
+						$('#tablaJugadores td').remove();
+
+						for (i = 0; i < data.length; i++) {
+							tablaJugadores.append('<tr><td>' + data[i].nombre + '</td><td>'
+									+ data[i].apellido + '</td><td>' + data[i].apodo
+									+ '</td><td>' + data[i].fechaNacimiento + '</td><td>' + data[i].handicap + '</td></tr>')
+						}
+					}
+				data = _data
+
+				makeAjaxCall(urlPartidos,data,successFunction,callback)
+			}
+	</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <title>Ver Partido</title>
 </head>
 <body>
-	<div class="panel-group" id="accordion2">
+	<%--<div class="panel-group" id="accordion2">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="accordion-toggle" data-toggle="collapse"
@@ -46,6 +46,11 @@
 				</div>
 			</div>
 		</div>	
+		--%>
+		<span id="idPartido"></span>
+		<span id="fechaJuego"></span>
+		<table id = "jugadoresDelPartido">
+		</table>
 			<div class="buttons">
 				<br>
 				<g:hiddenField name="id" value="${partidoInstance?.id}" />
@@ -58,5 +63,38 @@
 					Volver
 				</g:link>
 			</div>
+			
+			<script type="text/javascript">
+
+$(document).ready(function() {
+	console.log("El documento se cargo exitosamente");
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+	urlPartidos = urlbase + "/getPartido"
+	callback = function(){alert("No se pudo cargar los partidos")}
+	successFunction = function(data){
+		tablaPartidos = $("#tablaPartidos")
+		$('#tablaPartidos td').remove();
+
+		for (i = 0; i < data.length; i++) {
+			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +' ">' + data[i].id + '</a></td><td>'
+					+ data[i].fecha + '</td></tr>')
+		}
+	}
+	data = ""
+	makeAjaxCall(urlPartidos,data,successFunction,callback)
+	
+});
+
+function fillMatchTable(data) {
+	tablaPartidos = $("#tablaPartidos")
+
+	for (i = 0; i < data.length; i++) {
+		tablaPartidos.append('<tr><td><a href="dadads">' + sd + '</a>' + data[i].id + '</td><td>'
+				+ data[i].fecha + '</td></tr>')
+	}
+	
+}
+		
+</script>
 		</body>
 </html>

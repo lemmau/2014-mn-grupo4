@@ -99,10 +99,14 @@ class TodosLosJugadores {
 	}
 
 	def getJugadores(Jugador jugadorBusqueda) {
-		interesadosAceptados.filter [ jugador |
-			jugador.nombre.startsWith(jugadorBusqueda.nombre) && 
-			jugador.apodo.contains(jugadorBusqueda.apodo) &&
-				jugador.apellido.startsWith(jugadorBusqueda.apellido)
-		]
+		println(jugadorBusqueda.nombre + jugadorBusqueda.apodo + jugadorBusqueda.apellido)
+		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase
+		interesadosAceptados.filter [ jugador | (
+			jugador.nombre.toLowerCase().startsWith(nombreBusqueda.toLowerCase())  ||
+			jugador.apodo.toLowerCase.contains(jugadorBusqueda.apodo.toLowerCase()) ||
+			jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
+				)
+		] asList
+		
 	}
 }
