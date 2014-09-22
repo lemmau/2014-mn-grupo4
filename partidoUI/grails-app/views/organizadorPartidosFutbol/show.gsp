@@ -3,6 +3,34 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="main" />
 <title>Ver Partido</title>
+<style>
+table {
+	width: 100%;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px;
+	text-align: left;
+}
+
+table#equipoJugadores tr:nth-child(even) {
+	background-color: #eee;
+}
+
+table#equipoJugadores tr:nth-child(odd) {
+	background-color: #fff;
+}
+
+#equipoJugadores th {
+	color: white;
+	background: black;
+}
+</style>
 </head>
 <body>
 	<%--<div class="panel-group" id="accordion2">
@@ -47,6 +75,15 @@
 			</div>
 		</div>	
 		--%>
+		<table id="equipoJugadores">
+		<tr>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Apodo</th>
+			<th>Fecha Nacimiento</th>
+			<th>Handicap</th>
+		</tr>
+		</table>
 		<span id="idPartido"></span>
 		<span id="fechaJuego"></span>
 		<table id = "jugadoresDelPartido">
@@ -69,31 +106,24 @@
 $(document).ready(function() {
 	console.log("El documento se cargo exitosamente");
 	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
-	urlPartidos = urlbase + "/getPartido"
+	urlPartidos = urlbase + "/getJugadoresDeUnPartdio"
 	callback = function(){alert("No se pudo cargar los partidos")}
 	successFunction = function(data){
-		tablaPartidos = $("#tablaPartidos")
-		$('#tablaPartidos td').remove();
+		equipoJugadores = $("#equipoJugadores")
+		$('#equipoJugadores td').remove();
 
 		for (i = 0; i < data.length; i++) {
-			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +' ">' + data[i].id + '</a></td><td>'
-					+ data[i].fecha + '</td></tr>')
+			equipoJugadores.append('<tr><td>' + data[i].nombre + '</td><td>'
+					+ data[i].apellido + '</td><td>' + data[i].apodo
+					+ '</td><td>' + data[i].fechaNacimiento + '</td><td>' + data[i].handicap + '</td></tr>')
 		}
 	}
-	data = ""
+	data = {partidoId: ${partidoIdInstance}} 
 	makeAjaxCall(urlPartidos,data,successFunction,callback)
 	
 });
 
-function fillMatchTable(data) {
-	tablaPartidos = $("#tablaPartidos")
 
-	for (i = 0; i < data.length; i++) {
-		tablaPartidos.append('<tr><td><a href="dadads">' + sd + '</a>' + data[i].id + '</td><td>'
-				+ data[i].fecha + '</td></tr>')
-	}
-	
-}
 		
 </script>
 		</body>

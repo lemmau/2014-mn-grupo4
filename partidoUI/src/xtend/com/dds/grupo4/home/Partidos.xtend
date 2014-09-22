@@ -48,7 +48,7 @@ class Partidos {
 		partidos.filter[partido|partido.esUnJugadorFinal(jugador)]
 	}
 
-	def  getPartido(Long id){
+	def  Partido getPartido(Long id){
 		partidos.findFirst[partido|partido.id.equals(id)]
 	}
 	def getPartidos(){

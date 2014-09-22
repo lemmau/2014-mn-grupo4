@@ -25,9 +25,9 @@ class OrganizadorPartidosFutbolController {
 	//	}
 
 	def list(Integer max){
-		
+
 	}
-	
+
 	def getPartidos(){
 		def partidos = homePartidos.getPartidos().collect { partido ->
 			["id" : partido.id,"fecha" : partido.fechaInicio]
@@ -36,17 +36,27 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def show(Long id){
-		render(view : "show")
-		/*def partido = homePartidos.getPartido(id)
-		if (!partido) {
-			flash.message = "partido " + id + " no encontrado"
-			redirect(action: "list")
-		}
-		else {
-			println("el partido es:" + partido.id)
-			[partidoInstance: partido]
-		}*/
+		println("Entrando a show :" + params.partidoId)
+		render(view : "show", model:[partidoIdInstance:params.partidoId])
+		/*redirect(action :"getJugadoresDeUnPartdio",params:params)*/
+	}
 
+	def getJugadoresDeUnPartdio(){
+		def partidoResponse = null
+		if(params.partidoId){
+			println("Obtuvimos el id del partido: " + params.partidoId)
+			def partidoIdAsLong = params.partidoId as Long
+			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
+			
+			partidoResponse = partdioBuscado.inscripciones.collect { inscripcion ->
+				["nombre" : inscripcion.jugador.nombre, "apellido":inscripcion.jugador.apellido,
+					 "apodo":inscripcion.jugador.apodo
+					,"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
+					"handicap":inscripcion.jugador.handicap]
+			} as JSON
+		}
+		println("jsonResponse: " + partidoResponse)
+		render partidoResponse
 	}
 
 	def mapear(partido, params) {
@@ -65,7 +75,6 @@ class OrganizadorPartidosFutbolController {
 			redirect(action: "show")
 		}
 		else {
-			println("los amigos son" + jugador._amigos.toListString())
 			[jugadorInstance: jugador, amigosInstance: jugador.amigos]
 		}
 	}
@@ -78,9 +87,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def buscarJugadoresAsJson(){
-		println("los params son:" + params)
 		def jugadorBusqueda = mapearJugador(new Jugador(), params)
-		println("Jugador busqueda es: " + jugadorBusqueda.nombre)
 		def jugadores = homeJugadores.getJugadores(jugadorBusqueda).collect { jugador ->
 			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
 				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
