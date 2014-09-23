@@ -107,11 +107,10 @@ class OrganizadorPartidosFutbolController {
 	def filtrarJugadores(jugadorToMatch){
 
 		def interesadosAceptados = homeJugadores.getInteresadosAceptados()
-		println("Cantidad jugadores matcheados: " + interesadosAceptados.size())
+		println("Jugador to match: " + jugadorToMatch.nombre)
 			
-		interesadosAceptados.findAll {
-			
-			jugador -> jugador.nombre.toString().startsWith(jugadorToMatch.nombre) //&& 
+		interesadosAceptados.findAll  { jugador  ->
+			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) //&& 
 			 			//(jugador.apodo.toLowerCase() == jugadorToMatch.apodo) &&
 						 //jugador.fechaInicio.toDate().isBefore(jugadorToMatch.fechaNacimiento) ||
 						 //jugador.fechaHasta.toDate().isAfter(jugadorToMatch.fechaNacimiento) ||
@@ -126,7 +125,8 @@ class OrganizadorPartidosFutbolController {
 
 	def mapearJugador(jugador,params){
 		if(params.nombre){
-			jugador.nombre = params.nombre
+			jugador.setNombre(params.nombre)
+			println(params.nombre)
 		}else{
 			jugador.nombre = ""
 		}
@@ -160,8 +160,8 @@ class OrganizadorPartidosFutbolController {
 		}else{
 			jugador.fechaHasta = new DateTime(3000,1,1,0,0)
 		}
+		
 		jugador
-		println(jugador.toString())
 	}
 
 

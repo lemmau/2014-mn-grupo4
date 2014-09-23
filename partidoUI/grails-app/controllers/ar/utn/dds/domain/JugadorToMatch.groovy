@@ -11,8 +11,6 @@ class JugadorToMatch {
 	def Integer handicapDesde
 	def Integer handicapHasta
 	
-	def JugadorToMatch(){
-		
-	}
+	
 
 }
