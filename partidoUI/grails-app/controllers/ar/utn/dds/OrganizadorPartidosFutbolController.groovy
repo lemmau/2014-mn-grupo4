@@ -55,7 +55,6 @@ class OrganizadorPartidosFutbolController {
 					"handicap":inscripcion.jugador.handicap]
 			} as JSON
 		}
-		println("jsonResponse: " + partidoResponse)
 		render partidoResponse
 	}
 
@@ -88,6 +87,8 @@ class OrganizadorPartidosFutbolController {
 
 	def buscarJugadoresAsJson(){
 		def jugadorBusqueda = mapearJugador(new Jugador(), params)
+		println("jugador mappeado: "+jugadorBusqueda.nombre)
+
 		def jugadores = homeJugadores.getJugadores(jugadorBusqueda).collect { jugador ->
 			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
 				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
@@ -102,7 +103,7 @@ class OrganizadorPartidosFutbolController {
 
 	def mapearJugador(jugador,params){
 		if(params.nombre){
-			jugador.nombre = params.nombre.capitalize()
+			jugador.nombre = params.nombre
 		}else{
 			jugador.nombre = ""
 		}

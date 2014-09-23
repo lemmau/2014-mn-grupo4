@@ -113,55 +113,6 @@ table#tablaJugadores tr:nth-child(odd) {
 				</div>
 			</div>
 		</div>
-
-		<%--<div class="panel-group" id="accordion2">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="accordion-toggle" data-toggle="collapse"
-						data-parent="#accordion2" href="#collapseTwo">Jugadores: </a>
-				</div>
-				<div id="collapseTwo" class="panel-collapse collapse in">
-					<div class="panel-body">
-						<div id="list-materia" class="content scaffold-list">
-							<table
-								class="table table-striped table-bordered table-hover table-condensed">
-								<thead>
-									<g:sortableColumn property="nombreJugador"
-										title="Nombre Jugador" />
-									<g:sortableColumn property="apodo"
-										title="Apodo" />
-									<g:sortableColumn property="handicap"
-										title="Handicap" />
-									<g:sortableColumn property="promedio"
-										title="Promedio" />
-										
-								</thead>
-								<tbody>
-									<g:each in="${jugadoresInstanceList}" status="i" var="amigo">
-										<tr class="${(i % 2) == 0 ? 'info' : ''}">
-											<td><g:link action="detalleJugador" id="${amigo.id}">
-													${amigo.nombre}
-												</g:link></td>
-											<td>
-											${amigo.apodo}
-											</td>
-											<td>
-												${amigo.handicap}
-											</td>
-											<td>
-												4${amigo.promedio}
-											</td>
-										</tr>
-									</g:each>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	--%>
 	</div>
 
 	<script type="text/javascript">
@@ -191,8 +142,10 @@ table#tablaJugadores tr:nth-child(odd) {
 
 						for (i = 0; i < data.length; i++) {
 							tablaJugadores.append('<tr><td>' + data[i].nombre + '</td><td>'
-									+ data[i].apellido + '</td><td>' + data[i].apodo
-									+ '</td><td>' + data[i].fechaNacimiento + '</td><td>' + data[i].handicap + '</td></tr>')
+									+ data[i].apellido + '</td><td>' 
+									+ data[i].apodo    + '</td><td>' 
+									+ data[i].fechaNacimiento + '</td><td>' 
+									+ data[i].handicap + '</td></tr>')
 						}
 					}
 				data = _data

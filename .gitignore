@@ -3,14 +3,19 @@ dominio/src/main/xtend-gen/*
 dominio/target/*
 dominio/target/xtend/
 .gitignore~
-/dominio/.project
-.settings/
+dominio/.project
+partidoUI/.project
+dominio/.settings/
+partidoUI/.settings/
 .classpath
+
+partidoUI/src/
 
 dominio/*.java
 dominio/.autosave
 dominio/.db
 dominio/.dia~
+dominio/pom.xml~
 
 dominio/bin
 
@@ -25,7 +30,8 @@ dominio/.metadata/
 #------------------------
 
 /partidoUI/target-eclipse/*
-
+partidoUI/java/
+partidoUI/test/
 # web application files
 partidoUI/web-app/WEB-INF/classes
 

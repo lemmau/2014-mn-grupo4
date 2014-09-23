@@ -28,6 +28,7 @@ class TodosLosJugadores {
 	}
 
 	/** fin singleton **/
+	
 	//Para los test
 	def borrarTodo() {
 		interesadosPendientes = new ArrayList<Jugador>
@@ -106,15 +107,15 @@ class TodosLosJugadores {
 	}
 
 	def getJugadores(Jugador jugadorBusqueda) {
-		println(jugadorBusqueda.nombre + jugadorBusqueda.apodo + jugadorBusqueda.apellido)
-		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase
+		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase()
 
 		interesadosAceptados.filter [ jugador |
-			jugador.nombre.toLowerCase().startsWith(nombreBusqueda.toLowerCase()) ||
-				jugador.apodo.toLowerCase.contains(jugadorBusqueda.apodo.toLowerCase()) ||
-				jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
+			jugador.nombre.toLowerCase().startsWith(nombreBusqueda) 
+//				jugador.apodo.toLowerCase().contains(jugadorBusqueda.apodo.toLowerCase()) //||
+//				//jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
 		]
-
+		
+		
 	}
 
 }
