@@ -1,6 +1,5 @@
 package com.dds.grupo4.dominio
 
-import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
 import com.dds.grupo4.excepciones.FaltaDefinirCriterioDeOrdenException
@@ -10,6 +9,7 @@ import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.observadores.InscripcionObserver
+import org.joda.time.LocalDateTime
 
 class Partido {
 

@@ -9,13 +9,13 @@ import com.dds.grupo4.ordenamiento.PromedioCalificaciones
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 class OrdenamientoTest {
 
@@ -40,22 +40,22 @@ class OrdenamientoTest {
 	@Before
 	def void setUp() {
 		partido = new Partido(new Admin("admin@ddsutn.com"))
-		partido.setFechaInicio(LocalDateTime.of(2014, 06, 12, 21, 00))
+		partido.setFechaInicio(new LocalDateTime(2014, 06, 12, 21, 00))
 
 		partido2 = new Partido(new Admin("admin@ddsutn.com"))
-		partido2.setFechaInicio(LocalDateTime.of(2014, 06, 13, 21, 00))
+		partido2.setFechaInicio(new LocalDateTime(2014, 06, 13, 21, 00))
 
-		jugadorEstandar0 = new Jugador("A", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 10)
-		jugadorEstandar1 = new Jugador("B", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 1)
-		jugadorEstandar2 = new Jugador("C", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 2)
-		jugadorEstandar3 = new Jugador("D", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 3)
-		jugadorEstandar4 = new Jugador("E", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 4)
-		jugadorEstandar5 = new Jugador("F", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 5)
-		jugadorEstandar6 = new Jugador("G", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 6)
-		jugadorEstandar7 = new Jugador("I", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 7)
-		jugadorEstandar8 = new Jugador("J", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 8)
-		jugadorEstandar9 = new Jugador("K", "Mulder", LocalDate.of(1979, 12, 14), new Estandar, 9)
-		jugadorEstandar10 = new Jugador("L", "Mulder", LocalDate.of(1979, 12, 15), new Estandar, 9)
+		jugadorEstandar0 = new Jugador("A", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 10)
+		jugadorEstandar1 = new Jugador("B", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 1)
+		jugadorEstandar2 = new Jugador("C", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 2)
+		jugadorEstandar3 = new Jugador("D", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 3)
+		jugadorEstandar4 = new Jugador("E", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 4)
+		jugadorEstandar5 = new Jugador("F", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 5)
+		jugadorEstandar6 = new Jugador("G", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 6)
+		jugadorEstandar7 = new Jugador("I", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 7)
+		jugadorEstandar8 = new Jugador("J", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 8)
+		jugadorEstandar9 = new Jugador("K", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 9)
+		jugadorEstandar10 = new Jugador("L", "Mulder", new LocalDate(1979, 12, 15), new Estandar, 9)
 
 		jugadores = #[jugadorEstandar1, jugadorEstandar0, jugadorEstandar9, jugadorEstandar8, jugadorEstandar2
 			, jugadorEstandar3, jugadorEstandar6, jugadorEstandar4, jugadorEstandar5, jugadorEstandar7]

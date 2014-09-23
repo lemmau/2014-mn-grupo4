@@ -5,10 +5,10 @@ import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.dominio.Inscripcion
 import com.dds.grupo4.dominio.Jugador
 
-import java.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.joda.time.LocalDate
 
 class InscripcionTest {
 
@@ -18,7 +18,7 @@ class InscripcionTest {
 	@Before
 	def void setUp() {
 
-		jugadorEstandar = new Jugador("Diego", "Mulder", LocalDate.of(1979, 12, 14), new Estandar)
+		jugadorEstandar = new Jugador("Diego", "Mulder", new LocalDate(1979, 12, 14), new Estandar)
 		
 		inscripcion = new Inscripcion(jugadorEstandar)
 

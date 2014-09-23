@@ -1,6 +1,6 @@
 package com.dds.grupo4.dominio
 
-import java.time.LocalDateTime
+import org.joda.time.LocalDateTime
 
 class Infraccion {
 

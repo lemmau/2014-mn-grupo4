@@ -5,10 +5,10 @@ import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Solidario
 
-import java.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.joda.time.LocalDate
 
 class JugadorTest {
 
@@ -21,11 +21,11 @@ class JugadorTest {
 	@Before
 	def void setUp() {
 
-		diegoEstandar = new Jugador("Diego", "Anazonian", LocalDate.of(1992, 12, 14), new Estandar)
-		maqiEstandar = new Jugador("Maximiliano", "Anazonian", LocalDate.of(1992, 04, 05), new Estandar)
-		gonzaEstandar = new Jugador("Gonzalo", "Franchino", LocalDate.of(1981, 06, 30), new Estandar)
-		osvaEstandar = new Jugador("Osva", "Cornelli", LocalDate.of(1982, 07, 30), new Estandar)
-		leanEstandar = new Jugador("Leandro", "Mauro", LocalDate.of(1989, 02, 16), new Estandar)
+		diegoEstandar = new Jugador("Diego", "Anazonian", new LocalDate(1992, 12, 14), new Estandar)
+		maqiEstandar = new Jugador("Maximiliano", "Anazonian", new LocalDate(1992, 04, 05), new Estandar)
+		gonzaEstandar = new Jugador("Gonzalo", "Franchino", new LocalDate(1981, 06, 30), new Estandar)
+		osvaEstandar = new Jugador("Osva", "Cornelli", new LocalDate(1982, 07, 30), new Estandar)
+		leanEstandar = new Jugador("Leandro", "Mauro", new LocalDate(1989, 02, 16), new Estandar)
 
 		diegoEstandar.handicap = 8
 	}

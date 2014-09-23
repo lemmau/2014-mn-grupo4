@@ -3,11 +3,10 @@ package com.dds.grupo4.dominio
 import com.dds.grupo4.excepciones.HandicapFueraDeRangoException
 import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
 
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.List
-
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 class Jugador {
 
@@ -46,7 +45,7 @@ class Jugador {
 
 	def Integer edad(){
 		// TODO corregir esto! calcular bien la edad
-		LocalDate.now.year - fechaNacimiento.year
+		LocalDate.now.getYear() - fechaNacimiento.getYear()
 	}
 
 	def void inscribite(Partido partido) {

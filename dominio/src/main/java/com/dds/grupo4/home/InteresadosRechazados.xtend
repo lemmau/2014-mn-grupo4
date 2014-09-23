@@ -4,7 +4,7 @@ import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Denegacion
 import java.util.List
 import java.util.ArrayList
-import java.time.LocalDateTime
+import org.joda.time.LocalDateTime
 
 class InteresadosRechazados {
 	
