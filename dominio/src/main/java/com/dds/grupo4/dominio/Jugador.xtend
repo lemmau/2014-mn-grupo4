@@ -24,12 +24,13 @@ class Jugador {
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 
 
-	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
-		this(nombre, apellido, nacimiento, tipoDeInscripcion, 1)
+	new(String nombre, String apellido,String apodo, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+		this(nombre, apellido,apodo, nacimiento, tipoDeInscripcion, 1)
 	}
 
-	new(String nombre, String apellido, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
+	new(String nombre, String apellido, String apodo,LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
 		this.nombre = nombre
+		this.apodo = apodo
 		this.apellido = apellido
 		this.fechaNacimiento = nacimiento
 		this.tipoDeInscripcion = tipoDeInscripcion

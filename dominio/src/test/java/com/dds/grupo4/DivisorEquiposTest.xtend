@@ -38,17 +38,17 @@ class DivisorEquiposTest {
 		partido = new Partido(new Admin("admin@ddsutn.com"))
 		partido.setFechaInicio(new LocalDateTime(2014, 06, 12, 21, 00))
 
-		jugadorEstandar0 = new Jugador("A", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 10)
-		jugadorEstandar1 = new Jugador("B", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 1)
-		jugadorEstandar2 = new Jugador("C", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 2)
-		jugadorEstandar3 = new Jugador("D", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 3)
-		jugadorEstandar4 = new Jugador("E", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 4)
-		jugadorEstandar5 = new Jugador("F", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 5)
-		jugadorEstandar6 = new Jugador("G", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 6)
-		jugadorEstandar7 = new Jugador("I", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 7)
-		jugadorEstandar8 = new Jugador("J", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 8)
-		jugadorEstandar9 = new Jugador("K", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 9)
-		jugadorEstandar10 = new Jugador("L", "Mulder", new LocalDate(1979, 12, 15), new Estandar, 9)
+		jugadorEstandar0 = new Jugador("A","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 10)
+		jugadorEstandar1 = new Jugador("B","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 1)
+		jugadorEstandar2 = new Jugador("C","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 2)
+		jugadorEstandar3 = new Jugador("D","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 3)
+		jugadorEstandar4 = new Jugador("E","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 4)
+		jugadorEstandar5 = new Jugador("F","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 5)
+		jugadorEstandar6 = new Jugador("G","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 6)
+		jugadorEstandar7 = new Jugador("I","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 7)
+		jugadorEstandar8 = new Jugador("J","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 8)
+		jugadorEstandar9 = new Jugador("K","pepe", "Mulder", new LocalDate(1979, 12, 14), new Estandar, 9)
+		jugadorEstandar10 = new Jugador("L","pepe", "Mulder", new LocalDate(1979, 12, 15), new Estandar, 9)
 
 		jugadores = #[jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
 			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]

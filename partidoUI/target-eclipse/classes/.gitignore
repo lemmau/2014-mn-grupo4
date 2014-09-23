@@ -1,3 +1,8 @@
+/grails/
+/org/
+/ApplicationResources$_run_closure1.class
+/ApplicationResources$_run_closure1_closure2.class
+/ApplicationResources.class
 /AssetPipelineBootStrap$_closure1.class
 /AssetPipelineBootStrap.class
 /AssetUrlMappings$__clinit__closure1.class
@@ -88,10 +93,5 @@
 /ar/
 /asset/
 /com/
-/grails/
-/org/
 /resources$_run_closure1.class
 /resources.class
-/ApplicationResources$_run_closure1.class
-/ApplicationResources$_run_closure1_closure2.class
-/ApplicationResources.class

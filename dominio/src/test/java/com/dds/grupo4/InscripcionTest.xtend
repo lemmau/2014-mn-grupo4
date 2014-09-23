@@ -18,7 +18,7 @@ class InscripcionTest {
 	@Before
 	def void setUp() {
 
-		jugadorEstandar = new Jugador("Diego", "Mulder", new LocalDate(1979, 12, 14), new Estandar)
+		jugadorEstandar = new Jugador("Diego","adad", "Mulder", new LocalDate(1979, 12, 14), new Estandar)
 		
 		inscripcion = new Inscripcion(jugadorEstandar)
 

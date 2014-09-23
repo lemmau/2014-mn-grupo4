@@ -1,9 +1,9 @@
 dominio/src/test/xtend-gen/*
 dominio/src/main/xtend-gen/*
-/dominio/target/*
+dominio/target/*
 dominio/target/xtend/
 .gitignore~
-dominio/.project
+/dominio/.project
 .settings/
 .classpath
 
