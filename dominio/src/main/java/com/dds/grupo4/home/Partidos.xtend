@@ -8,12 +8,42 @@ import com.dds.grupo4.dominio.Jugador
 class Partidos {
 	@Property private List<Partido> partidos = new ArrayList<Partido>
 
+	/** singleton **/
+	static Partidos instance
+
+	private new() {
+		partidos = new ArrayList<Partido>
+	}
+
+	static def getInstance() {
+		if(instance == null) {
+			instance = new Partidos()
+		}
+		instance
+	}
+
+	/** fin singleton **/
+	
+	def ultimoIdUtilizado() {
+
+		if (partidos.isEmpty) {
+			return 1
+		}
+		return partidos.sortBy[-it.id].toList.get(0).id.intValue
+	}
+
 	def agregarPartido(Partido partido) {
+		partido.id = new Long(this.ultimoIdUtilizado.longValue + 1)
 		partidos.add(partido)
 	}
 
 	def quitarPartido(Partido partido) {
 		partidos.remove(partido)
+	}
+	
+	def getPartido(Long id){
+		partidos.findFirst[ partido | partido.id.equals(id)]
+		
 	}
 
 	def partidosxJugador(Jugador jugador) {

@@ -23,6 +23,9 @@ class Jugador {
 
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 
+	new(){
+		
+	}
 
 	new(String nombre, String apellido,String apodo, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
 		this(nombre, apellido,apodo, nacimiento, tipoDeInscripcion, 1)
