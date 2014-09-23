@@ -14,6 +14,7 @@ dominio/.dia~
 
 dominio/bin
 
+/partidoUI/target/*
 
 dominio/src/main/generated-sources/
 dominio/src/test/generated-sources/
@@ -22,6 +23,8 @@ dominio/.metadata/
 #------------------------
 #Ignore for grails folders
 #------------------------
+
+/partidoUI/target-eclipse/*
 
 # web application files
 partidoUI/web-app/WEB-INF/classes
