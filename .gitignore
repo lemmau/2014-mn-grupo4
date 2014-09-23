@@ -1,20 +1,53 @@
-/dominio/src/test/xtend-gen/*
-/dominio/src/main/xtend-gen/*
+dominio/src/test/xtend-gen/*
+dominio/src/main/xtend-gen/*
 /dominio/target/*
 dominio/target/xtend/
 .gitignore~
-/dominio/.project
-/.settings/
-/.classpath
+dominio/.project
+.settings/
+.classpath
 
-/dominio/*.java
-/dominio/.autosave
-/dominio/.db
-/dominio/.dia~
+dominio/*.java
+dominio/.autosave
+dominio/.db
+dominio/.dia~
 
-/dominio/bin
+dominio/bin
 
 
-/dominio/src/main/generated-sources/
-/dominio/src/test/generated-sources/
-/dominio/.metadata/
+dominio/src/main/generated-sources/
+dominio/src/test/generated-sources/
+dominio/.metadata/
+
+#------------------------
+#Ignore for grails folders
+#------------------------
+
+# web application files
+partidoUI/web-app/WEB-INF/classes
+
+# default HSQL database files for production mode
+partidoUI/prodDb.*
+
+# general HSQL database files
+partidoUI/*Db.properties
+partidoUI/*Db.script
+
+# logs
+partidoUI/stacktrace.log
+partidoUI/test/reports
+partidoUI/logs
+
+# project release file
+partidoUI/*.war
+
+# plugin release files
+partidoUI/*.zip
+partidoUI/plugin.xml
+
+# older plugin install locations
+partidoUI/plugins
+partidoUI/web-app/plugins
+
+# "temporary" build files
+partidoUI/target
