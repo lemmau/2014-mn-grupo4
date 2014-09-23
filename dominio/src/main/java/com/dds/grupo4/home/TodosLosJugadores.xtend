@@ -58,8 +58,8 @@ class TodosLosJugadores {
 		interesadosPendientes.clone
 	}
 
-	def getInteresadosAceptados() {
-		interesadosAceptados.clone
+	def List<Jugador> getInteresadosAceptados() {
+		interesadosAceptados.clone.toList
 	}
 
 	def Integer cantInteresadosPendientes() {
@@ -110,9 +110,9 @@ class TodosLosJugadores {
 		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase()
 
 		interesadosAceptados.filter [ jugador |
-			jugador.nombre.toLowerCase().startsWith(nombreBusqueda) 
-//				jugador.apodo.toLowerCase().contains(jugadorBusqueda.apodo.toLowerCase()) //||
-//				//jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
+			jugador.nombre.toLowerCase().startsWith(nombreBusqueda) || 
+			jugador.apodo.toLowerCase().contains(jugadorBusqueda.apodo.toLowerCase()) ||
+			jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
 		]
 		
 		

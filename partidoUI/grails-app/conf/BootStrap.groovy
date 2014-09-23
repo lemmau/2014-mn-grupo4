@@ -31,7 +31,7 @@ class BootStrap {
 	Jugador jugadorEstandar10
 		
 		partido = new Partido(new Admin("admin@ddsutn.com"))
-		partido.setFechaInicio(new LocalDateTime(2014, 06, 12, 21, 00))
+		partido.setFechaInicio(LocalDateTime.now())
 		
 		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new LocalDate(1979, 12, 14), new Estandar(), 10)
 		jugadorEstandar1 = new Jugador("Brian", "Sarto", "Brayus", new LocalDate(1979, 12, 14), new Estandar(), 1)

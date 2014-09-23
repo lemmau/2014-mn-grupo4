@@ -1,11 +1,18 @@
 package ar.utn.dds
 
+import java.awt.List;
+import java.nio.file.DirectoryStream.Filter;
+
 import grails.converters.JSON
+import ar.utn.dds.domain.JugadorToMatch
+
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.home.TodosLosJugadores;
+
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
 
 
 class OrganizadorPartidosFutbolController {
@@ -47,10 +54,10 @@ class OrganizadorPartidosFutbolController {
 			println("Obtuvimos el id del partido: " + params.partidoId)
 			def partidoIdAsLong = params.partidoId as Long
 			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
-			
+
 			partidoResponse = partdioBuscado.inscripciones.collect { inscripcion ->
 				["nombre" : inscripcion.jugador.nombre, "apellido":inscripcion.jugador.apellido,
-					 "apodo":inscripcion.jugador.apodo
+					"apodo":inscripcion.jugador.apodo
 					,"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
 					"handicap":inscripcion.jugador.handicap]
 			} as JSON
@@ -86,15 +93,31 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def buscarJugadoresAsJson(){
-		def jugadorBusqueda = mapearJugador(new Jugador(), params)
-		println("jugador mappeado: "+jugadorBusqueda.nombre)
-
-		def jugadores = homeJugadores.getJugadores(jugadorBusqueda).collect { jugador ->
+		def jugadorBusqueda = mapearJugador(new JugadorToMatch(), params)
+		def jugadoresMatcheados = filtrarJugadores(jugadorBusqueda)
+		println(jugadoresMatcheados)
+		def jugadores = jugadoresMatcheados.collect { jugador ->
 			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
 				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
 		} as JSON
 		render jugadores
 
+	}
+	
+	def filtrarJugadores(jugadorToMatch){
+
+		def interesadosAceptados = homeJugadores.getInteresadosAceptados()
+		println("Cantidad jugadores matcheados: " + interesadosAceptados.size())
+			
+		interesadosAceptados.findAll {
+			
+			jugador -> jugador.nombre.toString().startsWith(jugadorToMatch.nombre) //&& 
+			 			//(jugador.apodo.toLowerCase() == jugadorToMatch.apodo) &&
+						 //jugador.fechaInicio.toDate().isBefore(jugadorToMatch.fechaNacimiento) ||
+						 //jugador.fechaHasta.toDate().isAfter(jugadorToMatch.fechaNacimiento) ||
+						 //(jugador.handicap.toInteger() < jugadorToMatch.handicapHasta) &&
+						 //(jugador.handicap.toInteger() > jugadorToMatch.handicapDesde))
+		}
 	}
 
 	def paginaPrincipal(){
@@ -115,23 +138,31 @@ class OrganizadorPartidosFutbolController {
 		if(params.apodo){
 			jugador.apodo = params.apodo
 		}else{
-			jugador.apodo = ""
+			jugador.apodo = "~ /[a-zA-Z]/"
 		}
-		/*if(params.handicap){
-		 jugador.handicap = params.handicap
-		 }else{
-		 jugador.handicap = 0;
-		 }*/
-		/*if(params.fechaNacimiento){
-		 jugador.fechaNacimiento = params.fechaNacimiento
-		 }else{
-		 jugador.fechaNacimiento = new DateTime(0,0,0,0)
-		 }
-		 if(params.handicap){
-		 jugador.handicap = params.handicap
-		 }else{*/
-
+		if(params.handicapDesde){
+			jugador.handicapDesde = params.handicap
+		}else{
+			jugador.handicapDesde = 0;
+		}
+		if(params.handicapHasta){
+			jugador.handicapHasta = params.handicapHasta
+		}else{
+			jugador.handicapHasta = 10
+		}
+		if(params.fechaDesde){
+			jugador.fechaDesde = params.fechaNacimiento
+		}else{
+			jugador.fechaDesde = new DateTime(100,1,1,0,0)
+		}
+		if(params.fechaHasta){
+			jugador.fechaHasta = params.fechaHasta
+		}else{
+			jugador.fechaHasta = new DateTime(3000,1,1,0,0)
+		}
 		jugador
+		println(jugador.toString())
 	}
+
 
 }
