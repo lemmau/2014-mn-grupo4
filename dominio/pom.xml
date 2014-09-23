@@ -108,7 +108,7 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<!-- <goal>testCompile</goal> -->
+							<goal>testCompile</goal>
 						</goals>
 						<!-- By default the plugin will look for eclipse settings, and if non 
 							were found will generate to -->
