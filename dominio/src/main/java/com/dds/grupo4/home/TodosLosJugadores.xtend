@@ -7,11 +7,11 @@ import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 
 class TodosLosJugadores {
-	
+
 	private List<Jugador> interesadosPendientes = new ArrayList<Jugador>
 	private List<Jugador> interesadosAceptados = new ArrayList<Jugador>
 	private InteresadosRechazados rechazados = new InteresadosRechazados
-	
+
 	/** singleton **/
 	static TodosLosJugadores instance
 
@@ -28,6 +28,12 @@ class TodosLosJugadores {
 	}
 
 	/** fin singleton **/
+	//Para los test
+	def borrarTodo() {
+		interesadosPendientes = new ArrayList<Jugador>
+		interesadosAceptados = new ArrayList<Jugador>
+		rechazados = new InteresadosRechazados
+	}
 
 	def esUnInteresadoDelSistema(Jugador interesado) {
 		interesadosPendientes.contains(interesado)
@@ -56,7 +62,6 @@ class TodosLosJugadores {
 	}
 
 	def Integer cantInteresadosPendientes() {
-		println("Se agrego un interesado pendiente")
 		interesadosPendientes.size
 	}
 
@@ -75,12 +80,41 @@ class TodosLosJugadores {
 
 	def aceptarInteresado(Jugador interesado) {
 		eliminarInteresado(interesado)
+		interesado.id = new Long(this.ultimoIdUtilizado.longValue + 1)
 		interesadosAceptados.add(interesado)
+	}
+
+	def ultimoIdUtilizado() {
+
+		if (interesadosAceptados.isEmpty) {
+			return 1
+		}
+		return interesadosAceptados.sortBy[-it.id].toList.get(0).id.intValue
 	}
 
 	def rechazarInteresado(Jugador interesado, String motivo) {
 		eliminarInteresado(interesado)
 		rechazados.agregarRechazado(interesado, motivo)
+	}
+
+	def getJugador(Long id) {
+		interesadosAceptados.findFirst[jugador|jugador.id.equals(id)]
+	}
+
+	def getJugadores() {
+		return interesadosAceptados
+	}
+
+	def getJugadores(Jugador jugadorBusqueda) {
+		println(jugadorBusqueda.nombre + jugadorBusqueda.apodo + jugadorBusqueda.apellido)
+		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase
+
+		interesadosAceptados.filter [ jugador |
+			jugador.nombre.toLowerCase().startsWith(nombreBusqueda.toLowerCase()) ||
+				jugador.apodo.toLowerCase.contains(jugadorBusqueda.apodo.toLowerCase()) ||
+				jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
+		]
+
 	}
 
 }

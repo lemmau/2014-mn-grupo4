@@ -22,7 +22,9 @@ class JugadoresTest {
 
 	@Before
 	def void setUp() {
-
+		
+		todosLosJugadores.borrarTodo
+		
 		diegoEstandar = new Jugador("Diego","Anazonian","", new LocalDate(1991, 12, 14), new Estandar)
 		maqiEstandar = new Jugador("Maximiliano","Anazonian","", new LocalDate(1991, 04, 05), new Estandar)
 		gonzaEstandar = new Jugador("Gonzalo", "Franchino","", new LocalDate(1981, 06, 30), new Estandar)
