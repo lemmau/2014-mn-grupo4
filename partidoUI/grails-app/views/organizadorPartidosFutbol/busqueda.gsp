@@ -53,33 +53,33 @@ table#tablaJugadores tr:nth-child(odd) {
 							<div class="row">
 								<div class="col-md-6">
 									<label>Nombre</label> <input type="text" name="nombre"
-										class="inputField" id="nombre" class="form-control" placeholder="Comienza con..."
+										id="nombre" class="form-control inputField" placeholder="Comienza con..."
 										value="${jugadorBusqueda?.nombre}">
 								</div>
 								<div class="col-md-6">
-									<label>Apodo</label> <input type="text" class="form-control"
-										class="inputField" name="apodo" id="apodo" placeholder="Contiene..."
+									<label>Apodo</label> <input type="text" class="form-control inputField"
+										name="apodo" id="apodo" placeholder="Contiene..."
 										value="${jugadorBusqueda?.apodo}">
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<label>Fecha de Nacimiento desde:</label> <input type="text"
-											class="inputField" name="desde" id="fechaDesde" class="form-control"
-											placeholder="Desde...">
+											name="desde" id="fechaDesde" class="form-control dateField"
+											placeholder="Desde..."> <span style="color:grey"> aaaa/mm/dd </span> 
 									</div>
 									<div class="col-md-6">
-										<label>Fecha de Nacimiento Hasta:</label> <input type="text" class="form-control"
-											class="inputField" name="hasta" id="fechaHasta" placeholder="Hasta...">
+										<label>Fecha de Nacimiento Hasta:</label> <input type="text" class="form-control dateField"
+											name="hasta" id="fechaHasta" placeholder="Hasta..."> <span style="color:grey"> aaaa/mm/dd </span>
 									</div>
 									<div class="col-md-6">
 										<label>Rango handicap desde:</label> <input type="text"
-											class="inputField" name="desde" id="handicapDesde" class="form-control"
-											placeholder="Desde...">
+											name="desde" id="handicapDesde" class="form-control inputField"
+											placeholder="Desde..."> <span style="color:grey"> 0-10 </span>
 									</div>
 									<div class="col-md-6">
 										<label>Rango handicap hasta:</label> <input type="text"
-											class="inputField" class="form-control" name="hasta" id="handicapHasta"
-											placeholder="Hasta...">
+											class="form-control inputField" name="hasta" id="handicapHasta"
+											placeholder="Hasta..."> <span style="color:grey"> 0-10 </span>
 									</div>
 
 								</div>
@@ -123,10 +123,26 @@ table#tablaJugadores tr:nth-child(odd) {
 				apodo : $("#apodo").val()
 			})
 
-			$("#nombre").keyup(function(){
+			$(".dateField").keyup(function(){
+				if($("#fechaDesde").val().length == 10 || $("#fechaHasta").val().length == 10){
+					makeAnAjaxCall({
+						nombre : $("#nombre").val(),
+						apodo : $("#apodo").val(),
+						handicapDesde : $("#handicapDesde").val(),
+						handicapHasta : $("#handicapHasta").val(),
+						fechaDesde : $("#fechaDesde").val(),
+						fechaHasta : $("#fechaHasta").val()
+					})
+					}
+				
+				})
+			
+			$(".inputField").keyup(function(){
 				makeAnAjaxCall({
 					nombre : $("#nombre").val(),
-					apodo : $("#apodo").val()
+					apodo : $("#apodo").val(),
+					handicapDesde : $("#handicapDesde").val(),
+					handicapHasta : $("#handicapHasta").val()
 				})
 			})
 			

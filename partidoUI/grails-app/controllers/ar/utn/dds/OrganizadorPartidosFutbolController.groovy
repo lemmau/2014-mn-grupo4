@@ -1,6 +1,7 @@
 package ar.utn.dds
 
 import java.awt.List;
+import java.awt.TexturePaintContext.Int;
 import java.nio.file.DirectoryStream.Filter;
 
 import grails.converters.JSON
@@ -12,7 +13,9 @@ import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.home.TodosLosJugadores;
 
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormatter
 
 
 class OrganizadorPartidosFutbolController {
@@ -43,7 +46,6 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def show(Long id){
-		println("Entrando a show :" + params.partidoId)
 		render(view : "show", model:[partidoIdInstance:params.partidoId])
 		/*redirect(action :"getJugadoresDeUnPartdio",params:params)*/
 	}
@@ -51,7 +53,6 @@ class OrganizadorPartidosFutbolController {
 	def getJugadoresDeUnPartdio(){
 		def partidoResponse = null
 		if(params.partidoId){
-			println("Obtuvimos el id del partido: " + params.partidoId)
 			def partidoIdAsLong = params.partidoId as Long
 			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
 
@@ -95,7 +96,6 @@ class OrganizadorPartidosFutbolController {
 	def buscarJugadoresAsJson(){
 		def jugadorBusqueda = mapearJugador(new JugadorToMatch(), params)
 		def jugadoresMatcheados = filtrarJugadores(jugadorBusqueda)
-		println(jugadoresMatcheados)
 		def jugadores = jugadoresMatcheados.collect { jugador ->
 			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
 				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
@@ -103,19 +103,17 @@ class OrganizadorPartidosFutbolController {
 		render jugadores
 
 	}
-	
-	def filtrarJugadores(jugadorToMatch){
 
+	def filtrarJugadores(jugadorToMatch){
 		def interesadosAceptados = homeJugadores.getInteresadosAceptados()
-		println("Jugador to match: " + jugadorToMatch.nombre)
-			
+
 		interesadosAceptados.findAll  { jugador  ->
-			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) //&& 
-			 			//(jugador.apodo.toLowerCase() == jugadorToMatch.apodo) &&
-						 //jugador.fechaInicio.toDate().isBefore(jugadorToMatch.fechaNacimiento) ||
-						 //jugador.fechaHasta.toDate().isAfter(jugadorToMatch.fechaNacimiento) ||
-						 //(jugador.handicap.toInteger() < jugadorToMatch.handicapHasta) &&
-						 //(jugador.handicap.toInteger() > jugadorToMatch.handicapDesde))
+			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) &&
+					(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
+					(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
+					jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
+					(jugador.handicap as Integer) < jugadorToMatch.handicapHasta && 
+					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
 		}
 	}
 
@@ -124,9 +122,13 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def mapearJugador(jugador,params){
+		
+		def DateTimeFormatter format = DateTimeFormat.forPattern("yyyy/MM/dd")
+		
+		println("pasa el dateFormatter")
+		
 		if(params.nombre){
 			jugador.setNombre(params.nombre)
-			println(params.nombre)
 		}else{
 			jugador.nombre = ""
 		}
@@ -138,29 +140,30 @@ class OrganizadorPartidosFutbolController {
 		if(params.apodo){
 			jugador.apodo = params.apodo
 		}else{
-			jugador.apodo = "~ /[a-zA-Z]/"
+			jugador.apodo = ""
 		}
 		if(params.handicapDesde){
-			jugador.handicapDesde = params.handicap
+			jugador.handicapDesde = params.handicapDesde as Integer
 		}else{
-			jugador.handicapDesde = 0;
+			jugador.handicapDesde = 0 as Integer
 		}
 		if(params.handicapHasta){
-			jugador.handicapHasta = params.handicapHasta
+			jugador.handicapHasta = params.handicapHasta as Integer
 		}else{
-			jugador.handicapHasta = 10
+			jugador.handicapHasta = 10 as Integer
 		}
 		if(params.fechaDesde){
-			jugador.fechaDesde = params.fechaNacimiento
+			jugador.fechaDesde = format.parseDateTime(params.fechaDesde)
 		}else{
-			jugador.fechaDesde = new DateTime(100,1,1,0,0)
+			jugador.fechaDesde = format.parseDateTime("1000/01/01")
 		}
 		if(params.fechaHasta){
-			jugador.fechaHasta = params.fechaHasta
+			jugador.fechaHasta = format.parseDateTime(params.fechaHasta)
 		}else{
-			jugador.fechaHasta = new DateTime(3000,1,1,0,0)
+			jugador.fechaHasta = format.parseDateTime("3000/12/22")
 		}
-		
+
+		//println(format.parseDateTime("1991/10/02"))
 		jugador
 	}
 

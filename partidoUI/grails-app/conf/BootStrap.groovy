@@ -31,19 +31,19 @@ class BootStrap {
 	Jugador jugadorEstandar10
 		
 		partido = new Partido(new Admin("admin@ddsutn.com"))
-		partido.setFechaInicio(LocalDateTime.now())
+		partido.setFechaInicio(LocalDateTime.now().plusDays(5))
 		
-		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new LocalDate(1979, 12, 14), new Estandar(), 10)
+		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new LocalDate(1985, 12, 14), new Estandar(), 10)
 		jugadorEstandar1 = new Jugador("Brian", "Sarto", "Brayus", new LocalDate(1979, 12, 14), new Estandar(), 1)
-		jugadorEstandar2 = new Jugador("Cristian", "Mulder","Cris", new LocalDate(1979, 12, 14), new Estandar(), 2)
-		jugadorEstandar3 = new Jugador("Daniel", "Mulderist","Dani", new LocalDate(1979, 12, 14), new Estandar(), 3)
-		jugadorEstandar4 = new Jugador("Ezequiel", "Mente", "Equi", new LocalDate(1979, 12, 14), new Estandar(), 4)
-		jugadorEstandar5 = new Jugador("Francisco", "Mulder","Pancho", new LocalDate(1979, 12, 14), new Estandar(), 5)
-		jugadorEstandar6 = new Jugador("Gonzalo", "Mur", "Ganzo", new LocalDate(1979, 12, 14), new Estandar(), 6)
-		jugadorEstandar7 = new Jugador("Ivan", "Muler", "Ivo",new LocalDate(1979, 12, 14), new Estandar(), 7)
+		jugadorEstandar2 = new Jugador("Cristian", "Mulder","Cris", new LocalDate(1991, 12, 14), new Estandar(), 2)
+		jugadorEstandar3 = new Jugador("Daniel", "Mulderist","Dani", new LocalDate(1962, 12, 14), new Estandar(), 3)
+		jugadorEstandar4 = new Jugador("Ezequiel", "Mente", "Equi", new LocalDate(1940, 12, 14), new Estandar(), 4)
+		jugadorEstandar5 = new Jugador("Francisco", "Mulder","Pancho", new LocalDate(1999, 12, 14), new Estandar(), 5)
+		jugadorEstandar6 = new Jugador("Gonzalo", "Mur", "Ganzo", new LocalDate(1968, 12, 14), new Estandar(), 6)
+		jugadorEstandar7 = new Jugador("Ivan", "Muler", "Ivo",new LocalDate(1910, 12, 14), new Estandar(), 7)
 		jugadorEstandar8 = new Jugador("Joaquin", "Restia", "Joaco", new LocalDate(1979, 12, 14), new Estandar(), 8)
-		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new LocalDate(1979, 12, 14), new Estandar(), 9)
-		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new LocalDate(1979, 12, 15), new Estandar(), 9)
+		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new LocalDate(1945, 12, 14), new Estandar(), 9)
+		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new LocalDate(1918, 12, 15), new Estandar(), 9)
 		
 		jugadores = [jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
 			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]

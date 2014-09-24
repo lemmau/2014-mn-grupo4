@@ -7,6 +7,7 @@ import java.util.ArrayList
 import java.util.List
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
+import org.joda.time.DateTime
 
 class Jugador {
 
@@ -14,7 +15,7 @@ class Jugador {
 	@Property private String nombre
 	@Property private String apellido
 	@Property private String apodo
-	@Property private LocalDate fechaNacimiento
+	@Property private DateTime fechaNacimiento
 	@Property private Integer handicap
 	@Property private String mail
 	
@@ -27,11 +28,11 @@ class Jugador {
 		
 	}
 
-	new(String nombre, String apellido,String apodo, LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+	new(String nombre, String apellido,String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion) {
 		this(nombre, apellido,apodo, nacimiento, tipoDeInscripcion, 1)
 	}
 
-	new(String nombre, String apellido, String apodo,LocalDate nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
+	new(String nombre, String apellido, String apodo,DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
 		this.nombre = nombre
 		this.apodo = apodo
 		this.apellido = apellido

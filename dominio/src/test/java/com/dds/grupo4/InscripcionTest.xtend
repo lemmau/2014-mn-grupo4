@@ -8,7 +8,7 @@ import com.dds.grupo4.dominio.Jugador
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.joda.time.LocalDate
+import org.joda.time.DateTime
 
 class InscripcionTest {
 
@@ -18,7 +18,7 @@ class InscripcionTest {
 	@Before
 	def void setUp() {
 
-		jugadorEstandar = new Jugador("Diego","adad", "Mulder", new LocalDate(1979, 12, 14), new Estandar)
+		jugadorEstandar = new Jugador("Diego","adad", "Mulder", new DateTime(1979, 12, 14,0,0), new Estandar)
 		
 		inscripcion = new Inscripcion(jugadorEstandar)
 

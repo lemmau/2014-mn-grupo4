@@ -9,7 +9,7 @@ import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.observadores.InscripcionObserver
-import org.joda.time.LocalDateTime
+import org.joda.time.DateTime
 
 class Partido {
 
@@ -18,7 +18,7 @@ class Partido {
 	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property Long id
-	@Property LocalDateTime fechaInicio;
+	@Property DateTime fechaInicio;
 	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin
 	//@Property private String mail
