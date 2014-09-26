@@ -33,49 +33,8 @@ table#equipoJugadores tr:nth-child(odd) {
 </style>
 </head>
 <body>
-	<%--<div class="panel-group" id="accordion2">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="accordion-toggle" data-toggle="collapse"
-						data-parent="#accordion2" href="#collapseTwo">Jugadores del partido: 
-					</a>
-				</div>
-				<div id="collapseTwo" class="panel-collapse collapse in">
-					<div class="panel-body">
-						<div id="list-materia" class="content scaffold-list">
-							<table
-								class="table table-striped table-bordered table-hover table-condensed">
-								<thead>
-									<g:sortableColumn property="nombreJugador"
-										title="Nombre Jugador" />
-									<g:sortableColumn property="apellidoJugador"
-										title="Apellido Jugador" />
-									<g:sortableColumn property="fechaNacimiento"
-										title="Fecha Nacimiento" />
-								</thead>
-								<tbody>
-									<g:each in="${partidoInstance.inscripciones}" status="i" var="amigo">
-										<tr class="${(i % 2) == 0 ? 'info' : ''}">
-											<td><g:link action="detalleJugador" id="${amigo.jugador.id}">
-													${amigo.jugador.nombre}
-												</g:link></td>
-											<td>
-												${amigo.jugador.apellido}
-											</td>
-											<td>
-												${amigo.jugador.fechaNacimiento}
-											</td>
-										</tr>
-									</g:each>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>	
-		--%>
-		<table id="equipoJugadores">
+
+	<table id="equipoJugadores">
 		<tr>
 			<th>Nombre</th>
 			<th>Apellido</th>
@@ -83,48 +42,159 @@ table#equipoJugadores tr:nth-child(odd) {
 			<th>Fecha Nacimiento</th>
 			<th>Handicap</th>
 		</tr>
-		</table>
-		<span id="idPartido"></span>
-		<span id="fechaJuego"></span>
-		<table id = "jugadoresDelPartido">
-		</table>
-			<div class="buttons">
-				<br>
-				<g:hiddenField name="id" value="${partidoInstance?.id}" />
-				<g:select name="criterioOrden" title="Criterio de Ordenamiento" from="${['Handicap', 'Promedio Calificaciones', 'Promedio ultimo Partido']}" valueMessagePrefix="criterioOrden"
-				noSelection="['':'-Elegir criterio de ordenamiento-']" />
-				<g:select name="criterioSeleccion" from="${['Par/Impar', '1,4,5,8,9/2,3,6,7,19']}" valueMessagePrefix="criterioSeleccion" 
-				noSelection="['':'-Elegir criterio de seleccion-']"/>
-				<g:actionSubmit class="btn btn-primary" action="generarEquipos" value="GenerarEquipos"/>
-				<g:link class="btn btn-primary" action="list">
-					Volver
-				</g:link>
-			</div>
-			
-			<script type="text/javascript">
+	</table>
+
+	<div class="combo-box" style="margin-top: 10px">
+		<div style="margin-left: 25px">
+			<span>:: Ordenar por ::</span> <select name="criterioOrden"
+				id="criterioOrdenamiento" style="width: 150px">
+				<option value="none">Seleccionar</option>
+				<option value="handicap">Handicap</option>
+				<option value="calificacion">Promedio Calificación</option>
+				<option value="ultimoPartido">Promedio ultimo partido</option>
+			</select>
+		</div>
+		<div>
+			<span>:: Seleccionar por ::</span> <select name="criterioSeleccion"
+				id="criterioSeleccion" style="width: 150px">
+				<option value="none">Seleccionar</option>
+				<option value="par-impar">Par/Impar</option>
+				<option value="numeros1">1,4,5,8,9/2,3,6,7,19</option>
+			</select>
+		</div>
+	</div>
+
+	<div style="margin-top: 10px">
+		<button type="button" id="generarEquipos" disabled>Generar
+			Equipos</button>
+	</div>
+
+	<div>
+		<div>
+			<table id="tabla1">
+				<tr>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Apodo</th>
+					<th>Fecha Nacimiento</th>
+					<th>Handicap</th>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<table id="tabla2">
+				<tr>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Apodo</th>
+					<th>Fecha Nacimiento</th>
+					<th>Handicap</th>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+
+	<span id="idPartido"></span>
+	<span id="fechaJuego"></span>
+	<table id="jugadoresDelPartido">
+	</table>
+
+<script type="text/javascript">
 
 $(document).ready(function() {
-	console.log("El documento se cargo exitosamente");
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
-	urlPartidos = urlbase + "/getJugadoresDeUnPartdio"
-	callback = function(){alert("No se pudo cargar los partidos")}
-	successFunction = function(data){
-		equipoJugadores = $("#equipoJugadores")
-		$('#equipoJugadores td').remove();
 
-		for (i = 0; i < data.length; i++) {
-			equipoJugadores.append('<tr><td>' + data[i].nombre + '</td><td>'
-					+ data[i].apellido + '</td><td>' + data[i].apodo
-					+ '</td><td>' + data[i].fechaNacimiento + '</td><td>' + data[i].handicap + '</td></tr>')
-		}
-	}
-	data = {partidoId: ${partidoIdInstance}} 
-	makeAjaxCall(urlPartidos,data,successFunction,callback)
+	fillMatchTable({partidoId : 2})
+	
+	$("#tabla1").hide();
+	$("#tabla2").hide();
+
+	$(".combo-box").click(function(){
+		//console.log($("#criterioOrdenamiento").val() == "none")
+		if(($("#criterioOrdenamiento").val() != "none") <%--&& ($("#criterioSeleccion").val() != "none")--%>){
+			$("#generarEquipos").attr("disabled", false)
+			} else {
+				$("#generarEquipos").attr("disabled", true)
+				}
+		})
+	
+	$("#generarEquipos").click(function(){
+
+		fillMatchesTable({
+			ordenamiento : $("#criterioOrdenamiento").val(),
+			 partidoId:${_partidoId}})
+		
+		})
+	
+	
 	
 });
+
+function fillMatchesTable(_data){
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlPartidos = urlbase + "/generarEquipos";
+		
+		callback = function(){alert("No se pudo cargar los partidos")}
+		successFunction = function(data){
+				tablaJugadores1 = $("#tabla1")
+				tablaJugadores2 = $("#tabla2")
+				
+				tablaJugadores1.show()
+				tablaJugadores2.show()
+				
+				$('#tablaJugadores1 td').remove();
+				$('#tablaJugadores2 td').remove();
+
+				for (i = 0; i < data.length; i++) {
+				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
+
+				var tableToFill = tablaJugadores1 		
+						if(i>=5){
+							tableToFill = tablaJugadores2
+							}
+				 
+				
+				tableToFill.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
+							+ data[i].apellido + '</td><td>' 
+							+ data[i].apodo    + '</td><td>' 
+							+ data[i].fechaNacimiento + '</td><td>' 
+							+ data[i].handicap + '</td></tr>')
+				}
+			}
+		data = _data
+
+		makeAjaxCall(urlPartidos,data,successFunction,callback)
+	
+}
+
+function fillMatchTable(_data){
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlPartidos = urlbase + "/getJugadoresDeUnPartdio";
+		
+		callback = function(){alert("No se pudo cargar los partidos")}
+		successFunction = function(data){
+			equipoJugadores = $("#equipoJugadores")
+				$('#equipoJugadores td').remove();
+			
+
+				for (i = 0; i < data.length; i++) {
+				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
+					
+				equipoJugadores.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
+							+ data[i].apellido + '</td><td>' 
+							+ data[i].apodo    + '</td><td>' 
+							+ data[i].fechaNacimiento + '</td><td>' 
+							+ data[i].handicap + '</td></tr>')
+				}
+			}
+		
+		data = _data
+
+		makeAjaxCall(urlPartidos,data,successFunction,callback)
+}
 
 
 		
 </script>
-		</body>
+</body>
 </html>

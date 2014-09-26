@@ -3,14 +3,18 @@ package ar.utn.dds
 import java.awt.List;
 import java.awt.TexturePaintContext.Int;
 import java.nio.file.DirectoryStream.Filter;
+import java.text.SimpleDateFormat
 
 import grails.converters.JSON
 import ar.utn.dds.domain.JugadorToMatch
 
+import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.home.TodosLosJugadores;
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import com.dds.grupo4.ordenamiento.Handicap
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -46,7 +50,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def show(Long id){
-		render(view : "show", model:[partidoIdInstance:params.partidoId])
+		render(view : "show", model:[_partidoId:params.partidoId])
 		/*redirect(action :"getJugadoresDeUnPartdio",params:params)*/
 	}
 
@@ -57,15 +61,17 @@ class OrganizadorPartidosFutbolController {
 			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
 
 			partidoResponse = partdioBuscado.inscripciones.collect { inscripcion ->
-				["nombre" : inscripcion.jugador.nombre, "apellido":inscripcion.jugador.apellido,
-					"apodo":inscripcion.jugador.apodo
-					,"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
-					"handicap":inscripcion.jugador.handicap]
+				[	"nombre" : inscripcion.jugador.nombre, 
+					"apellido":inscripcion.jugador.apellido,
+					"apodo":inscripcion.jugador.apodo,
+					"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
+					"handicap":inscripcion.jugador.handicap,
+					"id" : inscripcion.jugador.id ]
 			} as JSON
 		}
 		render partidoResponse
 	}
-
+	
 	def mapear(partido, params) {
 		if (params.partido) {
 			partido.fechaInicio = params.fechaInicio
@@ -76,29 +82,61 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def detalleJugador(Long id){
-		def jugador = homeJugadores.getJugador(id)
-		if (!jugador) {
-			flash.message = "Jugador " + id + " no encontrado"
-			redirect(action: "show")
-		}
-		else {
-			[jugadorInstance: jugador, amigosInstance: jugador.amigos]
-		}
+		render(view : "detalleJugador",model : [playerId:params.jugadorId])
+
+	}
+
+	def doDetalleJugador(){
+		def playreId = params.jugadorId as Integer
+
+		def jugador = homeJugadores.getJugador(playreId)
+
+		def jugadorBuscado = [ "nombre" : jugador.nombre,"apodo" : jugador.apodo, "handicap" : jugador.handicap, "amigos": jugador.amigos.collect{ amigo -> 
+			["nombre": amigo.nombre , "apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
+		} ] as JSON
+
+		render jugadorBuscado
+
 	}
 
 	def generarEquipos(){
-
+		CriterioOrden criterioOrden = mapearCriterioOrden(params.ordenamiento)
+		def partidoAGenerar = homePartidos.getPartido((params.partidoId as Long))
+		def formacion =	homePartidos.generarEquipo(partidoAGenerar,criterioOrden)
+		
+		def formacionJson = formacion.collect { inscripcion ->
+				[	"nombre" : inscripcion.jugador.nombre, 
+					"apellido":inscripcion.jugador.apellido,
+					"apodo":inscripcion.jugador.apodo,
+					"fechaNacimiento":inscripcion.jugador.fechaFormateada,
+					"handicap":inscripcion.jugador.handicap,
+					"id" : inscripcion.jugador.id ]
+			} as JSON
+		
+		render formacionJson
+	}
+	
+	def mapearCriterioOrden(ordenamiento){
+		
+		CriterioOrden criterio = null
+		
+		if(ordenamiento == "handicap"){
+			criterio = new Handicap()
+		}
+		
+		criterio
 	}
 
 	def busqueda(){
 	}
 
 	def buscarJugadoresAsJson(){
+
 		def jugadorBusqueda = mapearJugador(new JugadorToMatch(), params)
 		def jugadoresMatcheados = filtrarJugadores(jugadorBusqueda)
 		def jugadores = jugadoresMatcheados.collect { jugador ->
 			["nombre" : jugador.nombre, "apellido":jugador.apellido, "apodo":jugador.apodo
-				,"fechaNacimiento":jugador.fechaNacimiento,"handicap":jugador.handicap]
+				,"fechaNacimiento":jugador.getFechaFormateada(),"handicap":jugador.handicap,"id":jugador.id]
 		} as JSON
 		render jugadores
 
@@ -109,11 +147,11 @@ class OrganizadorPartidosFutbolController {
 
 		interesadosAceptados.findAll  { jugador  ->
 			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) &&
-					(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
-					(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
-					jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
-					(jugador.handicap as Integer) < jugadorToMatch.handicapHasta && 
-					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
+			(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
+			(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
+			jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
+			(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
+			(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
 		}
 	}
 
@@ -122,11 +160,8 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def mapearJugador(jugador,params){
-		
 		def DateTimeFormatter format = DateTimeFormat.forPattern("yyyy/MM/dd")
-		
-		println("pasa el dateFormatter")
-		
+
 		if(params.nombre){
 			jugador.setNombre(params.nombre)
 		}else{
@@ -163,7 +198,6 @@ class OrganizadorPartidosFutbolController {
 			jugador.fechaHasta = format.parseDateTime("3000/12/22")
 		}
 
-		//println(format.parseDateTime("1991/10/02"))
 		jugador
 	}
 

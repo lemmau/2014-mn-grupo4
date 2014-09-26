@@ -8,6 +8,7 @@ import java.util.List
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.DateTime
+import java.text.SimpleDateFormat
 
 class Jugador {
 
@@ -16,23 +17,24 @@ class Jugador {
 	@Property private String apellido
 	@Property private String apodo
 	@Property private DateTime fechaNacimiento
+	private String fechaFormateada
 	@Property private Integer handicap
 	@Property private String mail
-	
+
 	@Property private List<Jugador> amigos = new ArrayList<Jugador>
 	@Property private TipoDeInscripcion tipoDeInscripcion
 
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>
 
-	new(){
-		
+	new() {
 	}
 
-	new(String nombre, String apellido,String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion) {
-		this(nombre, apellido,apodo, nacimiento, tipoDeInscripcion, 1)
+	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion) {
+		this(nombre, apellido, apodo, nacimiento, tipoDeInscripcion, 1)
 	}
 
-	new(String nombre, String apellido, String apodo,DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion, Integer handicap) {
+	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion,
+		Integer handicap) {
 		this.nombre = nombre
 		this.apodo = apodo
 		this.apellido = apellido
@@ -48,7 +50,8 @@ class Jugador {
 		_handicap = h
 	}
 
-	def Integer edad(){
+	def Integer edad() {
+
 		// TODO corregir esto! calcular bien la edad
 		LocalDate.now.getYear() - fechaNacimiento.getYear()
 	}
@@ -57,46 +60,51 @@ class Jugador {
 		partido.inscribirA(this)
 
 		//this.partidosALosQueMeInscribi.add(partido)
-	}
+		}
 
-	def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
-		this.tipoDeInscripcion = inscripcion;
-	}
+		def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
+			this.tipoDeInscripcion = inscripcion;
+		}
 
-	def void agregarAmigo(Jugador interesado) {
-		this.amigos.add(interesado)
-	}
+		def void agregarAmigo(Jugador interesado) {
+			this.amigos.add(interesado)
+		}
 
-	def List<String> mailsAmigos() {
-		this.amigos.map(amigo|amigo.mail);
-	}
+		def List<String> mailsAmigos() {
+			this.amigos.map(amigo|amigo.mail);
+		}
 
-	// TODO Pasamanos
-	def estasConfirmado(Partido partido) {
-		this.tipoDeInscripcion.estasConfirmado(partido)
-	}
+		// TODO Pasamanos
+		def estasConfirmado(Partido partido) {
+			this.tipoDeInscripcion.estasConfirmado(partido)
+		}
 
-	def Integer getPrioridad() {
-		this.tipoDeInscripcion.getPrioridad;
-	}
+		def Integer getPrioridad() {
+			this.tipoDeInscripcion.getPrioridad;
+		}
 
-	// TODO La infraccion debe estar relacionada al partido?
-	def agregarInfraccion(String motivo) {
-		this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
-	}
+		// TODO La infraccion debe estar relacionada al partido?
+		def agregarInfraccion(String motivo) {
+			this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
+		}
 
-	def Integer cantidadInfracciones() {
-		this.infracciones.size
-	}
+		def Integer cantidadInfracciones() {
+			this.infracciones.size
+		}
 
-
-	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
-	def equals(Jugador i) {
-		return (
-				this.nombre.equalsIgnoreCase(i.nombre) &&
-				this.apellido.equalsIgnoreCase(i.apellido) &&
+		// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
+		def equals(Jugador i) {
+			return (
+				this.nombre.equalsIgnoreCase(i.nombre) && this.apellido.equalsIgnoreCase(i.apellido) &&
 				this.fechaNacimiento.equals(i.fechaNacimiento)
 				)
+		}
+
+		def String getFechaFormateada() {
+			val SimpleDateFormat dateParser = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+			dateParser.format(fechaNacimiento.toDate())
+		}
+
 	}
 	
-}

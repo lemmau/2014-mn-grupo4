@@ -3,8 +3,7 @@ import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
+import org.joda.time.DateTime
 
 import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.home.TodosLosJugadores;
@@ -31,19 +30,19 @@ class BootStrap {
 	Jugador jugadorEstandar10
 		
 		partido = new Partido(new Admin("admin@ddsutn.com"))
-		partido.setFechaInicio(LocalDateTime.now().plusDays(5))
+		partido.fechaInicio = DateTime.now().plusDays(5)
 		
-		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new LocalDate(1985, 12, 14), new Estandar(), 10)
-		jugadorEstandar1 = new Jugador("Brian", "Sarto", "Brayus", new LocalDate(1979, 12, 14), new Estandar(), 1)
-		jugadorEstandar2 = new Jugador("Cristian", "Mulder","Cris", new LocalDate(1991, 12, 14), new Estandar(), 2)
-		jugadorEstandar3 = new Jugador("Daniel", "Mulderist","Dani", new LocalDate(1962, 12, 14), new Estandar(), 3)
-		jugadorEstandar4 = new Jugador("Ezequiel", "Mente", "Equi", new LocalDate(1940, 12, 14), new Estandar(), 4)
-		jugadorEstandar5 = new Jugador("Francisco", "Mulder","Pancho", new LocalDate(1999, 12, 14), new Estandar(), 5)
-		jugadorEstandar6 = new Jugador("Gonzalo", "Mur", "Ganzo", new LocalDate(1968, 12, 14), new Estandar(), 6)
-		jugadorEstandar7 = new Jugador("Ivan", "Muler", "Ivo",new LocalDate(1910, 12, 14), new Estandar(), 7)
-		jugadorEstandar8 = new Jugador("Joaquin", "Restia", "Joaco", new LocalDate(1979, 12, 14), new Estandar(), 8)
-		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new LocalDate(1945, 12, 14), new Estandar(), 9)
-		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new LocalDate(1918, 12, 15), new Estandar(), 9)
+		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new DateTime(1985, 12, 14,0,0), new Estandar(), 10)
+		jugadorEstandar1 = new Jugador("Brian", "Sarto", "Brayus", new DateTime(1979, 12, 14,0,0), new Estandar(), 1)
+		jugadorEstandar2 = new Jugador("Cristian", "Mulder","Cris", new DateTime(1991, 12, 14,0,0), new Estandar(), 2)
+		jugadorEstandar3 = new Jugador("Daniel", "Mulderist","Dani", new DateTime(1962, 12, 14,0,0), new Estandar(), 3)
+		jugadorEstandar4 = new Jugador("Ezequiel", "Mente", "Equi", new DateTime(1940, 12, 14,0,0), new Estandar(), 4)
+		jugadorEstandar5 = new Jugador("Francisco", "Mulder","Pancho", new DateTime(1999, 12, 14,0,0), new Estandar(), 5)
+		jugadorEstandar6 = new Jugador("Gonzalo", "Mur", "Ganzo", new DateTime(1968, 12, 14,0,0), new Estandar(), 6)
+		jugadorEstandar7 = new Jugador("Ivan", "Muler", "Ivo",new DateTime(1910, 12, 14,0,0), new Estandar(), 7)
+		jugadorEstandar8 = new Jugador("Joaquin", "Restia", "Joaco", new DateTime(1979, 12, 14,0,0), new Estandar(), 8)
+		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new DateTime(1945, 12, 14,0,0), new Estandar(), 9)
+		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new DateTime(1918, 12, 15,0,0), new Estandar(), 9)
 		
 		jugadores = [jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
 			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]
@@ -53,8 +52,22 @@ class BootStrap {
 		jugadorEstandar0.agregarAmigo(jugadorEstandar1)
 		jugadorEstandar0.agregarAmigo(jugadorEstandar2)
 		jugadorEstandar0.agregarAmigo(jugadorEstandar3)
-		jugadorEstandar1.agregarAmigo(jugadorEstandar1)
+		jugadorEstandar1.agregarAmigo(jugadorEstandar7)
 		jugadorEstandar1.agregarAmigo(jugadorEstandar2)
+		jugadorEstandar1.agregarAmigo(jugadorEstandar6)
+		jugadorEstandar1.agregarAmigo(jugadorEstandar8)
+		jugadorEstandar1.agregarAmigo(jugadorEstandar9)
+		jugadorEstandar2.agregarAmigo(jugadorEstandar9)
+		jugadorEstandar3.agregarAmigo(jugadorEstandar5)
+		jugadorEstandar4.agregarAmigo(jugadorEstandar2)
+		jugadorEstandar5.agregarAmigo(jugadorEstandar9)
+		jugadorEstandar5.agregarAmigo(jugadorEstandar4)
+		jugadorEstandar6.agregarAmigo(jugadorEstandar3)
+		jugadorEstandar7.agregarAmigo(jugadorEstandar4)
+		jugadorEstandar8.agregarAmigo(jugadorEstandar1)
+		jugadorEstandar9.agregarAmigo(jugadorEstandar4)
+		jugadorEstandar10.agregarAmigo(jugadorEstandar9)
+		
 		
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar0)
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar1)

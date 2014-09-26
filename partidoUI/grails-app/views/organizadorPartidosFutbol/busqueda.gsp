@@ -118,46 +118,57 @@ table#tablaJugadores tr:nth-child(odd) {
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
-			makeAnAjaxCall({
-				nombre : $("#nombre").val(),
-				apodo : $("#apodo").val()
-			})
-
-			$(".dateField").keyup(function(){
-				if($("#fechaDesde").val().length == 10 || $("#fechaHasta").val().length == 10){
-					makeAnAjaxCall({
-						nombre : $("#nombre").val(),
-						apodo : $("#apodo").val(),
-						handicapDesde : $("#handicapDesde").val(),
-						handicapHasta : $("#handicapHasta").val(),
-						fechaDesde : $("#fechaDesde").val(),
-						fechaHasta : $("#fechaHasta").val()
-					})
+			makeAnAjaxCall(dataValues())
+			
+			
+			$("#fechaHasta").keyup(function(){
+				if($("#fechaHasta").val().length == 10 || $("#fechaHasta").val().length == 0){
+					makeAnAjaxCall(dataValues())
 					}
+			})
 				
+			$("#fechaDesde").keyup(function(){
+				if($("#fechaDesde").val().length == 10 || $("#fechaDesde").val().length == 0){
+					makeAnAjaxCall(dataValues())
+					}
 				})
 			
 			$(".inputField").keyup(function(){
-				makeAnAjaxCall({
-					nombre : $("#nombre").val(),
-					apodo : $("#apodo").val(),
-					handicapDesde : $("#handicapDesde").val(),
-					handicapHasta : $("#handicapHasta").val()
-				})
+				makeAnAjaxCall(dataValues())
+				
 			})
 			
 			
 		});
 
+		function dataValues(){
+			
+			var dataV = {
+				nombre : $("#nombre").val(),
+				apodo : $("#apodo").val(),
+				handicapDesde : $("#handicapDesde").val(),
+				handicapHasta : $("#handicapHasta").val(),
+				fechaDesde : $("#fechaDesde").val(),
+				fechaHasta : $("#fechaHasta").val()
+				}
+
+			return dataV 
+		} 
+
 		function makeAnAjaxCall(_data){
-			urlPartidos = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol/buscarJugadoresAsJson"
+			
+			urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+			urlPartidos = urlbase + "/buscarJugadoresAsJson";
+				
 				callback = function(){alert("No se pudo cargar los partidos")}
 				successFunction = function(data){
 						tablaJugadores = $("#tablaJugadores")
 						$('#tablaJugadores td').remove();
 
 						for (i = 0; i < data.length; i++) {
-							tablaJugadores.append('<tr><td>' + data[i].nombre + '</td><td>'
+						var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
+							
+							tablaJugadores.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
 									+ data[i].apellido + '</td><td>' 
 									+ data[i].apodo    + '</td><td>' 
 									+ data[i].fechaNacimiento + '</td><td>' 

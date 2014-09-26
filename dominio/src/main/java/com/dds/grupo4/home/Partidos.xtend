@@ -4,6 +4,8 @@ import com.dds.grupo4.dominio.Partido
 import java.util.List
 import java.util.ArrayList
 import com.dds.grupo4.dominio.Jugador
+import com.dds.grupo4.divisorequipos.DivisorDeEquipos
+import com.dds.grupo4.ordenamiento.CriterioOrden
 
 class Partidos {
 	@Property private List<Partido> partidos = new ArrayList<Partido>
@@ -44,6 +46,11 @@ class Partidos {
 	def getPartido(Long id){
 		partidos.findFirst[ partido | partido.id.equals(id)]
 		
+	}
+
+	def generarEquipo(Partido partido,CriterioOrden criterio){
+		partido.agregarCriterioOrdenamiento(criterio)
+		partido.ordenarJugadoresFinales		
 	}
 
 	def partidosxJugador(Jugador jugador) {
