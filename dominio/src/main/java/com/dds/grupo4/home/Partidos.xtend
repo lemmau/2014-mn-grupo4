@@ -6,6 +6,8 @@ import java.util.ArrayList
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.ordenamiento.CriterioOrden
+import java.lang.reflect.Array
+import com.dds.grupo4.dominio.Inscripcion
 
 class Partidos {
 	@Property private List<Partido> partidos = new ArrayList<Partido>
@@ -48,9 +50,14 @@ class Partidos {
 		
 	}
 
-	def generarEquipo(Partido partido,CriterioOrden criterio){
-		partido.agregarCriterioOrdenamiento(criterio)
-		partido.ordenarJugadoresFinales		
+	def generarEquipo(Partido partido,CriterioOrden criterioOrden,DivisorDeEquipos criterioSeleccion){
+		var List<Inscripcion> resultado = new ArrayList
+		
+		partido.agregarCriterioOrdenamiento(criterioOrden)
+		resultado = partido.ordenarJugadoresFinales	
+		resultado = criterioSeleccion.dividirEnEquipos(resultado)
+		
+		return resultado 	
 	}
 
 	def partidosxJugador(Jugador jugador) {

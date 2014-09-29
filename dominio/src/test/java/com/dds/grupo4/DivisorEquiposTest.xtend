@@ -13,6 +13,7 @@ import com.dds.grupo4.divisorequipos.NumerosFijos
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.divisorequipos.ParImpar
 import org.joda.time.DateTime
+import com.dds.grupo4.dominio.Inscripcion
 
 class DivisorEquiposTest {
 
@@ -60,14 +61,14 @@ class DivisorEquiposTest {
 	def void dividirEquiposxNumerosFijos() {
 
 		val DivisorDeEquipos divisor = new NumerosFijos(partido)
+				
+		val esperado = #["B","E","F","J","K","A","C","D","G","I"]
+		//val esperadoB = #["A","C","D","G","I"]
 		
-		divisor.dividirEnEquipos(partido.inscripciones)
-		
-		val esperadoA = #["B","E","F","J","K"]
-		val esperadoB = #["A","C","D","G","I"]
+		val List<Inscripcion> resultado = divisor.dividirEnEquipos(partido.inscripciones)
 
-		Assert.assertEquals(esperadoA, partido.equipoA.map[inscripcion | inscripcion.jugador.nombre])
-		Assert.assertEquals(esperadoB, partido.equipoB.map[inscripcion | inscripcion.jugador.nombre])
+		Assert.assertEquals(esperado, resultado.map[inscripcion | inscripcion.jugador.nombre])
+		//Assert.assertEquals(esperadoB, partido.equipoB.map[inscripcion | inscripcion.jugador.nombre])
 	}
 
 	@Test
@@ -75,12 +76,10 @@ class DivisorEquiposTest {
 
 		val DivisorDeEquipos divisor = new ParImpar(partido)
 		
-		divisor.dividirEnEquipos(partido.inscripciones)
+		val List<Inscripcion> resultado = divisor.dividirEnEquipos(partido.inscripciones)
 		
-		val esperadoA = #["A","C","E","G","J"]
-		val esperadoB = #["B","D","F","I","K"]
+		val esperado = #["A","C","E","G","J","B","D","F","I","K"]
 
-		Assert.assertEquals(esperadoA, partido.equipoA.map[inscripcion | inscripcion.jugador.nombre])
-		Assert.assertEquals(esperadoB, partido.equipoB.map[inscripcion | inscripcion.jugador.nombre])
+		Assert.assertEquals(esperado, resultado.map[inscripcion | inscripcion.jugador.nombre])
 	}
 }
