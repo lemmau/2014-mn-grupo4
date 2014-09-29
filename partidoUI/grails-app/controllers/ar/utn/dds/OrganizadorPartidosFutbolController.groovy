@@ -9,6 +9,8 @@ import grails.converters.JSON
 import ar.utn.dds.domain.JugadorToMatch
 
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
+import com.dds.grupo4.divisorequipos.NumerosFijos;
+import com.dds.grupo4.divisorequipos.ParImpar;
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.home.Partidos
@@ -100,9 +102,12 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def generarEquipos(){
+		
+		Partido partidoAGenerar = homePartidos.getPartido((params.partidoId as Long))
 		CriterioOrden criterioOrden = mapearCriterioOrden(params.ordenamiento)
-		def partidoAGenerar = homePartidos.getPartido((params.partidoId as Long))
-		def formacion =	homePartidos.generarEquipo(partidoAGenerar,criterioOrden)
+		DivisorDeEquipos criterioSeleccion = mapearCriterioSeleccion(params.seleccion,partidoAGenerar)
+		
+		def formacion =	homePartidos.generarEquipo(partidoAGenerar,criterioOrden,criterioSeleccion)
 		
 		def formacionJson = formacion.collect { inscripcion ->
 				[	"nombre" : inscripcion.jugador.nombre, 
@@ -114,6 +119,20 @@ class OrganizadorPartidosFutbolController {
 			} as JSON
 		
 		render formacionJson
+	}
+	
+	def mapearCriterioSeleccion(seleccion,partido){
+		DivisorDeEquipos criterio = null
+		
+		if(seleccion == "parImpar"){
+			criterio = new ParImpar(partido)
+		}
+		
+		if(seleccion == "numerosFijos"){
+			criterio = new NumerosFijos(partido)
+		}
+		
+		criterio
 	}
 	
 	def mapearCriterioOrden(ordenamiento){

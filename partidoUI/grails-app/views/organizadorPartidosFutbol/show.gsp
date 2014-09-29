@@ -18,18 +18,19 @@ th, td {
 	text-align: left;
 }
 
-table#equipoJugadores tr:nth-child(even) {
+table tr:nth-child(even) {
 	background-color: #eee;
 }
 
-table#equipoJugadores tr:nth-child(odd) {
+table tr:nth-child(odd) {
 	background-color: #fff;
 }
 
-#equipoJugadores th {
+table th {
 	color: white;
 	background: black;
 }
+
 </style>
 </head>
 <body>
@@ -58,8 +59,8 @@ table#equipoJugadores tr:nth-child(odd) {
 			<span>:: Seleccionar por ::</span> <select name="criterioSeleccion"
 				id="criterioSeleccion" style="width: 150px">
 				<option value="none">Seleccionar</option>
-				<option value="par-impar">Par/Impar</option>
-				<option value="numeros1">1,4,5,8,9/2,3,6,7,19</option>
+				<option value="parImpar">Par/Impar</option>
+				<option value="numerosFijos">1,4,5,8,9/2,3,6,7,19</option>
 			</select>
 		</div>
 	</div>
@@ -70,24 +71,20 @@ table#equipoJugadores tr:nth-child(odd) {
 	</div>
 
 	<div>
-		<div>
+		<div style="width: 300px; float: left">
 			<table id="tabla1">
 				<tr>
 					<th>Nombre</th>
-					<th>Apellido</th>
 					<th>Apodo</th>
-					<th>Fecha Nacimiento</th>
 					<th>Handicap</th>
 				</tr>
 			</table>
 		</div>
-		<div>
+		<div style="width: 300px; float: right">
 			<table id="tabla2">
 				<tr>
 					<th>Nombre</th>
-					<th>Apellido</th>
 					<th>Apodo</th>
-					<th>Fecha Nacimiento</th>
 					<th>Handicap</th>
 				</tr>
 			</table>
@@ -111,7 +108,7 @@ $(document).ready(function() {
 
 	$(".combo-box").click(function(){
 		//console.log($("#criterioOrdenamiento").val() == "none")
-		if(($("#criterioOrdenamiento").val() != "none") <%--&& ($("#criterioSeleccion").val() != "none")--%>){
+		if(($("#criterioOrdenamiento").val() != "none") && ($("#criterioSeleccion").val() != "none")){
 			$("#generarEquipos").attr("disabled", false)
 			} else {
 				$("#generarEquipos").attr("disabled", true)
@@ -122,7 +119,9 @@ $(document).ready(function() {
 
 		fillMatchesTable({
 			ordenamiento : $("#criterioOrdenamiento").val(),
-			 partidoId:${_partidoId}})
+			 partidoId:${_partidoId},
+			 seleccion : $("#criterioSeleccion").val()
+		})
 		
 		})
 	
@@ -138,12 +137,12 @@ function fillMatchesTable(_data){
 		successFunction = function(data){
 				tablaJugadores1 = $("#tabla1")
 				tablaJugadores2 = $("#tabla2")
-				
+								
 				tablaJugadores1.show()
 				tablaJugadores2.show()
 				
-				$('#tablaJugadores1 td').remove();
-				$('#tablaJugadores2 td').remove();
+				$('#table1 td').remove()
+				$('#table2 td').remove()
 
 				for (i = 0; i < data.length; i++) {
 				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
@@ -155,9 +154,7 @@ function fillMatchesTable(_data){
 				 
 				
 				tableToFill.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
-							+ data[i].apellido + '</td><td>' 
 							+ data[i].apodo    + '</td><td>' 
-							+ data[i].fechaNacimiento + '</td><td>' 
 							+ data[i].handicap + '</td></tr>')
 				}
 			}
@@ -175,6 +172,7 @@ function fillMatchTable(_data){
 		successFunction = function(data){
 			equipoJugadores = $("#equipoJugadores")
 				$('#equipoJugadores td').remove();
+
 			
 
 				for (i = 0; i < data.length; i++) {
