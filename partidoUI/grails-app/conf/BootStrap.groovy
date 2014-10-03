@@ -51,12 +51,12 @@ class BootStrap {
 		
 		partido.calificarA(jugadorEstandar0, 1, "a")
 		partido.calificarA(jugadorEstandar1, 9, "a")
-		partido.calificarA(jugadorEstandar2, 8, "a")
-		partido.calificarA(jugadorEstandar3, 7, "a")
-		partido.calificarA(jugadorEstandar4, 6, "a")
+		partido.calificarA(jugadorEstandar2, 1, "a")
+		partido.calificarA(jugadorEstandar3, 1, "a")
+		partido.calificarA(jugadorEstandar4, 1, "a")
 		partido.calificarA(jugadorEstandar5, 5, "a")
 		partido.calificarA(jugadorEstandar6, 4, "a")
-		partido.calificarA(jugadorEstandar7, 3, "a")
+		partido.calificarA(jugadorEstandar7, 1, "a")
 		partido.calificarA(jugadorEstandar8, 2, "a")
 		partido.calificarA(jugadorEstandar9, 10, "a")
 

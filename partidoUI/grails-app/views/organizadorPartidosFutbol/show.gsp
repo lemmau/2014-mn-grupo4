@@ -54,6 +54,20 @@ table th {
 				<option value="calificacion">Promedio Calificación</option>
 				<option value="ultimoPartido">Promedio ultimo partido</option>
 			</select>
+			<select name="criterioOrden"
+				id="criterioOrdenamiento2" style="width: 150px" disabled>
+				<option value="none">Seleccionar</option>
+				<option value="handicap">Handicap</option>
+				<option value="calificacion">Promedio Calificación</option>
+				<option value="ultimoPartido">Promedio ultimo partido</option>
+			</select>
+			<select name="criterioOrden"
+				id="criterioOrdenamiento3" style="width: 150px" disabled>
+				<option value="none">Seleccionar</option>
+				<option value="handicap">Handicap</option>
+				<option value="calificacion">Promedio Calificación</option>
+				<option value="ultimoPartido">Promedio ultimo partido</option>
+			</select>
 		</div>
 		<div>
 			<span>:: Seleccionar por ::</span> <select name="criterioSeleccion"
@@ -70,8 +84,15 @@ table th {
 			Equipos</button>
 	</div>
 
-	<div>
-		<div style="width: 300px; float: left">
+	<div id="equiposGenerados" style="display: none">
+		<div>
+		<div style="float: none;margin-left: 312px">
+			<span id="ordenadoPor"></span>
+			<span id="seleccionadoPor"></span>
+		</div>
+	
+		<div style="width: 300px; float: left;margin-left: 135px">
+		<span>Equipo A</span>
 			<table id="tabla1">
 				<tr>
 					<th>Nombre</th>
@@ -80,7 +101,9 @@ table th {
 				</tr>
 			</table>
 		</div>
-		<div style="width: 300px; float: right">
+		
+		<div style="width: 300px; float: right;margin-right: 135px">
+		<span>Equipo B</span>
 			<table id="tabla2">
 				<tr>
 					<th>Nombre</th>
@@ -89,19 +112,33 @@ table th {
 				</tr>
 			</table>
 		</div>
-
+		
+		<div style="margin: 30px; clear:both;margin-left: 50%">
+			<button type="button" id="confirmarEquipos">Confirmar</button>
+		</div>
 	</div>
 
 	<span id="idPartido"></span>
 	<span id="fechaJuego"></span>
 	<table id="jugadoresDelPartido">
 	</table>
+	
+	<div style="margin-top: 10px">
+		<button type="button" id="regresar">Regresar</button>
+	</div>
 
 <script type="text/javascript">
 
 $(document).ready(function() {
 
-	fillMatchTable({partidoId : 2})
+	logicaParaSeleccionYOrdenamiento();
+
+	$("#regresar").click(function(){
+		console.log("PEPE")
+		window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+		})
+
+	fillMatchTable({partidoId : ${_partidoId}})
 	
 	$("#tabla1").hide();
 	$("#tabla2").hide();
@@ -116,9 +153,14 @@ $(document).ready(function() {
 		})
 	
 	$("#generarEquipos").click(function(){
-
+		$("#ordenadoPor").text("Ordenado por " + $("#criterioOrdenamiento option:selected").text())
+		$("#seleccionadoPor").text("Seleccionado por " + $("#criterioSeleccion option:selected").text())
+		
+		$("#equiposGenerados").show()
 		fillMatchesTable({
-			ordenamiento : $("#criterioOrdenamiento").val(),
+			 ordenamiento1 : $("#criterioOrdenamiento").val(),
+			 ordenamiento2 : $("#criterioOrdenamiento2").val(),
+			 ordenamiento3 : $("#criterioOrdenamiento3").val(),
 			 partidoId:${_partidoId},
 			 seleccion : $("#criterioSeleccion").val()
 		})
@@ -128,6 +170,26 @@ $(document).ready(function() {
 	
 	
 });
+
+function logicaParaSeleccionYOrdenamiento(){
+	$("#criterioOrdenamiento").change(function(){
+		if ($(this).val() == "none") {
+			$("#criterioOrdenamiento2").attr("disabled",true);
+			$("#criterioOrdenamiento3").attr("disabled",true);
+		} else {
+			$("#criterioOrdenamiento2").attr("disabled",false);
+		}
+	})
+	$("#criterioOrdenamiento2").change(function(){
+		if ($(this).val() == "none") {
+			$("#criterioOrdenamiento3").attr("disabled",true);
+		} else {
+			$("#criterioOrdenamiento3").attr("disabled",false);
+		}
+	})
+	
+	
+}
 
 function fillMatchesTable(_data){
 	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";

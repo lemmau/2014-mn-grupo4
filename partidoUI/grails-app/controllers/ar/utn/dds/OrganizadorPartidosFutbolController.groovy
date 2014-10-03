@@ -1,8 +1,9 @@
 package ar.utn.dds
 
-import java.awt.List;
+import java.util.List;
 import java.awt.TexturePaintContext.Int;
 import java.nio.file.DirectoryStream.Filter;
+import java.security.Principal;
 import java.text.SimpleDateFormat
 
 import grails.converters.JSON
@@ -20,6 +21,7 @@ import com.dds.grupo4.ordenamiento.Handicap
 import com.dds.grupo4.ordenamiento.PromedioCalificaciones
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 
+import org.hibernate.transform.ToListResultTransformer;
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.LocalDate
@@ -65,7 +67,7 @@ class OrganizadorPartidosFutbolController {
 			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
 
 			partidoResponse = partdioBuscado.inscripciones.collect { inscripcion ->
-				[	"nombre" : inscripcion.jugador.nombre, 
+				[	"nombre" : inscripcion.jugador.nombre,
 					"apellido":inscripcion.jugador.apellido,
 					"apodo":inscripcion.jugador.apodo,
 					"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
@@ -75,7 +77,7 @@ class OrganizadorPartidosFutbolController {
 		}
 		render partidoResponse
 	}
-	
+
 	def mapear(partido, params) {
 		if (params.partido) {
 			partido.fechaInicio = params.fechaInicio
@@ -95,52 +97,66 @@ class OrganizadorPartidosFutbolController {
 
 		def jugador = homeJugadores.getJugador(playreId)
 
-		def jugadorBuscado = [ "nombre" : jugador.nombre,"apodo" : jugador.apodo, "handicap" : jugador.handicap, "amigos": jugador.amigos.collect{ amigo -> 
-			["nombre": amigo.nombre , "apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
-		} ] as JSON
+		def jugadorBuscado = [ "nombre" : jugador.nombre,"apodo" : jugador.apodo, "handicap" : jugador.handicap, "amigos": jugador.amigos.collect{ amigo ->
+				["nombre": amigo.nombre , "apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
+			} ] as JSON
 
 		render jugadorBuscado
 
 	}
 
 	def generarEquipos(){
-		
+
+		def ordenamientos = new ArrayList()
+		ordenamientos.add(params.ordenamiento1)
+		ordenamientos.add(params.ordenamiento2)
+		ordenamientos.add(params.ordenamiento3)
+
 		Partido partidoAGenerar = homePartidos.getPartido((params.partidoId as Long))
-		CriterioOrden criterioOrden = mapearCriterioOrden(params.ordenamiento)
+		List<CriterioOrden> criterioOrden = mapearCriteriosOrden(ordenamientos)
+
 		DivisorDeEquipos criterioSeleccion = mapearCriterioSeleccion(params.seleccion,partidoAGenerar)
-		
+
 		def formacion =	homePartidos.generarEquipo(partidoAGenerar,criterioOrden,criterioSeleccion)
-		
+
 		def formacionJson = formacion.collect { inscripcion ->
-				[	"nombre" : inscripcion.jugador.nombre, 
-					"apellido":inscripcion.jugador.apellido,
-					"apodo":inscripcion.jugador.apodo,
-					"fechaNacimiento":inscripcion.jugador.fechaFormateada,
-					"handicap":inscripcion.jugador.handicap,
-					"id" : inscripcion.jugador.id ]
-			} as JSON
-		
+			[	"nombre" : inscripcion.jugador.nombre,
+				"apellido":inscripcion.jugador.apellido,
+				"apodo":inscripcion.jugador.apodo,
+				"fechaNacimiento":inscripcion.jugador.fechaFormateada,
+				"handicap":inscripcion.jugador.handicap,
+				"id" : inscripcion.jugador.id ]
+		} as JSON
+
 		render formacionJson
 	}
-	
+
 	def mapearCriterioSeleccion(seleccion,partido){
 		DivisorDeEquipos criterio = null
-		
+
 		if(seleccion == "parImpar"){
 			criterio = new ParImpar(partido)
 		}
-		
+
 		if(seleccion == "numerosFijos"){
 			criterio = new NumerosFijos(partido)
 		}
-		
+
 		criterio
 	}
-	
-	def mapearCriterioOrden(ordenamiento){
-		
+
+	def mapearCriteriosOrden(ordenamiento){
+
+		List<CriterioOrden> criterios = ordenamiento.collect { unOrden ->
+			mapearUnCriterio(unOrden)
+		} findAll{ orden -> orden != null} 
+
+		criterios
+	}
+
+	def mapearUnCriterio(ordenamiento){
 		CriterioOrden criterio = null
-		
+
 		if(ordenamiento == "handicap"){
 			criterio = new Handicap()
 		}
@@ -148,11 +164,11 @@ class OrganizadorPartidosFutbolController {
 		if(ordenamiento == "calificacion"){
 			criterio = new PromedioCalificaciones()
 		}
-		
+
 		if(ordenamiento == "ultimoPartido"){
-			criterio = new PromedioUltimosPartidos(2) 
+			criterio = new PromedioUltimosPartidos(2)
 		}
-		
+
 		criterio
 	}
 
@@ -176,11 +192,11 @@ class OrganizadorPartidosFutbolController {
 
 		interesadosAceptados.findAll  { jugador  ->
 			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) &&
-			(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
-			(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
-			jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
-			(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
-			(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
+					(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
+					(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
+					jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
+					(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
+					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
 		}
 	}
 
