@@ -6,14 +6,15 @@ import java.util.List
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.dominio.Inscripcion
 import com.dds.grupo4.dominio.Partido
+import com.dds.grupo4.home.Partidos
 
 class PromedioUltimosPartidos extends CriterioOrden {
 
 	Integer numeroCalificaciones = 5
 	List<Partido> partidos = new ArrayList
 
-	new (List<Partido> partidos, Integer numeroPartidos) {
-		this.partidos = partidos
+	new (Integer numeroPartidos) {
+		this.partidos = Partidos.getInstance.partidos	
 		this.numeroCalificaciones = numeroPartidos
 	}
 
