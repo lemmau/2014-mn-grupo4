@@ -9,7 +9,6 @@ import com.dds.grupo4.ordenamiento.PromedioCalificaciones
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 
-import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
 import org.junit.Before
