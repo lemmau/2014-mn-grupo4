@@ -141,8 +141,8 @@ function fillMatchesTable(_data){
 				tablaJugadores1.show()
 				tablaJugadores2.show()
 				
-				$('#table1 td').remove()
-				$('#table2 td').remove()
+				$('#tabla1 td').remove()
+				$('#tabla2 td').remove()
 
 				for (i = 0; i < data.length; i++) {
 				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id

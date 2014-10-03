@@ -9,16 +9,16 @@ import com.dds.grupo4.ordenamiento.PromedioCalificaciones
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 
-import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.joda.time.DateTime
+import com.dds.grupo4.home.Partidos
 
 class OrdenamientoTest {
 
-	List<Partido> partidos = new ArrayList
+	Partidos partidos = Partidos.instance
 	Partido partido
 	Partido partido2
 
@@ -37,6 +37,9 @@ class OrdenamientoTest {
 
 	@Before
 	def void setUp() {
+		
+		partidos.borrarTodo
+		
 		partido = new Partido(new Admin("admin@ddsutn.com"))
 		partido.setFechaInicio(new DateTime(2014, 06, 12, 21, 00))
 
@@ -85,8 +88,8 @@ class OrdenamientoTest {
 		partido2.calificarA(jugadorEstandar8, 5, "a")
 		partido2.calificarA(jugadorEstandar9, 7, "a")
 
-		partidos.add(partido)
-		partidos.add(partido2)
+		partidos.agregarPartido(partido)
+		partidos.agregarPartido(partido2)
 	}
 
 	@Test
@@ -121,7 +124,7 @@ class OrdenamientoTest {
 	@Test
 	def void verificarOrdenamientoxPromedioNPartidos() {
 
-		partido.agregarCriterioOrdenamiento(new PromedioUltimosPartidos(partidos, 2))
+		partido.agregarCriterioOrdenamiento(new PromedioUltimosPartidos(2))
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxpnp: " + ins.jugador.nombre)]

@@ -17,6 +17,8 @@ import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.home.TodosLosJugadores;
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.ordenamiento.Handicap
+import com.dds.grupo4.ordenamiento.PromedioCalificaciones
+import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -141,6 +143,14 @@ class OrganizadorPartidosFutbolController {
 		
 		if(ordenamiento == "handicap"){
 			criterio = new Handicap()
+		}
+
+		if(ordenamiento == "calificacion"){
+			criterio = new PromedioCalificaciones()
+		}
+		
+		if(ordenamiento == "ultimoPartido"){
+			criterio = new PromedioUltimosPartidos(2) 
 		}
 		
 		criterio
