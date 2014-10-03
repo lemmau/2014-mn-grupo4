@@ -48,7 +48,7 @@ class Partidos {
 
 	}
 
-	def generarEquipo(Partido partido, CriterioOrden criterioOrden, DivisorDeEquipos criterioSeleccion) {
+	def generarEquipo(Partido partido, List<CriterioOrden> criterioOrden, DivisorDeEquipos criterioSeleccion) {
 		var List<Inscripcion> resultado = new ArrayList
 
 		partido.agregarCriterioOrdenamiento(criterioOrden)
@@ -57,7 +57,8 @@ class Partidos {
 
 		return resultado
 	}
-
+	
+	
 	def partidosxJugador(Jugador jugador) {
 		partidos.filter[partido|partido.esUnJugadorFinal(jugador)]
 	}

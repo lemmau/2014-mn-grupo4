@@ -135,8 +135,8 @@ class Partido {
 	}
 
 	// ABM Criterios orden
-	def agregarCriterioOrdenamiento(CriterioOrden criterio) {
-		this.criteriosOrden.add(criterio)
+	def agregarCriterioOrdenamiento(List<CriterioOrden> criterios) {
+		this.criteriosOrden.addAll(criterios)
 	}
 
 	def quitarCriterioOrdenamiento(CriterioOrden criterio) {

@@ -15,6 +15,8 @@ import org.junit.Before
 import org.junit.Test
 import org.joda.time.DateTime
 import com.dds.grupo4.home.Partidos
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import java.util.ArrayList
 
 class OrdenamientoTest {
 
@@ -95,7 +97,10 @@ class OrdenamientoTest {
 	@Test
 	def void verificarOrdenamientoxHandicap() {
 
-		partido.agregarCriterioOrdenamiento(new Handicap())
+		val List<CriterioOrden> criterios = new ArrayList
+		criterios.add(new Handicap)
+		
+		partido.agregarCriterioOrdenamiento(criterios)
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxh: " + ins.jugador.handicap)]
@@ -108,8 +113,10 @@ class OrdenamientoTest {
 
 	@Test
 	def void verificarOrdenamientoxPromedio() {
+		val List<CriterioOrden> criterios = new ArrayList
+		criterios.add(new PromedioCalificaciones())
 
-		partido.agregarCriterioOrdenamiento(new PromedioCalificaciones())
+		partido.agregarCriterioOrdenamiento(criterios)
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxp: " + ins.jugador.handicap)]
@@ -123,8 +130,10 @@ class OrdenamientoTest {
 
 	@Test
 	def void verificarOrdenamientoxPromedioNPartidos() {
-
-		partido.agregarCriterioOrdenamiento(new PromedioUltimosPartidos(2))
+		val List<CriterioOrden> criterios = new ArrayList
+		criterios.add(new PromedioUltimosPartidos(2))
+		
+		partido.agregarCriterioOrdenamiento(criterios)
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxpnp: " + ins.jugador.nombre)]
@@ -139,8 +148,11 @@ class OrdenamientoTest {
 	@Test
 	def void verificarOrdenamientoCombinado() {
 
-		partido.agregarCriterioOrdenamiento(new Handicap())
-		partido.agregarCriterioOrdenamiento(new PromedioCalificaciones)
+		val List<CriterioOrden> criterios = new ArrayList
+		criterios.add(new Handicap())
+		criterios.add(new PromedioCalificaciones)
+
+		partido.agregarCriterioOrdenamiento(criterios)
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxcomb: " + ins.jugador.nombre)]

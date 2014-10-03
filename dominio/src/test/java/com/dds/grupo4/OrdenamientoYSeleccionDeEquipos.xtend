@@ -13,6 +13,8 @@ import com.dds.grupo4.ordenamiento.Handicap
 import com.dds.grupo4.divisorequipos.ParImpar
 import com.dds.grupo4.dominio.Inscripcion
 import org.junit.Assert
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import java.util.ArrayList
 
 class OrdenamientoYSeleccionDeEquipos {
 	
@@ -58,10 +60,12 @@ class OrdenamientoYSeleccionDeEquipos {
 	@Test
 	def void dividirYSeleccionarEquipos(){
 		val homePartidos = Partidos.instance	
+		val List<CriterioOrden> criterios = new ArrayList()
 		
+		criterios.add(new Handicap) 
 		val esperado = #["A", "C", "E", "G", "J", "B", "D", "F", "H", "I"] 
 		
-		val List<Inscripcion> resultado = homePartidos.generarEquipo(partido,new Handicap,new ParImpar(partido))
+		val List<Inscripcion> resultado = homePartidos.generarEquipo(partido,criterios,new ParImpar(partido))
 		
 		Assert.assertEquals(esperado,resultado.map[ins | ins.jugador.nombre])
 		
