@@ -44,6 +44,8 @@ class BootStrap {
 		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new DateTime(1945, 12, 14,0,0), new Estandar(), 9)
 		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new DateTime(1918, 12, 15,0,0), new Estandar(), 9)
 		
+		jugadorEstandar4.agregarInfraccion("Sos un magui")
+		
 		jugadores = [jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
 			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]
 	 

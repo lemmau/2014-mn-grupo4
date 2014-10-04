@@ -105,28 +105,28 @@ class OrganizadorPartidosFutbolController {
 		render jugadorBuscado
 
 	}
-	
+
 	def confirmarEquipos(){
 		JSONObject jsonParsed = JSON.parse(params.myjson)
 		def idsJugadores = jsonParsed.get("idsJugadores") as List
 		def idPartido = jsonParsed.get("idPartido") as Integer
 
 		confirmarEquiposDeUnPartido(idPartido,idsJugadores)
-				
+
 		render([status : "OK"] as JSON)
 	}
-	
+
 	def confirmarEquiposDeUnPartido(partidoId,jugadoresIds){
 		Partido partido = homePartidos.getPartido(partidoId)
-		
-		List<Jugador> jugadores = jugadoresIds.collect {
-			unId -> homeJugadores.getJugador(unId)
+
+		List<Jugador> jugadores = jugadoresIds.collect { unId ->
+			homeJugadores.getJugador(unId)
 		}
-		
+
 		partido.setEquipoA(jugadores.subList(0, 5))
 		partido.setEquipoB(jugadores.subList(5, 10))
 	}
-	
+
 	def generarEquipos(){
 
 		def ordenamientos = new ArrayList()
@@ -169,9 +169,7 @@ class OrganizadorPartidosFutbolController {
 
 	def mapearCriteriosOrden(ordenamiento){
 
-		List<CriterioOrden> criterios = ordenamiento.collect { unOrden ->
-			mapearUnCriterio(unOrden)
-		} findAll{ orden -> orden != null} 
+		List<CriterioOrden> criterios = ordenamiento.collect { unOrden -> mapearUnCriterio(unOrden) } findAll{ orden -> orden != null}
 
 		criterios
 	}
@@ -198,7 +196,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def buscarJugadoresAsJson(){
-
+		println(params)
 		def jugadorBusqueda = mapearJugador(new JugadorToMatch(), params)
 		def jugadoresMatcheados = filtrarJugadores(jugadorBusqueda)
 		def jugadores = jugadoresMatcheados.collect { jugador ->
@@ -218,7 +216,24 @@ class OrganizadorPartidosFutbolController {
 					(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
 					jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
 					(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
-					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde
+					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde &&
+					checkearInfraccion(jugador,jugadorToMatch)
+			}
+	}
+	
+	def checkearInfraccion(jugador,jugadorToMatch){
+		println(jugadorToMatch.conInfraccion)
+		println(jugadorToMatch.sinInfraccion)
+		
+		if(!jugadorToMatch.conInfraccion && !jugadorToMatch.sinInfraccion){
+			return true
+		}
+		if(jugadorToMatch.conInfraccion){
+			return jugador.tieneInfracciones() ? true : false
+		}
+		
+		if(jugadorToMatch.sinInfraccion){
+			return jugador.tieneInfracciones() ? false : true
 		}
 	}
 
@@ -264,6 +279,16 @@ class OrganizadorPartidosFutbolController {
 		}else{
 			jugador.fechaHasta = format.parseDateTime("3000/12/22")
 		}
+		
+		jugador.conInfraccion = params.conInfraccion.equals("true") ? true : false
+
+		jugador.sinInfraccion = params.sinInfraccion.equals("true") ? true : false 
+		
+		println("jugador conin: " +params.conInfraccion)
+		println("jugador coninJ: " +jugador.conInfraccion)
+		
+		println("jugador sinin: " +params.sinInfraccion)
+		println("jugador sininJ: " +jugador.sinInfraccion)
 
 		jugador
 	}

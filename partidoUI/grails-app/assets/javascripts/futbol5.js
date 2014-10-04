@@ -17,6 +17,24 @@ function makeAjaxCall(_url,_data,successAction,fallback){
 					error : fallback
 				//mostrarError
 				});
-	
-	
+}
+
+function excluirCheckBoxs(cb1,cb2){
+	cb1.click(function () {
+		if(cb1.is(':checked')){
+			cb2.prop("disabled", true);
+		}else{
+			cb2.prop("disabled", false);
+		}
+	});
+}
+
+function validarFecha(fecha){
+	fecha.keyup(
+			function() {
+				if (fecha.val().length == 10
+						|| fecha.val().length == 0) {
+					makeAnAjaxCall(dataValues())
+				}
+			})
 }

@@ -10,6 +10,8 @@ class JugadorToMatch {
 	def DateTime fechaHasta
 	def Integer handicapDesde
 	def Integer handicapHasta
+	def Boolean conInfraccion = false
+	def Boolean sinInfraccion = false
 	
 	
 
