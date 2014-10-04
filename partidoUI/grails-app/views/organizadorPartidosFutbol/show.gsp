@@ -85,7 +85,6 @@ table th {
 	</div>
 
 	<div id="equiposGenerados" style="display: none">
-		<div>
 		<div style="float: none;margin-left: 312px">
 			<span id="ordenadoPor"></span>
 			<span id="seleccionadoPor"></span>
@@ -113,8 +112,12 @@ table th {
 			</table>
 		</div>
 		
-		<div style="margin: 30px; clear:both;margin-left: 50%">
+		<div style="margin: 30px; clear:both;margin-left: 46%">
 			<button type="button" id="confirmarEquipos">Confirmar</button>
+		</div>
+		<div style="margin-left:35%">
+			<span id="confirmacionFailed" style="color: red;" hidden></span>
+			<span id="confirmacionSuccess" style="color: #01DF01;" hidden></span>
 		</div>
 	</div>
 
@@ -130,11 +133,10 @@ table th {
 <script type="text/javascript">
 
 $(document).ready(function() {
-
+	resultadoEquiposId = new Array()
 	logicaParaSeleccionYOrdenamiento();
 
 	$("#regresar").click(function(){
-		console.log("PEPE")
 		window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
 		})
 
@@ -151,6 +153,15 @@ $(document).ready(function() {
 				$("#generarEquipos").attr("disabled", true)
 				}
 		})
+	
+	$("#confirmarEquipos").click(function(){
+		confirmarEquipos(
+					{ 
+					idPartido : ${_partidoId},
+				  	idsJugadores : resultadoEquiposId
+				  	}
+				);
+	});
 	
 	$("#generarEquipos").click(function(){
 		$("#ordenadoPor").text("Ordenado por " + $("#criterioOrdenamiento option:selected").text())
@@ -170,6 +181,26 @@ $(document).ready(function() {
 	
 	
 });
+
+function confirmarEquipos(_data){
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlPartidos = urlbase + "/confirmarEquipos";
+
+	callback = function(){
+					$("#confirmacionFailed").show()
+					$("#confirmacionFailed").text("Problemas al intentar confirmar equipos")
+				}
+	successFunction =  function(data){
+					$("#confirmarEquipos").attr("disabled",true)
+					$("#confirmacionSuccess").show()
+					$("#confirmacionSuccess").text("Los equipos fueron confirmados exitosamente")
+				} 
+
+	data = { myjson : JSON.stringify(_data) }
+	makeAjaxCall(urlPartidos,data,successFunction,callback)
+
+	
+}
 
 function logicaParaSeleccionYOrdenamiento(){
 	$("#criterioOrdenamiento").change(function(){
@@ -197,6 +228,7 @@ function fillMatchesTable(_data){
 		
 		callback = function(){alert("No se pudo cargar los partidos")}
 		successFunction = function(data){
+				
 				tablaJugadores1 = $("#tabla1")
 				tablaJugadores2 = $("#tabla2")
 								
@@ -207,23 +239,23 @@ function fillMatchesTable(_data){
 				$('#tabla2 td').remove()
 
 				for (i = 0; i < data.length; i++) {
-				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
+					resultadoEquiposId.push(data[i].id)	
+					
+					var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
 
-				var tableToFill = tablaJugadores1 		
-						if(i>=5){
-							tableToFill = tablaJugadores2
-							}
-				 
+					var tableToFill = tablaJugadores1 		
+					if(i>=5){
+						tableToFill = tablaJugadores2
+					}
 				
-				tableToFill.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
+					tableToFill.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
 							+ data[i].apodo    + '</td><td>' 
 							+ data[i].handicap + '</td></tr>')
-				}
+					}
 			}
-		data = _data
 
+		data = _data
 		makeAjaxCall(urlPartidos,data,successFunction,callback)
-	
 }
 
 function fillMatchTable(_data){

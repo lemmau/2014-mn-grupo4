@@ -21,6 +21,7 @@ import com.dds.grupo4.ordenamiento.Handicap
 import com.dds.grupo4.ordenamiento.PromedioCalificaciones
 import com.dds.grupo4.ordenamiento.PromedioUltimosPartidos
 
+import org.codehaus.groovy.grails.web.json.JSONObject
 import org.hibernate.transform.ToListResultTransformer;
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -104,7 +105,28 @@ class OrganizadorPartidosFutbolController {
 		render jugadorBuscado
 
 	}
+	
+	def confirmarEquipos(){
+		JSONObject jsonParsed = JSON.parse(params.myjson)
+		def idsJugadores = jsonParsed.get("idsJugadores") as List
+		def idPartido = jsonParsed.get("idPartido") as Integer
 
+		confirmarEquiposDeUnPartido(idPartido,idsJugadores)
+				
+		render([status : "OK"] as JSON)
+	}
+	
+	def confirmarEquiposDeUnPartido(partidoId,jugadoresIds){
+		Partido partido = homePartidos.getPartido(partidoId)
+		
+		List<Jugador> jugadores = jugadoresIds.collect {
+			unId -> homeJugadores.getJugador(unId)
+		}
+		
+		partido.setEquipoA(jugadores.subList(0, 5))
+		partido.setEquipoB(jugadores.subList(5, 10))
+	}
+	
 	def generarEquipos(){
 
 		def ordenamientos = new ArrayList()
