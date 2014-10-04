@@ -59,52 +59,55 @@ class Jugador {
 	def void inscribite(Partido partido) {
 		partido.inscribirA(this)
 
-		//this.partidosALosQueMeInscribi.add(partido)
-		}
+	//this.partidosALosQueMeInscribi.add(partido)
+	}
 
-		def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
-			this.tipoDeInscripcion = inscripcion;
-		}
+	def void cambiarTipoDeInscripcion(TipoDeInscripcion inscripcion) {
+		this.tipoDeInscripcion = inscripcion;
+	}
 
-		def void agregarAmigo(Jugador interesado) {
-			this.amigos.add(interesado)
-		}
+	def void agregarAmigo(Jugador interesado) {
+		this.amigos.add(interesado)
+	}
 
-		def List<String> mailsAmigos() {
-			this.amigos.map(amigo|amigo.mail);
-		}
+	def List<String> mailsAmigos() {
+		this.amigos.map(amigo|amigo.mail);
+	}
 
-		// TODO Pasamanos
-		def estasConfirmado(Partido partido) {
-			this.tipoDeInscripcion.estasConfirmado(partido)
-		}
+	// TODO Pasamanos
+	def estasConfirmado(Partido partido) {
+		this.tipoDeInscripcion.estasConfirmado(partido)
+	}
 
-		def Integer getPrioridad() {
-			this.tipoDeInscripcion.getPrioridad;
-		}
+	def Integer getPrioridad() {
+		this.tipoDeInscripcion.getPrioridad;
+	}
 
-		// TODO La infraccion debe estar relacionada al partido?
-		def agregarInfraccion(String motivo) {
-			this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
-		}
+	// TODO La infraccion debe estar relacionada al partido?
+	def agregarInfraccion(String motivo) {
+		this.infracciones.add(new Infraccion(motivo, LocalDateTime.now()))
+	}
 
-		def Integer cantidadInfracciones() {
-			this.infracciones.size
-		}
+	def Integer cantidadInfracciones() {
+		this.infracciones.size
+	}
 
-		// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
-		def equals(Jugador i) {
-			return (
+	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
+	def equals(Jugador i) {
+		return (
 				this.nombre.equalsIgnoreCase(i.nombre) && this.apellido.equalsIgnoreCase(i.apellido) &&
-				this.fechaNacimiento.equals(i.fechaNacimiento)
+			this.fechaNacimiento.equals(i.fechaNacimiento)
 				)
-		}
+	}
 
-		def String getFechaFormateada() {
-			val SimpleDateFormat dateParser = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	def String getFechaFormateada() {
+		val SimpleDateFormat dateParser = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-			dateParser.format(fechaNacimiento.toDate())
-		}
-
+		dateParser.format(fechaNacimiento.toDate())
 	}
 	
+	def Boolean tieneInfracciones(){
+		return infracciones.size > 0
+	}
+
+}
