@@ -51,7 +51,9 @@ function setearColorHandicapMayorA(unValor, unColor, unaTabla) {
 }
 
 function getIndexOfATitleName(nameToFind,table) {
-	table.find('tr:first th').filter(function() {
+	console.log(table)
+	debugger
+	return table.find('tr:first th').filter(function() {
 		return $(this).text() == nameToFind;
-	}).index()
+	}).index();
 }
