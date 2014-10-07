@@ -33,7 +33,7 @@ class Partidos {
 		}
 		return partidos.sortBy[-it.id].toList.get(0).id.intValue
 	}
-
+	
 	def agregarPartido(Partido partido) {
 		partido.id = new Long(this.ultimoIdUtilizado.longValue + 1)
 		partidos.add(partido)

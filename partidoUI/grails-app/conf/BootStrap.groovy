@@ -44,7 +44,35 @@ class BootStrap {
 		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new DateTime(1945, 12, 14,0,0), new Estandar(), 9)
 		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new DateTime(1918, 12, 15,0,0), new Estandar(), 9)
 		
-		jugadorEstandar4.agregarInfraccion("Sos un magui")
+		jugadorEstandar4.agregarInfraccion("Mal jugador")
+		jugadorEstandar4.agregarInfraccion("Incompetente")
+		jugadorEstandar4.agregarInfraccion("Agresivo")
+		jugadorEstandar4.agregarInfraccion("Quiebre de mano")
+		jugadorEstandar4.agregarInfraccion("Zapato roto")
+		jugadorEstandar4.agregarInfraccion("No se baña")
+		jugadorEstandar4.agregarInfraccion("Mal jugador")
+		jugadorEstandar4.agregarInfraccion("Incompetente")
+		jugadorEstandar6.agregarInfraccion("Agresivo")
+		jugadorEstandar5.agregarInfraccion("Quiebre de mano")
+		jugadorEstandar3.agregarInfraccion("Zapato roto")
+		jugadorEstandar3.agregarInfraccion("No se baña")
+		jugadorEstandar3.agregarInfraccion("Mal jugador")
+		jugadorEstandar2.agregarInfraccion("Incompetente")
+		jugadorEstandar1.agregarInfraccion("Agresivo")
+		jugadorEstandar1.agregarInfraccion("Quiebre de mano")
+		jugadorEstandar1.agregarInfraccion("Zapato roto")
+		jugadorEstandar7.agregarInfraccion("No se baña")
+		jugadorEstandar8.agregarInfraccion("Mal jugador")
+		jugadorEstandar8.agregarInfraccion("Incompetente")
+		jugadorEstandar8.agregarInfraccion("Agresivo")
+		jugadorEstandar7.agregarInfraccion("Quiebre de mano")
+		jugadorEstandar7.agregarInfraccion("Zapato roto")
+		jugadorEstandar8.agregarInfraccion("No se baña")
+		
+		
+		
+		
+		
 		
 		jugadores = [jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
 			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]

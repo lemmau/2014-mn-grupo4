@@ -2,55 +2,33 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="main" />
-<title>Ver Jugador</title>
-<style>
-table {
-	width: 40%;
-	float: left;
-}
-
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-th, td {
-	padding: 5px;
-	text-align: left;
-}
-
-table#tablaAmigos tr:nth-child(even) {
-	background-color: #eee;
-}
-
-table#tablaAmigos tr:nth-child(odd) {
-	background-color: #fff;
-}
-
-#tablaAmigos th {
-	color: white;
-	background: black;
-}
-</style>
+<title>Detalle de un Jugador</title>
 </head>
 <body>
-	<g:form class="form-horizontal" method="post" style="margin: 10px">
-		<div class="row">
-			<div class="col-md-6">
-				<label class="control-label" for="nombre">Nombre&nbsp;&nbsp;
-				</label> <input class="readOnly form-control" type="text" id="nombre" />
-			</div>
-			<div class="col-md-6">
-				<label class="control-label" for="apodo">Apodo&nbsp;&nbsp; </label>
-				<input class="readOnly form-control" type="text" id="apodo" />
-			</div>
-			<div class="col-md-6">
-				<label class="control-label" for="handicap">Handicap&nbsp;&nbsp;
-				</label> <input class="readOnly form-control" type="text" id="handicap" />
-			</div>
-		</div>
-	</g:form>
+	<div>
+	<span id="infoJugadorTitle"></span>
+	<table id="infoJugador" style="width: 70%">
+		<tr>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th>Apodo</th>
+				<th>Handicap</th>
+				<th>Partidos Jugados</th>
+				<th>Promedio Ultimo Partido</th>
+			</tr>
+	</table>
+	</div>
 
+	<div style="width: 45%">
+	<span id="infraccionesTitle"></span>
+		<table id="infracciones">
+			<tr>
+				<th>Motivo</th>
+				<th>Fecha</th>
+			</tr>
+		</table>
+	</div>
+	
 	<div class=friendsOf style="margin: 10px">
 		<span id="amigoDe"></span>
 	</div>
@@ -85,16 +63,31 @@ function makeAnAjaxCall(_data){
 	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlAmigos = urlbase + "/doDetalleJugador";
 		
-		callback = function(){alert("No se pudo cargar los amigos de un jugador")}
-		successFunction = function(data){
-				tablaAmigos = $("#tablaAmigos")
+	callback = function(){alert("No se pudo cargar los amigos de un jugador")}
+	successFunction = function(data){
+				tablaAmigos = $("#tablaAmigos");
+				tablaInfracciones = $("#infracciones");
+				infoJugadorTabla = $("#infoJugador");
+				
 				$('#tablaAmigos td').remove();
+				$("#infracciones td").remove();
+				$('td:contains("Name")').index();
 
-				$("#amigoDe").html("::  Amigos de " + data.nombre + "  ::")
-				$("#nombre").val(data.nombre)
-				$("#apodo").val(data.apodo)
-				$("#handicap").val(data.handicap)
-								
+				$("#infoJugadorTitle").html(":: Datos personales de " + data.nombre + " ::")
+				$("#amigoDe").html("::  Amigos de " + data.nombre + "  ::");
+				$("#infraccionesTitle").html(":: Infracciones de " + data.nombre + " ::");
+				
+				$("#infoJugador").append('<tr><td>' 
+						+ data.nombre +'</td><td>'
+						+ data.apellido +'</td><td>'
+						+ data.apodo + '</td><td>'
+						+ data.handicap + '</td><td>'
+						+ data.cantidadPartidosJugados + '</td><td>'
+						+ data.promedioUltimoPartido + '</td>');
+
+				var blue = "#00688B"
+				setearColorHandicapMayorA(2, blue, $("#infoJugador"))
+				
 				for (i = 0; i < data.amigos.length; i++) {
 				  var amigo = data.amigos[i]
 				  var completedUrl = urlbase + "/detalleJugador?jugadorId=" + amigo.id
@@ -103,6 +96,16 @@ function makeAnAjaxCall(_data){
 							+ amigo.apellido + '</td><td>' 
 							+ amigo.fecha + '</td></tr>') 
 				}
+
+				for(i=0;i<data.infracciones.length; i++){
+					console.log("hay infracciones")
+					var infraccion = data.infracciones[i]
+
+					tablaInfracciones.append('<tr><td>' + infraccion.motivo + '</td><td>' + infraccion.fecha + '</td></tr>')	
+				}
+
+				
+				
 			}
 		data = _data
 

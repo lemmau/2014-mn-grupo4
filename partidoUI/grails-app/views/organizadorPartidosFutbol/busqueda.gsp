@@ -3,34 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="main" />
-<style>
-table {
-	width: 100%;
-}
-
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-th, td {
-	padding: 5px;
-	text-align: left;
-}
-
-table#tablaJugadores tr:nth-child(even) {
-	background-color: #eee;
-}
-
-table#tablaJugadores tr:nth-child(odd) {
-	background-color: #fff;
-}
-
-#tablaJugadores th {
-	color: white;
-	background: black;
-}
-</style>
+<title>Busqueda de un juegador</title>
 </head>
 <body>
 	<div style="width: 90%; padding: 15pt;">
@@ -195,9 +168,12 @@ table#tablaJugadores tr:nth-child(odd) {
 							+ '</td><td>' + data[i].fechaNacimiento
 							+ '</td><td>' + data[i].handicap + '</td></tr>')
 				}
+
+				var blue = "#00688B";
+				setearColorHandicapMayorA(2, blue, $("#tablaJugadores"));
 			}
 			data = _data
-
+			
 			makeAjaxCall(urlPartidos, data, successFunction, callback)
 		}
 	</script>

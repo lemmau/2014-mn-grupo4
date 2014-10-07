@@ -3,48 +3,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="main" />
 <title>Ver Partido</title>
-<style>
-table {
-	width: 100%;
-}
 
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-th, td {
-	padding: 5px;
-	text-align: left;
-}
-
-table tr:nth-child(even) {
-	background-color: #eee;
-}
-
-table tr:nth-child(odd) {
-	background-color: #fff;
-}
-
-table th {
-	color: white;
-	background: black;
-}
-
-</style>
 </head>
 <body>
-
-	<table id="equipoJugadores">
-		<tr>
-			<th>Nombre</th>
-			<th>Apellido</th>
-			<th>Apodo</th>
-			<th>Fecha Nacimiento</th>
-			<th>Handicap</th>
-		</tr>
-	</table>
-
+	
+	<div id="equipoJugadores">
+		<g:render template="infoJugador"/>
+	</div>
+	
 	<div class="combo-box" style="margin-top: 10px">
 		<div style="margin-left: 25px">
 			<span>:: Ordenar por ::</span> <select name="criterioOrden"
@@ -92,24 +58,16 @@ table th {
 	
 		<div style="width: 300px; float: left;margin-left: 135px">
 		<span>Equipo A</span>
-			<table id="tabla1">
-				<tr>
-					<th>Nombre</th>
-					<th>Apodo</th>
-					<th>Handicap</th>
-				</tr>
-			</table>
+			<div id="table1">
+				<g:render template="jugadoresGenerados"/>
+			</div>
 		</div>
 		
 		<div style="width: 300px; float: right;margin-right: 135px">
 		<span>Equipo B</span>
-			<table id="tabla2">
-				<tr>
-					<th>Nombre</th>
-					<th>Apodo</th>
-					<th>Handicap</th>
-				</tr>
-			</table>
+			<div id="table2">
+				<g:render template="jugadoresGenerados"/>
+			</div>
 		</div>
 		
 		<div style="margin: 30px; clear:both;margin-left: 46%">
@@ -229,14 +187,14 @@ function fillMatchesTable(_data){
 		callback = function(){alert("No se pudo cargar los partidos")}
 		successFunction = function(data){
 				
-				tablaJugadores1 = $("#tabla1")
-				tablaJugadores2 = $("#tabla2")
+				tablaJugadores1 = $("#table1 table")
+				tablaJugadores2 = $("#table2 table")
 								
 				tablaJugadores1.show()
 				tablaJugadores2.show()
 				
-				$('#tabla1 td').remove()
-				$('#tabla2 td').remove()
+				$('#table1 table td').remove()
+				$('#table2 table td').remove()
 
 				for (i = 0; i < data.length; i++) {
 					resultadoEquiposId.push(data[i].id)	
@@ -264,8 +222,8 @@ function fillMatchTable(_data){
 		
 		callback = function(){alert("No se pudo cargar los partidos")}
 		successFunction = function(data){
-			equipoJugadores = $("#equipoJugadores")
-				$('#equipoJugadores td').remove();
+			equipoJugadores = $("#equipoJugadores table")
+				$('#equipoJugadores table td').remove();
 
 			
 

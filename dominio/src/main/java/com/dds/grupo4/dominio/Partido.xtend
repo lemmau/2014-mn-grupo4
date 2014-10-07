@@ -23,8 +23,8 @@ class Partido {
 	@Property private Admin admin
 	//@Property private String mail
 	@Property List<Jugador> jugadoresDelPartido = new ArrayList
-	@Property List<Inscripcion> equipoA = new ArrayList
-	@Property List<Inscripcion> equipoB = new ArrayList
+	@Property List<Jugador> equipoA = new ArrayList
+	@Property List<Jugador> equipoB = new ArrayList
 	@Property List<CriterioOrden> criteriosOrden = new ArrayList
 	@Property List<InscripcionObserver> observadores = new ArrayList
 
@@ -173,7 +173,14 @@ class Partido {
 			]
 
 	}
-
+	
+	def confirmarEquipos(List<Jugador> jugadores){
+		equipoA = jugadores.subList(0,5);
+		equipoB = jugadores.subList(5,10);
+		
+		jugadores.forEach[ jugador | jugador.agregarPartidoJugado(this)]
+	}
+	
 	def generarEquiposTentativos(DivisorDeEquipos criterio) {
 		// TODO en este metodo llamar a ordenamiento
 		// y a dividir equipos
@@ -188,10 +195,10 @@ class Partido {
 	}
 
 	def agregarJugadorEquipoA(Inscripcion inscripcion) {
-		this.equipoA.add(inscripcion)
+		this.equipoA.add(inscripcion.jugador)
 	}
 
 	def agregarJugadorEquipoB(Inscripcion inscripcion) {
-		this.equipoB.add(inscripcion)
+		this.equipoB.add(inscripcion.jugador)
 	}
 }

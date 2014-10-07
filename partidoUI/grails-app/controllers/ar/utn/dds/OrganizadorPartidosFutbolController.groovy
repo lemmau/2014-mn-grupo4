@@ -98,8 +98,15 @@ class OrganizadorPartidosFutbolController {
 
 		def jugador = homeJugadores.getJugador(playreId)
 
-		def jugadorBuscado = [ "nombre" : jugador.nombre,"apodo" : jugador.apodo, "handicap" : jugador.handicap, "amigos": jugador.amigos.collect{ amigo ->
-				["nombre": amigo.nombre , "apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
+		def jugadorBuscado = [ "nombre" : jugador.nombre,"apodo" : jugador.apodo,"apellido" : jugador.apellido,"handicap" : jugador.handicap, 
+			"cantidadPartidosJugados": jugador.partidosJugados.size() ,
+			"promedioUltimoPartido" : jugador.promedioUltimoPartido(),
+			"infracciones": jugador.infracciones.collect{ infraccion ->
+				["motivo": infraccion.motivo,
+					"fecha" : infraccion.fecha]
+			},
+			"amigos": jugador.amigos.collect{ amigo ->
+				["nombre": amigo.nombre ,"apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
 			} ] as JSON
 
 		render jugadorBuscado
@@ -123,8 +130,7 @@ class OrganizadorPartidosFutbolController {
 			homeJugadores.getJugador(unId)
 		}
 
-		partido.setEquipoA(jugadores.subList(0, 5))
-		partido.setEquipoB(jugadores.subList(5, 10))
+		partido.confirmarEquipos(jugadores)
 	}
 
 	def generarEquipos(){
@@ -196,7 +202,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def buscarJugadoresAsJson(){
-		println(params)
+		
 		def jugadorBusqueda = mapearJugador(new JugadorToMatch(), params)
 		def jugadoresMatcheados = filtrarJugadores(jugadorBusqueda)
 		def jugadores = jugadoresMatcheados.collect { jugador ->
@@ -222,9 +228,6 @@ class OrganizadorPartidosFutbolController {
 	}
 	
 	def checkearInfraccion(jugador,jugadorToMatch){
-		println(jugadorToMatch.conInfraccion)
-		println(jugadorToMatch.sinInfraccion)
-		
 		if(!jugadorToMatch.conInfraccion && !jugadorToMatch.sinInfraccion){
 			return true
 		}
@@ -284,12 +287,6 @@ class OrganizadorPartidosFutbolController {
 
 		jugador.sinInfraccion = params.sinInfraccion.equals("true") ? true : false 
 		
-		println("jugador conin: " +params.conInfraccion)
-		println("jugador coninJ: " +jugador.conInfraccion)
-		
-		println("jugador sinin: " +params.sinInfraccion)
-		println("jugador sininJ: " +jugador.sinInfraccion)
-
 		jugador
 	}
 

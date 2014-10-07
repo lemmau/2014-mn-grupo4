@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat
 
 class Jugador {
 
+	@Property private List<Partido> partidosJugados = new ArrayList
 	@Property private Long id
 	@Property private String nombre
 	@Property private String apellido
@@ -28,11 +29,11 @@ class Jugador {
 
 	new() {
 	}
-
+	
 	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion) {
 		this(nombre, apellido, apodo, nacimiento, tipoDeInscripcion, 1)
 	}
-
+	
 	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion,
 		Integer handicap) {
 		this.nombre = nombre
@@ -41,6 +42,21 @@ class Jugador {
 		this.fechaNacimiento = nacimiento
 		this.tipoDeInscripcion = tipoDeInscripcion
 		setHandicap(handicap)
+	}
+
+	def agregarPartidoJugado(Partido partido){
+		partidosJugados.add(partido)
+	}
+	
+	def Double promedioUltimoPartido(){
+		val Partido ultimoPartido = partidosJugados.last
+		var Double promedio = new Double(0)
+		
+		if(ultimoPartido != null){
+			promedio = ultimoPartido.obtenerInscripcion(this).promedioCalificaciones	
+		}
+		
+		promedio
 	}
 
 	def void setHandicap(Integer h) {
