@@ -5,16 +5,13 @@ $(document).ready(function() {
 function makeAjaxCall(_url, _data, successAction, fallback) {
 	console.log("Se realiza el llamado ajax")
 	$.ajax({
-		// console.log("haciendo el llamado AJAX")
 		url : _url,
 		data : _data,
 		dataType : "json",
 		success : function(data) {
 			successAction(data)
-			// $("#botonAgregar").removeClass("disabled");
 		},
 		error : fallback
-	// mostrarError
 	});
 }
 
@@ -39,20 +36,17 @@ function validarFecha(fecha) {
 function setearColorHandicapMayorA(unValor, unColor, unaTabla) {
 	var cantFilas = unaTabla.find('tr').length; 
 	var handicapColumn = getIndexOfATitleName("Handicap", unaTabla)
-	console.log(handicapColumn)
-
+	
 	//i = 1 para omitir el titulo
 	for (i = 1; i < cantFilas; i++) {
-		var valorHandicap = $('tr:eq('+i+') td:eq(4)', unaTabla).text();
+		var valorHandicap = $('tr:eq('+i+') td:eq('+handicapColumn+')', unaTabla).text();
 		if(valorHandicap > unValor){
-			$('tr:eq('+i+') td:eq(4)', unaTabla).css('color',unColor)
+			$('tr:eq('+i+') td:eq('+handicapColumn+')', unaTabla).css('color',unColor).css('font-weight', "bold")
 		}
 	}
 }
 
 function getIndexOfATitleName(nameToFind,table) {
-	console.log(table)
-	debugger
 	return table.find('tr:first th').filter(function() {
 		return $(this).text() == nameToFind;
 	}).index();

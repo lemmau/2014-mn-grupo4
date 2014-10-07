@@ -141,7 +141,7 @@ $(document).ready(function() {
 });
 
 function confirmarEquipos(_data){
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/confirmarEquipos";
 
 	callback = function(){
@@ -181,7 +181,7 @@ function logicaParaSeleccionYOrdenamiento(){
 }
 
 function fillMatchesTable(_data){
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/generarEquipos";
 		
 		callback = function(){alert("No se pudo cargar los partidos")}
@@ -217,7 +217,7 @@ function fillMatchesTable(_data){
 }
 
 function fillMatchTable(_data){
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/getJugadoresDeUnPartdio";
 		
 		callback = function(){alert("No se pudo cargar los partidos")}

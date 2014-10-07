@@ -106,7 +106,7 @@ class OrganizadorPartidosFutbolController {
 					"fecha" : infraccion.fecha]
 			},
 			"amigos": jugador.amigos.collect{ amigo ->
-				["nombre": amigo.nombre ,"apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"id": amigo.id]
+				["nombre": amigo.nombre ,"apellido" : amigo.apellido,"fecha" : amigo.fechaFormateada,"handicap":amigo.handicap,"id": amigo.id]
 			} ] as JSON
 
 		render jugadorBuscado

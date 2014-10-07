@@ -405,6 +405,20 @@ table {
 	margin-bottom: 1em;
 }
 
+.maintitle h1{
+	color : black;
+	font-size : 30px;
+	text-align: center;
+	margin : 10px;
+	 
+}
+
+.subtitle span {
+	margin : 18px;
+	color: gray;
+	 
+}
+
 tr {
 	border: 0;
 }

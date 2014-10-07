@@ -7,8 +7,9 @@
 </head>
 <body>
 	<div style="width: 90%; padding: 15pt;">
-		<g:render template="titulo"
-			model="['titulo': 'B&uacute;squeda de Jugadores']" />
+		<div class="maintitle">
+			<h1>B&uacute;squeda de Jugadores</h1>
+		</div>
 		<g:if test="${flash.message}">
 			<div class="alert alert-info">
 				${flash.message}
@@ -69,14 +70,10 @@
 											id="handicapHasta" placeholder="Hasta..."> <span
 											style="color: grey"> 0-10 </span>
 									</div>
-
 								</div>
 
 								<div class="col-md-12">
 									<br />
-									<%--<g:actionSubmit class="btn btn-primary" action="busqueda"
-										value="busqueda" />
-									--%>
 									<table id="tablaJugadores">
 										<tr>
 											<th>Nombre</th>
@@ -89,12 +86,6 @@
 									<g:link class="btn btn-primary" name="Regresar" action="index">
 										Regresar
 									</g:link>
-
-									<%--<button type="submit" class="btn btn-primary" >
-										<span class="glyphicon glyphicon-search"></span>
-										Buscar
-									</button>
-								--%>
 								</div>
 							</div>
 						</form>
@@ -148,7 +139,7 @@
 
 		function makeAnAjaxCall(_data) {
 
-			urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+			urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 			urlPartidos = urlbase + "/buscarJugadoresAsJson";
 
 			callback = function() {
@@ -170,7 +161,7 @@
 				}
 
 				var blue = "#00688B";
-				setearColorHandicapMayorA(2, blue, $("#tablaJugadores"));
+				setearColorHandicapMayorA(7, blue, $("#tablaJugadores"));
 			}
 			data = _data
 			

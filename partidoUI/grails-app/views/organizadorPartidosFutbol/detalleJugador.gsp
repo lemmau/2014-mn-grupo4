@@ -37,6 +37,7 @@
 			<tr>
 				<th>Nombre</th>
 				<th>Apellido</th>
+				<th>Handicap</th>
 				<th>Fecha Nacimiento</th>
 			</tr>
 		</table>
@@ -60,7 +61,7 @@ $(document).ready(function() {
 
 function makeAnAjaxCall(_data){
 	
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 	urlAmigos = urlbase + "/doDetalleJugador";
 		
 	callback = function(){alert("No se pudo cargar los amigos de un jugador")}
@@ -76,42 +77,54 @@ function makeAnAjaxCall(_data){
 				$("#infoJugadorTitle").html(":: Datos personales de " + data.nombre + " ::")
 				$("#amigoDe").html("::  Amigos de " + data.nombre + "  ::");
 				$("#infraccionesTitle").html(":: Infracciones de " + data.nombre + " ::");
+
+				fillMainPlayerInformation(data,infoJugadorTabla);
+				fillFriendsTableInformation(data,tablaAmigos);
+				fillInfractionTable(data,tablaInfracciones);
 				
-				$("#infoJugador").append('<tr><td>' 
-						+ data.nombre +'</td><td>'
-						+ data.apellido +'</td><td>'
-						+ data.apodo + '</td><td>'
-						+ data.handicap + '</td><td>'
-						+ data.cantidadPartidosJugados + '</td><td>'
-						+ data.promedioUltimoPartido + '</td>');
-
-				var blue = "#00688B"
-				setearColorHandicapMayorA(2, blue, $("#infoJugador"))
-				
-				for (i = 0; i < data.amigos.length; i++) {
-				  var amigo = data.amigos[i]
-				  var completedUrl = urlbase + "/detalleJugador?jugadorId=" + amigo.id
-					
-				  tablaAmigos.append('<tr><td><a href="'+completedUrl+'">' + amigo.nombre + '</a></td><td>'
-							+ amigo.apellido + '</td><td>' 
-							+ amigo.fecha + '</td></tr>') 
-				}
-
-				for(i=0;i<data.infracciones.length; i++){
-					console.log("hay infracciones")
-					var infraccion = data.infracciones[i]
-
-					tablaInfracciones.append('<tr><td>' + infraccion.motivo + '</td><td>' + infraccion.fecha + '</td></tr>')	
-				}
-
-				
+				var blue = "#00688B";
+				setearColorHandicapMayorA(7, blue, tablaAmigos);
 				
 			}
 		data = _data
 
 		makeAjaxCall(urlAmigos,data,successFunction,callback)
-	}
+}
 
+function fillInfractionTable(data,table){
+	for(i=0;i<data.infracciones.length; i++){
+		var infraccion = data.infracciones[i]
+
+		table.append('<tr><td>' + infraccion.motivo + '</td><td>' + infraccion.fecha + '</td></tr>')	
+	}
+} 
+
+
+function fillFriendsTableInformation(data,table){
+	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlAmigos = urlbase + "/doDetalleJugador";
+	
+	for (i = 0; i < data.amigos.length; i++) {
+		  var amigo = data.amigos[i]
+		  var completedUrl = urlbase + "/detalleJugador?jugadorId=" + amigo.id
+			
+		  tablaAmigos.append('<tr><td><a href="'+completedUrl+'">' 
+				  	+ amigo.nombre + '</a></td><td>'
+					+ amigo.apellido + '</td><td>'
+					+ amigo.handicap + '</td><td>' 
+					+ amigo.fecha + '</td></tr>') 
+		}
+}
+
+function fillMainPlayerInformation(data,table){
+	table.append('<tr><td>' 
+			+ data.nombre +'</td><td>'
+			+ data.apellido +'</td><td>'
+			+ data.apodo + '</td><td>'
+			+ data.handicap + '</td><td>'
+			+ data.cantidadPartidosJugados + '</td><td>'
+			+ data.promedioUltimoPartido + '</td>');	
+}
 		
 </script>
 
