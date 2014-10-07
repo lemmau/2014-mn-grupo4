@@ -30,6 +30,7 @@ class BootStrap {
 	Jugador jugadorEstandar10
 		
 		partido = new Partido(new Admin("admin@ddsutn.com"))
+		partido.setNombre("River - Boca")
 		partido.fechaInicio = DateTime.now().plusDays(5)
 		
 		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new DateTime(1985, 12, 14,0,0), new Estandar(), 10)

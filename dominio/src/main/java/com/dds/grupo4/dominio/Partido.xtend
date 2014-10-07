@@ -18,6 +18,7 @@ class Partido {
 	private static boolean INSCRIPCION_CERRADA = false;
 
 	@Property Long id
+	@Property String nombre;
 	@Property DateTime fechaInicio;
 	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin

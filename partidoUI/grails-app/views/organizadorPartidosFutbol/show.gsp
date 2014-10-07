@@ -7,6 +7,10 @@
 </head>
 <body>
 	
+	<div class="maintitle">
+	 <h1 id="partidotitle">Jugadores para </h1>
+	</div>
+	
 	<div id="equipoJugadores">
 		<g:render template="infoJugador"/>
 	</div>
@@ -98,7 +102,7 @@ $(document).ready(function() {
 		window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
 		})
 
-	fillMatchTable({partidoId : ${_partidoId}})
+	fillMatchTable({partidoId : ${_partidoId}});
 	
 	$("#tabla1").hide();
 	$("#tabla2").hide();
@@ -184,9 +188,9 @@ function fillMatchesTable(_data){
 	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/generarEquipos";
 		
-		callback = function(){alert("No se pudo cargar los partidos")}
+		callback = function(){console.log("No se pudo cargar los partidos")}
 		successFunction = function(data){
-				
+			
 				tablaJugadores1 = $("#table1 table")
 				tablaJugadores2 = $("#table2 table")
 								
@@ -206,7 +210,8 @@ function fillMatchesTable(_data){
 						tableToFill = tablaJugadores2
 					}
 				
-					tableToFill.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
+					tableToFill.append('<tr><td><a href="'+completedUrl+'">' 
+							+ data[i].nombre + '</a></td><td>'
 							+ data[i].apodo    + '</td><td>' 
 							+ data[i].handicap + '</td></tr>')
 					}
@@ -224,17 +229,18 @@ function fillMatchTable(_data){
 		successFunction = function(data){
 			equipoJugadores = $("#equipoJugadores table")
 				$('#equipoJugadores table td').remove();
-
 			
 
-				for (i = 0; i < data.length; i++) {
-				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
+			$("#partidotitle").append(data.nombrePartido);
+			
+				for (i = 0; i < data.jugadores.length; i++) {
+				var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data.jugadores[i].id
 					
-				equipoJugadores.append('<tr><td><a href="'+completedUrl+'">' + data[i].nombre + '</a></td><td>'
-							+ data[i].apellido + '</td><td>' 
-							+ data[i].apodo    + '</td><td>' 
-							+ data[i].fechaNacimiento + '</td><td>' 
-							+ data[i].handicap + '</td></tr>')
+				equipoJugadores.append('<tr><td><a href="'+completedUrl+'">' + data.jugadores[i].nombre + '</a></td><td>'
+							+ data.jugadores[i].apellido + '</td><td>' 
+							+ data.jugadores[i].apodo    + '</td><td>' 
+							+ data.jugadores[i].fechaNacimiento + '</td><td>' 
+							+ data.jugadores[i].handicap + '</td></tr>')
 				}
 			}
 		

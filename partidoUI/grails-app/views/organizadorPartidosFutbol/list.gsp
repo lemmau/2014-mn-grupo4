@@ -9,16 +9,19 @@
 		<div class="maintitle">
 			 <h1> Partidos </h1>
 		</div>
-		<div id="menu" class="subtitle" style="float: left">
+		
+		<div class="subtitle" style="float: left">
 			<span>:: Menu De Búsqueda ::</span>
-			<div class="menuLinks">
+			<div class="menuLinks" style="margin-left: 30px" >
 				<p>-<a href="/pruebaConcepto/organizadorPartidosFutbol/busqueda">Buscar Jugadores</a></p>
+				<p>-<a href="/pruebaConcepto/organizadorPartidosFutbol/busqueda">Crear Equipo</a></p>
+				<p>-<a href="/pruebaConcepto/organizadorPartidosFutbol/busqueda">Crear Jugador</a></p>
 			</div>
 		</div>
 		<div>
-			<table id="tablaPartidos" style="width: 300px; float: right; margin-right: 15%">
+			<table id="tablaPartidos" style="width: 400px; float: right; margin-right: 15%">
 				<tr>
-					<th>ID</th>
+					<th>Nombre</th>
 					<th>Fecha Inicio</th>
 				</tr>
 			</table>
@@ -36,7 +39,7 @@ $(document).ready(function() {
 		$('#tablaPartidos td').remove();
 
 		for (i = 0; i < data.length; i++) {
-			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +' ">' + data[i].id + '</a></td><td>'
+			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +' ">' + data[i].nombre + '</a></td><td>'
 					+ data[i].fecha + '</td></tr>')
 		}
 	}
