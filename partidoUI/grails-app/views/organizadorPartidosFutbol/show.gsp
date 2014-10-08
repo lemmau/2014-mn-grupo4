@@ -81,6 +81,10 @@
 			<span id="confirmacionFailed" style="color: red;" hidden></span>
 			<span id="confirmacionSuccess" style="color: #01DF01;" hidden></span>
 		</div>
+		
+	</div>
+	<div style="margin-bottom: 50px;margin-top:5px; position: inh">
+			<button type="button" id="regresar">Regresar</button>
 	</div>
 
 	<span id="idPartido"></span>
@@ -88,9 +92,7 @@
 	<table id="jugadoresDelPartido">
 	</table>
 	
-	<div style="margin-top: 10px">
-		<button type="button" id="regresar">Regresar</button>
-	</div>
+	
 
 <script type="text/javascript">
 
@@ -145,7 +147,7 @@ $(document).ready(function() {
 });
 
 function confirmarEquipos(_data){
-	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/confirmarEquipos";
 
 	callback = function(){
@@ -185,7 +187,7 @@ function logicaParaSeleccionYOrdenamiento(){
 }
 
 function fillMatchesTable(_data){
-	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/generarEquipos";
 		
 		callback = function(){console.log("No se pudo cargar los partidos")}
@@ -222,7 +224,7 @@ function fillMatchesTable(_data){
 }
 
 function fillMatchTable(_data){
-	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlPartidos = urlbase + "/getJugadoresDeUnPartdio";
 		
 		callback = function(){alert("No se pudo cargar los partidos")}
@@ -242,6 +244,9 @@ function fillMatchTable(_data){
 							+ data.jugadores[i].fechaNacimiento + '</td><td>' 
 							+ data.jugadores[i].handicap + '</td></tr>')
 				}
+
+				var blue = "#00688B";
+				setearColorHandicapMayorA(7, blue, equipoJugadores)
 			}
 		
 		data = _data

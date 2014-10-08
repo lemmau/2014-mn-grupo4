@@ -43,15 +43,16 @@
 		</table>
 	</div>
 
-	<div class="regresar" style="left:0px">
-		<span><a
-			href="http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol/list">
-				Regresar </a></span>
+	<div style="margin-bottom: 50px;margin-top:5px; position: inh">
+			<button type="button" style="margin-bottom: 50px" id="regresar">Regresar</button>
 	</div>
 
 <script type="text/javascript">
 
 $(document).ready(function() {
+	$("#regresar").click(function(){
+		window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+		})
 	
 	makeAnAjaxCall({
 		jugadorId : ${playerId}
@@ -61,7 +62,7 @@ $(document).ready(function() {
 
 function makeAnAjaxCall(_data){
 	
-	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlAmigos = urlbase + "/doDetalleJugador";
 		
 	callback = function(){alert("No se pudo cargar los amigos de un jugador")}
@@ -92,16 +93,15 @@ function makeAnAjaxCall(_data){
 }
 
 function fillInfractionTable(data,table){
-	for(i=0;i<data.infracciones.length; i++){
-		var infraccion = data.infracciones[i]
-
-		table.append('<tr><td>' + infraccion.motivo + '</td><td>' + infraccion.fecha + '</td></tr>')	
-	}
+		for(i=0;i<data.infracciones.length; i++){
+			var infraccion = data.infracciones[i];
+			table.append('<tr><td>' + infraccion.motivo + '</td><td>' + infraccion.fecha + '</td></tr>');	
+		}
 } 
 
 
 function fillFriendsTableInformation(data,table){
-	urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 	urlAmigos = urlbase + "/doDetalleJugador";
 	
 	for (i = 0; i < data.amigos.length; i++) {

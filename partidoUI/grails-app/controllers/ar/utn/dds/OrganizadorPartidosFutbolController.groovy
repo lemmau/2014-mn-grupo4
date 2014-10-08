@@ -119,13 +119,24 @@ class OrganizadorPartidosFutbolController {
 		render jugadorBuscado
 
 	}
+	
+	def estaConfirmadoUnEquipo(){
+		def partidoId = params.partidoId as Integer
+		
+		Partido partido = homePartidos.getPartido(partidoId);
+		if(partido.estasConfirmado()){
+			redirect(action: "getJugadoresDeUnPartdio",params:params);
+		}
+		
+		render ([status : "OK"] as JSON)
+	}
 
 	def confirmarEquipos(){
 		JSONObject jsonParsed = JSON.parse(params.myjson)
 		def idsJugadores = jsonParsed.get("idsJugadores") as List
 		def idPartido = jsonParsed.get("idPartido") as Integer
 
-		confirmarEquiposDeUnPartido(idPartido,idsJugadores)
+		confirmarEquiposDeUnPartido(idPartido,idsJugadores) 
 
 		render([status : "OK"] as JSON)
 	}
@@ -206,7 +217,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def busqueda(){
-	}
+	} 
 
 	def buscarJugadoresAsJson(){
 

@@ -83,9 +83,7 @@
 											<th>Handicap</th>
 										</tr>
 									</table>
-									<g:link class="btn btn-primary" name="Regresar" action="index">
-										Regresar
-									</g:link>
+									
 								</div>
 							</div>
 						</form>
@@ -94,9 +92,16 @@
 			</div>
 		</div>
 	</div>
+	<div style="margin-bottom: 50px;margin-top:5px; position: inh">
+			<button type="button" style="margin-bottom: 50px" id="regresar">Regresar</button>
+	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+
+			$("#regresar").click(function(){
+				window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+				})
 
 			makeAnAjaxCall(dataValues())
 
@@ -139,7 +144,7 @@
 
 		function makeAnAjaxCall(_data) {
 
-			urlbase = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
+			urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
 			urlPartidos = urlbase + "/buscarJugadoresAsJson";
 
 			callback = function() {

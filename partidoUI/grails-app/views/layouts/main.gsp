@@ -22,7 +22,7 @@
 			<div class="header"></div>
 			<g:layoutBody/>
 			<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-			<div class="footer" role="contentinfo"><p>All rights reserved</p></div>
+			<div class="footer" role="contentinfo"><p>Grupo 4 - All rights reserved</p></div>
 		</div>
 	</body>
 </html>
