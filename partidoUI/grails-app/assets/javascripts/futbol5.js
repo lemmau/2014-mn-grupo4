@@ -1,5 +1,6 @@
 $(document).ready(function() {
-	console.log("Se importa bien el js")
+	console.log("Se importa bien el js");
+	baseUrl = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 })
 
 function makeAjaxCall(_url, _data, successAction, fallback) {

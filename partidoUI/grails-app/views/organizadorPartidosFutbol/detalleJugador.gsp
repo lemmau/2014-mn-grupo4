@@ -51,7 +51,7 @@
 
 $(document).ready(function() {
 	$("#regresar").click(function(){
-		window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+		window.location = baseUrl
 		})
 	
 	makeAnAjaxCall({
@@ -62,7 +62,7 @@ $(document).ready(function() {
 
 function makeAnAjaxCall(_data){
 	
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = baseUrl;
 	urlAmigos = urlbase + "/doDetalleJugador";
 		
 	callback = function(){alert("No se pudo cargar los amigos de un jugador")}
@@ -101,7 +101,7 @@ function fillInfractionTable(data,table){
 
 
 function fillFriendsTableInformation(data,table){
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+	urlbase = baseUrl;
 	urlAmigos = urlbase + "/doDetalleJugador";
 	
 	for (i = 0; i < data.amigos.length; i++) {

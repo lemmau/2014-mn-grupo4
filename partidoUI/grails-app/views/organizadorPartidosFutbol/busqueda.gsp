@@ -100,7 +100,7 @@
 		$(document).ready(function() {
 
 			$("#regresar").click(function(){
-				window.location = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+				window.location = baseUrl
 				})
 
 			makeAnAjaxCall(dataValues())
@@ -144,7 +144,7 @@
 
 		function makeAnAjaxCall(_data) {
 
-			urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol";
+			urlbase = baseUrl;
 			urlPartidos = urlbase + "/buscarJugadoresAsJson";
 
 			callback = function() {
