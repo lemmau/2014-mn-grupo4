@@ -106,6 +106,10 @@ class Partido {
 		interesado.agregarInfraccion("NO tiene reemplazante")
 		notificarBajaInscripcion()
 	}
+	
+	def boolean estasConfirmado(){
+		return !(equipoA.empty && equipoB.empty)
+	}
 
 	def void darDeBajaA(Jugador resagado, Jugador reemplazante) {
 		quitarJugador(resagado)
