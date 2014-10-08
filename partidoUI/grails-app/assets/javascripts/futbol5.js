@@ -26,6 +26,14 @@ function excluirCheckBoxs(cb1, cb2) {
 	});
 }
 
+function validarSoloAlfabetico(cadena){
+	return cadena.match(/^([a-zA-Z ]*)$/);
+}
+
+function validarSoloNumeros(cadena){
+	return cadena.match(/^([0-9 ]*)$/);
+}
+
 function validarFecha(fecha) {
 	fecha.keyup(function() {
 		if (fecha.val().length == 10 || fecha.val().length == 0) {

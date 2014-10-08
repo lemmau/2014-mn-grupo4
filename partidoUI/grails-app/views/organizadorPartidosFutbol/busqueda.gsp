@@ -10,6 +10,9 @@
 		<div class="maintitle">
 			<h1>B&uacute;squeda de Jugadores</h1>
 		</div>
+		<div id="errormessage" class="errors" hidden>
+			<span></span>
+		</div>
 		<g:if test="${flash.message}">
 			<div class="alert alert-info">
 				${flash.message}
@@ -36,13 +39,13 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Nombre</label> <input type="text" name="nombre"
-										id="nombre" class="form-control inputField"
+										id="nombre" class="form-control alphabetic"
 										placeholder="Comienza con..."
 										value="${jugadorBusqueda?.nombre}">
 								</div>
 								<div class="col-md-6">
 									<label>Apodo</label> <input type="text"
-										class="form-control inputField" name="apodo" id="apodo"
+										class="form-control alphabetic" name="apodo" id="apodo"
 										placeholder="Contiene..." value="${jugadorBusqueda?.apodo}">
 								</div>
 								<div class="row">
@@ -61,12 +64,12 @@
 									<div class="col-md-6">
 										<label>Rango handicap desde:</label> <input type="text"
 											name="desde" id="handicapDesde"
-											class="form-control inputField" placeholder="Desde...">
+											class="form-control number" placeholder="Desde...">
 										<span style="color: grey"> 0-10 </span>
 									</div>
 									<div class="col-md-6">
 										<label>Rango handicap hasta:</label> <input type="text"
-											class="form-control inputField" name="hasta"
+											class="form-control number" name="hasta"
 											id="handicapHasta" placeholder="Hasta..."> <span
 											style="color: grey"> 0-10 </span>
 									</div>
@@ -108,12 +111,32 @@
 			excluirCheckBoxs($("#conInfraccion"), $("#sinInfraccion"))
 			excluirCheckBoxs($("#sinInfraccion"), $("#conInfraccion"))
 
-			validarFecha($("fechaDesde"))
-			validarFecha($("fechaHasta"))
+			validarFecha($("#fechaDesde"));
+			validarFecha($("#fechaHasta"));
+			validarSoloAlfabetico($("#nombre").val());
 
 			$(".inputField").keyup(function() {
+				$('#errormessage').hide();
 				makeAnAjaxCall(dataValues())
 			})
+			
+			$(".number").keyup(function(){
+				if(validarSoloNumeros($(this).val())){
+					$('#errormessage').hide();
+					makeAnAjaxCall(dataValues());
+				}else{
+					$('#errormessage').html("Solo se permiten numeros").show();
+				}
+			})
+			
+			$(".alphabetic").keyup(function(){
+				if(validarSoloAlfabetico($(this).val())){
+					$('#errormessage').hide();
+					makeAnAjaxCall(dataValues());
+				}else{
+					$('#errormessage').html("Solo se permiten caracteres alfanumericos").show();
+				}
+			});
 
 		});
 
@@ -148,7 +171,8 @@
 			urlPartidos = urlbase + "/buscarJugadoresAsJson";
 
 			callback = function() {
-				alert("No se pudo cargar los partidos")
+				$('#errormessage').show();
+				$('#errormessage span').html("El valor ingresado es incorrecto")
 			}
 			successFunction = function(data) {
 				tablaJugadores = $("#tablaJugadores")
