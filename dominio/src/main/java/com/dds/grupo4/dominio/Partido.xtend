@@ -180,17 +180,17 @@ class Partido {
 	}
 	
 	def confirmarEquipos(List<Jugador> jugadores){
+		validarInscripcion();
+		
 		equipoA = jugadores.subList(0,5);
 		equipoB = jugadores.subList(5,10);
 		
 		jugadores.forEach[ jugador | jugador.agregarPartidoJugado(this)]
 	}
 	
-	def generarEquiposTentativos(DivisorDeEquipos criterio) {
-		// TODO en este metodo llamar a ordenamiento
-		// y a dividir equipos
-		validarInscripcion();
-		criterio.dividirEnEquipos(ordenarJugadoresFinales());
+	def generarEquipo(DivisorDeEquipos criterio,List<CriterioOrden> criterioOrden) {
+		this.agregarCriterioOrdenamiento(criterioOrden)
+		return criterio.dividirEnEquipos(this.ordenarJugadoresFinales());
 	}
 	
 	def void validarInscripcion(){

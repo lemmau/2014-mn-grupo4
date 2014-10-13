@@ -59,13 +59,12 @@ class OrdenamientoYSeleccionDeEquipos {
 	
 	@Test
 	def void dividirYSeleccionarEquipos(){
-		val homePartidos = Partidos.instance	
 		val List<CriterioOrden> criterios = new ArrayList()
 		
 		criterios.add(new Handicap) 
 		val esperado = #["A", "C", "E", "G", "J", "B", "D", "F", "H", "I"] 
 		
-		val List<Inscripcion> resultado = homePartidos.generarEquipo(partido,criterios,new ParImpar(partido))
+		val List<Inscripcion> resultado = partido.generarEquipo(new ParImpar(partido),criterios)
 		
 		Assert.assertEquals(esperado,resultado.map[ins | ins.jugador.nombre])
 		

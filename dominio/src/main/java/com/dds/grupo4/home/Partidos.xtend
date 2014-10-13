@@ -48,15 +48,15 @@ class Partidos {
 
 	}
 
-	def generarEquipo(Partido partido, List<CriterioOrden> criterioOrden, DivisorDeEquipos criterioSeleccion) {
-		var List<Inscripcion> resultado = new ArrayList
-
-		partido.agregarCriterioOrdenamiento(criterioOrden)
-		resultado = partido.ordenarJugadoresFinales
-		resultado = criterioSeleccion.dividirEnEquipos(resultado)
-
-		return resultado
-	}
+//	def generarEquipo(Partido partido, List<CriterioOrden> criterioOrden, DivisorDeEquipos criterioSeleccion) {
+//		var List<Inscripcion> resultado = new ArrayList
+//
+//		partido.agregarCriterioOrdenamiento(criterioOrden)
+//		resultado = partido.ordenarJugadoresFinales
+//		resultado = criterioSeleccion.dividirEnEquipos(resultado)
+//
+//		return resultado
+//	}
 	
 	
 	def partidosxJugador(Jugador jugador) {
