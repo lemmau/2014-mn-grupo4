@@ -1,5 +1,6 @@
 $(document).ready(function() {
-	console.log("Se importa bien el js")
+	console.log("Se importa bien el js");
+	baseUrl = "http://localhost:8090/pruebaConcepto/organizadorPartidosFutbol";
 })
 
 function makeAjaxCall(_url, _data, successAction, fallback) {
@@ -23,6 +24,14 @@ function excluirCheckBoxs(cb1, cb2) {
 			cb2.prop("disabled", false);
 		}
 	});
+}
+
+function validarSoloAlfabetico(cadena){
+	return cadena.match(/^([a-zA-Z ]*)$/);
+}
+
+function validarSoloNumeros(cadena){
+	return cadena.match(/^([0-9 ]*)$/);
 }
 
 function validarFecha(fecha) {

@@ -30,8 +30,8 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	console.log("El documento se cargo exitosamente");
-	urlbase = "http://localhost:8080/pruebaConcepto/organizadorPartidosFutbol"
+	
+	urlbase = baseUrl;
 	urlPartidos = urlbase + "/getPartidos"
 	callback = function(){alert("No se pudo cargar los partidos")}
 	successFunction = function(data){
