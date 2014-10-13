@@ -39,7 +39,7 @@ $(document).ready(function() {
 		$('#tablaPartidos td').remove();
 
 		for (i = 0; i < data.length; i++) {
-			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +' ">' + data[i].nombre + '</a></td><td>'
+			tablaPartidos.append('<tr><td><a href="'+urlbase+'/show?partidoId='+ data[i].id +'&confirmado='+data[i].confirmado+'">' + data[i].nombre + '</a></td><td>'
 					+ data[i].fecha + '</td></tr>')
 		}
 	}

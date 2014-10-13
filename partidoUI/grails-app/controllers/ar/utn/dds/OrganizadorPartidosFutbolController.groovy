@@ -49,19 +49,43 @@ class OrganizadorPartidosFutbolController {
 
 	}
 
+	def getEquiposGenerados(){
+		def partidoId = params.partidoId as Long
+		def partido = homePartidos.getPartido(partidoId)
+
+		def equipos = [ "equipoA" : partido.equipoA.collect { jugador ->
+				[
+					"nombre" : jugador.nombre,
+					"apodo" : jugador.apodo,
+					"handicap" : jugador.handicap
+				]
+			},
+			"equipoB" : partido.equipoB.collect { jugador ->
+				[
+					"nombre" : jugador.nombre,
+					"apodo" : jugador.apodo,
+					"handicap" : jugador.handicap
+				]
+			}
+		] as JSON
+
+		render equipos
+	}
+
 	def getPartidos(){
 		def partidos = homePartidos.getPartidos().collect { partido ->
 			[
 				"id" : partido.id,
 				"nombre" : partido.nombre,
-				"fecha" : partido.fechaInicio
+				"fecha" : partido.fechaInicio,
+				"confirmado" : partido.estasConfirmado()
 			]
 		} as JSON
 		render partidos
 	}
 
 	def show(Long id){
-		render(view : "show", model:[_partidoId:params.partidoId])
+		render(view : "show", model:[_partidoId:params.partidoId,_confirmado:params.confirmado])
 		/*redirect(action :"getJugadoresDeUnPartdio",params:params)*/
 	}
 
@@ -71,17 +95,17 @@ class OrganizadorPartidosFutbolController {
 			def partidoIdAsLong = params.partidoId as Long
 			Partido partdioBuscado = homePartidos.getPartido(partidoIdAsLong)
 
-			
-				partidoResponse = ["nombrePartido" : partdioBuscado.nombre,
-					"jugadores" : partdioBuscado.inscripciones.collect { inscripcion ->
-						[
+
+			partidoResponse = ["nombrePartido" : partdioBuscado.nombre,
+				"jugadores" : partdioBuscado.inscripciones.collect { inscripcion ->
+					[
 						"nombre" : inscripcion.jugador.nombre,
 						"apellido":inscripcion.jugador.apellido,
 						"apodo":inscripcion.jugador.apodo,
 						"fechaNacimiento":inscripcion.jugador.fechaNacimiento,
 						"handicap":inscripcion.jugador.handicap,
 						"id" : inscripcion.jugador.id ]
-			}] as JSON
+				}] as JSON
 		}
 		render partidoResponse
 	}
@@ -119,15 +143,15 @@ class OrganizadorPartidosFutbolController {
 		render jugadorBuscado
 
 	}
-	
+
 	def estaConfirmadoUnEquipo(){
 		def partidoId = params.partidoId as Integer
-		
+
 		Partido partido = homePartidos.getPartido(partidoId);
 		if(partido.estasConfirmado()){
 			redirect(action: "getJugadoresDeUnPartdio",params:params);
 		}
-		
+
 		render ([status : "OK"] as JSON)
 	}
 
@@ -136,7 +160,7 @@ class OrganizadorPartidosFutbolController {
 		def idsJugadores = jsonParsed.get("idsJugadores") as List
 		def idPartido = jsonParsed.get("idPartido") as Integer
 
-		confirmarEquiposDeUnPartido(idPartido,idsJugadores) 
+		confirmarEquiposDeUnPartido(idPartido,idsJugadores)
 
 		render([status : "OK"] as JSON)
 	}
@@ -163,7 +187,7 @@ class OrganizadorPartidosFutbolController {
 
 		DivisorDeEquipos criterioSeleccion = mapearCriterioSeleccion(params.seleccion,partidoAGenerar)
 
-		def formacion =	homePartidos.generarEquipo(partidoAGenerar,criterioOrden,criterioSeleccion)
+		def formacion =	partidoAGenerar.generarEquipo(criterioSeleccion,criterioOrden)
 
 		def formacionJson = formacion.collect { inscripcion ->
 			[	"nombre" : inscripcion.jugador.nombre,
@@ -217,7 +241,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def busqueda(){
-	} 
+	}
 
 	def buscarJugadoresAsJson(){
 
@@ -236,12 +260,12 @@ class OrganizadorPartidosFutbolController {
 
 		interesadosAceptados.findAll  { jugador  ->
 			jugador.nombre.toLowerCase().startsWith(jugadorToMatch.nombre.toLowerCase()) &&
-			(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
-			(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
-			jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
-			(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
-			(jugador.handicap as Integer) > jugadorToMatch.handicapDesde &&
-			checkearInfraccion(jugador,jugadorToMatch)
+					(jugador.apodo.toLowerCase().contains(jugadorToMatch.apodo)) &&
+					(jugador.fechaNacimiento.isBefore(jugadorToMatch.fechaHasta)) &&
+					jugador.fechaNacimiento.isAfter(jugadorToMatch.fechaDesde) &&
+					(jugador.handicap as Integer) < jugadorToMatch.handicapHasta &&
+					(jugador.handicap as Integer) > jugadorToMatch.handicapDesde &&
+					checkearInfraccion(jugador,jugadorToMatch)
 		}
 	}
 

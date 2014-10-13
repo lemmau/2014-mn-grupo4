@@ -23,7 +23,7 @@ class Partido {
 	@Property List<Inscripcion> inscripciones = new ArrayList
 	@Property private Admin admin
 	//@Property private String mail
-	@Property List<Jugador> jugadoresDelPartido = new ArrayList
+	@Property List<Inscripcion> jugadoresConfirmados = new ArrayList
 	@Property List<Jugador> equipoA = new ArrayList
 	@Property List<Jugador> equipoB = new ArrayList
 	@Property List<CriterioOrden> criteriosOrden = new ArrayList
@@ -108,7 +108,7 @@ class Partido {
 	}
 	
 	def boolean estasConfirmado(){
-		return !(equipoA.empty && equipoB.empty)
+		return !(equipoA.isEmpty && equipoB.isEmpty)
 	}
 
 	def void darDeBajaA(Jugador resagado, Jugador reemplazante) {
@@ -180,8 +180,6 @@ class Partido {
 	}
 	
 	def confirmarEquipos(List<Jugador> jugadores){
-		validarInscripcion();
-		
 		equipoA = jugadores.subList(0,5);
 		equipoB = jugadores.subList(5,10);
 		
@@ -190,12 +188,13 @@ class Partido {
 	
 	def generarEquipo(DivisorDeEquipos criterio,List<CriterioOrden> criterioOrden) {
 		this.agregarCriterioOrdenamiento(criterioOrden)
-		return criterio.dividirEnEquipos(this.ordenarJugadoresFinales());
+		this.jugadoresConfirmados = criterio.dividirEnEquipos(this.ordenarJugadoresFinales());
+		return this.jugadoresConfirmados
 	}
 	
 	def void validarInscripcion(){
 		
-		if (!INSCRIPCION_CERRADA || jugadoresFinales.size < 10 )
+		if (!INSCRIPCION_CERRADA || !jugadoresConfirmados.size.equals(10) )
 			throw new InscripcionCerradaException("La inscripcion No esta cerrada")
 	}
 

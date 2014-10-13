@@ -15,7 +15,7 @@
 		<g:render template="infoJugador"/>
 	</div>
 	
-	<div class="combo-box" style="margin-top: 10px">
+	<div class="combo-box" style="margin-top: 10px" id="comboSeleccionYOrdenamiento">
 		<div style="margin-left: 25px">
 			<span>:: Ordenar por ::</span> <select name="criterioOrden"
 				id="criterioOrdenamiento" style="width: 150px">
@@ -105,6 +105,11 @@ $(document).ready(function() {
 		})
 
 	fillMatchTable({partidoId : ${_partidoId}});
+
+	if(${_confirmado} == true){
+		deshabilitarGenerarEquipos();
+		mostrarJugadoresGenerados({partidoId : ${_partidoId}});		
+	}
 	
 	$("#tabla1").hide();
 	$("#tabla2").hide();
@@ -128,6 +133,7 @@ $(document).ready(function() {
 	});
 	
 	$("#generarEquipos").click(function(){
+		resultadoEquiposId = [];
 		$("#ordenadoPor").text("Ordenado por " + $("#criterioOrdenamiento option:selected").text())
 		$("#seleccionadoPor").text("Seleccionado por " + $("#criterioSeleccion option:selected").text())
 		
@@ -141,10 +147,15 @@ $(document).ready(function() {
 		})
 		
 		})
-	
-	
-	
 });
+
+function deshabilitarGenerarEquipos(){
+	$("#generarEquipos").hide();
+	$("#ordenadoPor").hide();
+	$("#seleccionadoPor").hide();
+	$("#confirmarEquipos").hide();
+	$("#comboSeleccionYOrdenamiento").hide();
+}
 
 function confirmarEquipos(_data){
 	urlbase = baseUrl;
@@ -164,6 +175,32 @@ function confirmarEquipos(_data){
 	makeAjaxCall(urlPartidos,data,successFunction,callback)
 
 	
+}
+
+function mostrarJugadoresGenerados(_data){
+		urlbase = baseUrl;
+		urlEquiposGenerados = urlbase + "/getEquiposGenerados";
+		
+		callback = function(){console.log("No se pudo cargar los partidos")}
+		successFunction = function(data){
+
+				$("#equiposGenerados").show();
+			
+				tablaJugadores1 = $("#table1 table")
+				tablaJugadores2 = $("#table2 table")
+								
+				tablaJugadores1.show()
+				tablaJugadores2.show()
+				
+				$('#table1 table td').remove()
+				$('#table2 table td').remove()
+				
+				llenarTablaEquipoGenerado(data.equipoA,tablaJugadores1);
+				llenarTablaEquipoGenerado(data.equipoB,tablaJugadores2);
+			}
+
+		body = _data
+		makeAjaxCall(urlEquiposGenerados,body,successFunction,callback)
 }
 
 function logicaParaSeleccionYOrdenamiento(){
@@ -201,26 +238,28 @@ function fillMatchesTable(_data){
 				
 				$('#table1 table td').remove()
 				$('#table2 table td').remove()
-
-				for (i = 0; i < data.length; i++) {
-					resultadoEquiposId.push(data[i].id)	
-					
-					var completedUrl = urlbase + "/detalleJugador?jugadorId=" + data[i].id
-
-					var tableToFill = tablaJugadores1 		
-					if(i>=5){
-						tableToFill = tablaJugadores2
-					}
 				
-					tableToFill.append('<tr><td><a href="'+completedUrl+'">' 
-							+ data[i].nombre + '</a></td><td>'
-							+ data[i].apodo    + '</td><td>' 
-							+ data[i].handicap + '</td></tr>')
-					}
+				llenarTablaEquipoGenerado(data.slice(0,5),tablaJugadores1);
+				llenarTablaEquipoGenerado(data.slice(5,10),tablaJugadores2);
 			}
 
 		data = _data
 		makeAjaxCall(urlPartidos,data,successFunction,callback)
+}
+
+function llenarTablaEquipoGenerado(jugadores,tabla){
+	for (i = 0; i < jugadores.length; i++) {
+		resultadoEquiposId.push(jugadores[i].id)	
+		
+		var completedUrl = urlbase + "/detalleJugador?jugadorId=" + jugadores[i].id
+
+		tabla.append('<tr><td><a href="'+completedUrl+'">' 
+				+ jugadores[i].nombre + '</a></td><td>'
+				+ jugadores[i].apodo    + '</td><td>' 
+				+ jugadores[i].handicap + '</td></tr>')
+		}
+	console.log(resultadoEquiposId)
+	
 }
 
 function fillMatchTable(_data){
