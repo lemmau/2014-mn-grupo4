@@ -1,0 +1,21 @@
+-- b) Saber que jugadores son traicioneros, los que tuvieron mas de 3 infracciones el ultimo mes.
+DROP VIEW IF EXISTS JUGADORESTRAICIONEROS;
+
+CREATE VIEW JUGADORESTRAICIONEROS AS
+SELECT j.nombre, COUNT(*)
+FROM jugadores j, infracciones i
+WHERE j.rid = i.jugador_rid
+AND MONTH(i.fecha) = MONTH(NOW())
+GROUP BY j.nombre
+HAVING COUNT(*) > 3;
+   
+SELECT * FROM JUGADORESTRAICIONEROS;
+
+/*
+SELECT NOW();
+SELECT DATE_SUB(NOW(), INTERVAL 1 MONTH);
+SELECT (NOW() - INTERVAL 1 MONTH);
+SELECT CURRENT_DATE;
+SELECT MONTH(CURRENT_DATE);
+SELECT MONTH(CURRENT_DATE - INTERVAL 1 MONTH);
+*/
