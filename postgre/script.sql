@@ -69,12 +69,14 @@ idPropuesta integer references propuestaReemplazo(idPropuesta),
 primary key(idAdmin,idPropuesta),
 unique (idAdmin,idPropuesta));
 
---faltan crear las tablas de aca abajo
--- 
--- create table Calificacion(
--- id_quien_califica integer references Jugador(jugador_id),
--- id_calificado integer references Jugador(jugador_id),
--- partido_id integer references Partido(partido_id),
--- nota smallint,
--- critica varchar(30),
--- primary key(id_quien_califica,id_calificado,partido_id))
+create table Calificacion(
+idCalificado integer references Jugador(idJugador),
+idPartido integer references Partido(idPartido),
+idCalifica integer references Jugador(idJugador),
+nota smallint,
+critica varchar(30),
+primary key(idCalificado,idPartido,idCalifica),
+constraint puedeSerCalificado_fkey foreign key (idCalificado, idPartido)
+references inscripcion_partido(idJugador,idPartido),
+constraint puedeCalificar_fkey foreign key (idCalifica, idPartido)
+references inscripcion_partido(idJugador,idPartido))
