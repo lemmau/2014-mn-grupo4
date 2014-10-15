@@ -1,4 +1,4 @@
-INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
+﻿INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
     VALUES ('gonzalo', 'franchino', 'franchi', '15/5/1988', 'gonzalo.franchino@gmail.com');
 
 INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
@@ -31,6 +31,12 @@ INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
 INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
     VALUES ('juan', 'sandoval', 'juani', '11/8/1995', 'jsandoval@gmail.com');
 
+INSERT INTO usuario(nombre, apellido, apodo, fecha_nacimiento, mail)
+    VALUES ('pedro', 'de mendoza', 'el fundador', '11/8/1982', 'demendozapedro@gmail.com');  
+
+INSERT INTO administrador(idusuario)
+    VALUES (12);
+
 INSERT INTO jugador(idusuario, handicap)
     VALUES (1, 9);
 
@@ -58,38 +64,38 @@ INSERT INTO jugador(idusuario, handicap)
 INSERT INTO jugador(idusuario, handicap)
     VALUES (9, 7);
 
-INSERT INTO jugador(idusuario, handicap)
-    VALUES (10, 4); 
+-- INSERT INTO jugador(idusuario, handicap)
+--     VALUES (10, 4); 
 
 INSERT INTO partido(nombre, fecha, idadmin)
-    VALUES ('boca-riber', '14/10/2014', 10);
+    VALUES ('boca-riber', '14/10/2014', 1);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (1, 1, 'E', true);
+    VALUES (1, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (2, 1, 'E', true);
+    VALUES (2, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (3, 1, 'E', true);
+    VALUES (3, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (4, 1, 'E', true);
+    VALUES (4, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (5, 1, 'E', true);
+    VALUES (5, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (6, 1, 'E', true);
+    VALUES (6, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (7, 1, 'E', true);
+    VALUES (7, 3, 'E', true);
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (8, 1, 'E', true);                        
+    VALUES (8, 3, 'E', true);                        
 
 INSERT INTO inscripcion_partido(idjugador, idpartido, tipo_inscripcion, estaConfirmado)
-    VALUES (9, 1, 'E', true);
+    VALUES (9, 3, 'E', true);
    
 INSERT INTO infraccion(idjugador, motivo, fecha)
     VALUES (9, 'No presento reemplazo a partido', '1/10/2014');
@@ -106,7 +112,23 @@ INSERT INTO infraccion(idjugador, motivo, fecha)
 INSERT INTO infraccion(idjugador, motivo, fecha)
     VALUES (3, 'No presento reemplazo a partido', '1/10/2014');
 
-INSERT INTO propuestareemplazo(idjugador, idpartido, idreemplazo, tipo_inscripcion)
-    VALUES (2, 1, 11, 'E');
+INSERT INTO amigosusuario(idusuario, idamigo)
+    VALUES (1, 10);
+
+INSERT INTO amigosusuario(idusuario, idamigo)
+    VALUES (1, 11);
+
+INSERT INTO propuestareemplazo(idjugador, idreemplazo, idpartido, tipo_inscripcion)
+    VALUES (1, 10, 3, 'E');
+
+INSERT INTO propuestareemplazo(idjugador, idreemplazo, idpartido, tipo_inscripcion)
+    VALUES (1, 11, 3, 'E');
+
+INSERT INTO administrador_propuesta(idadmin, idpropuesta)
+    VALUES (1, 2);
+
+INSERT INTO administrador_propuesta(idadmin, idpropuesta)
+    VALUES (1, 3);
+
 
 

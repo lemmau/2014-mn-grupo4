@@ -84,14 +84,6 @@ for each row
 when (OLD.seDioDeBaja is distinct from NEW.seDioDeBaja)
 execute procedure loguearBaja();
 
-
-UPDATE inscripcion_partido
-   SET sediodebaja=true
- WHERE idJugador = 4 AND   
-       idPartido = 1		
-
-select * from logBajaJugadorPartido
-
 -- Cada vez que un jugador se baje de un partido se le debe agregar una infracción 
 -- si no ofrece reemplazante. 
 
@@ -123,11 +115,14 @@ create trigger generarInfraccion after insert on logBajaJugadorPartido
 for each row
 execute procedure generarInfraccion();
 
-select * from inscripcion_partido
- 
-update inscripcion_partido set seDioDeBaja = true
-where idJugador = 2 and idPartido = 1
+-- UPDATE inscripcion_partido
+--    SET sediodebaja=true
+--  WHERE idJugador = 1 AND   
+--        idPartido = 3		
 
-select * from logBajaJugadorPartido
-select * from infraccion
-select * from propuestaReemplazo
+-- al jugador 2 se le genera infraccion porque no ofrece reemplazantes
+-- update inscripcion_partido set seDioDeBaja = true
+-- where idJugador = 2 and idPartido = 3
+
+--al darse de baja los jugadores 1 y 2 del partido 3 se generan 2 entradas en la tabla de log
+--al jugador 1 no se le genera infraccion porque ofrece 2 posibles reemplazantes
