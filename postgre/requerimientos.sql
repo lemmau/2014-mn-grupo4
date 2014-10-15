@@ -47,7 +47,7 @@ begin
 		and p.idPartido = id_partido into C;
 
 	if(C > 0) then
-		 set tieneReemplazo = true;
+		tieneReemplazo := true;
 	end if;	
 
 return tieneReemplazo;
@@ -104,8 +104,8 @@ declare reemplazo boolean;
 begin
 	if(TG_OP = 'INSERT') then 
 
-	idJ = NEW.idJugador;
-	idP = NEW.idPartido;
+	idJ := NEW.idJugador;
+	idP := NEW.idPartido;
 	
 	select ofreceReemplazo from ofreceReemplazo(idJ,idP) into reemplazo;
 
@@ -122,7 +122,12 @@ $Infraccion$language plpgsql;
 create trigger generarInfraccion after insert on logBajaJugadorPartido
 for each row
 execute procedure generarInfraccion();
- 
 
--- select * from infraccion
+select * from inscripcion_partido
+ 
+update inscripcion_partido set seDioDeBaja = true
+where idJugador = 2 and idPartido = 1
+
+select * from logBajaJugadorPartido
+select * from infraccion
 select * from propuestaReemplazo
