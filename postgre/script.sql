@@ -76,6 +76,7 @@ idCalifica integer references Jugador(idJugador),
 nota smallint,
 critica varchar(30),
 primary key(idCalificado,idPartido,idCalifica),
+unique(idCalificado,idPartido,idCalifica),
 constraint puedeSerCalificado_fkey foreign key (idCalificado, idPartido)
 references inscripcion_partido(idJugador,idPartido),
 constraint puedeCalificar_fkey foreign key (idCalifica, idPartido)
