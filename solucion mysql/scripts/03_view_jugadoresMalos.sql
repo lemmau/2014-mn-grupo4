@@ -2,8 +2,9 @@
 DROP VIEW IF EXISTS JUGADORESMALOS;
 
 CREATE VIEW JUGADORESMALOS AS
-SELECT nombre, edad
-FROM jugadores
-WHERE handicap < 5;
+SELECT u.nombre, u.edad
+FROM jugadores j, usuarios u
+WHERE u.id = j.usuario_id
+AND handicap < 5;
    
 SELECT * FROM JUGADORESMALOS;

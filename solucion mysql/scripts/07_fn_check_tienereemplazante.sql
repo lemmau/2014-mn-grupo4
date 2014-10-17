@@ -2,14 +2,14 @@ DROP FUNCTION IF EXISTS fn_check_tienereemplazante;
 
 DELIMITER //
 
-CREATE FUNCTION fn_check_tienereemplazante(Jugadorrid int) RETURNS NUMERIC
+CREATE FUNCTION fn_check_tienereemplazante(Jugadoid int) RETURNS NUMERIC
 BEGIN
    DECLARE TieneReemplazo NUMERIC DEFAULT 0;
    
-SELECT reemplazante_rid
+SELECT amigo_jugador_id
 	into @tiene_reemplazo
     FROM Jugadores
-    WHERE rid = Jugadorrid;
+    WHERE id = Jugadoid;
     
     IF @tiene_reemplazo THEN
 		SET TieneReemplazo = @tiene_reemplazo;
@@ -23,7 +23,7 @@ END //
 
 DELIMITER ;
 
- SELECT fn_check_tienereemplazante(5);	-- barovero tiene reemplazante
+ SELECT fn_check_tienereemplazante(10);	-- Emmanuel Insúa es el UNICO que tiene reemplazante !!!
 
 /*
 DROP PROCEDURE IF EXISTS `sp-check_reemplazante`;

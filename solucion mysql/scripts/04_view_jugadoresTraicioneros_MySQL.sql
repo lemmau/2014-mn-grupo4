@@ -2,14 +2,16 @@
 DROP VIEW IF EXISTS JUGADORESTRAICIONEROS;
 
 CREATE VIEW JUGADORESTRAICIONEROS AS
-SELECT j.nombre, COUNT(*)
-FROM jugadores j, infracciones i
-WHERE j.rid = i.jugador_rid
+SELECT u.nombre, COUNT(*) as cantidad_de_infracciones
+FROM jugadores j, infracciones i, usuarios u
+WHERE u.id = j.usuario_id
+AND j.id = i.jugador_id
 AND MONTH(i.fecha) = MONTH(NOW())
-GROUP BY j.nombre
+GROUP BY u.nombre
 HAVING COUNT(*) > 3;
    
 SELECT * FROM JUGADORESTRAICIONEROS;
+
 
 /*
 SELECT NOW();

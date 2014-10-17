@@ -8,21 +8,21 @@ FOR EACH ROW BEGIN
 	
     DECLARE tienereemplazo INT;
 
-	SELECT fn_check_tienereemplazante(NEW.jugador_rid) into tienereemplazo;
+	SELECT fn_check_tienereemplazante(NEW.jugador_id) into tienereemplazo;
 	IF (NEW.estado <> 1 AND !tienereemplazo) THEN
 		INSERT INTO Infracciones
-		(descripcion, jugador_rid, fecha )
+		(descripcion, jugador_id, fecha )
 		VALUES
-		('Sancion por falta de reemplazo', OLD.jugador_rid, SYSDATE());
+		('Sancion por falta de reemplazo', OLD.jugador_id, SYSDATE());
 	END IF;
 /*
     IF NEW.status <> OLD.status
     -- @Result <> 1
     THEN
 	   INSERT INTO Infracciones
-	   (descripcion, jugador_rid, fecha )
+	   (descripcion, jugador_id, fecha )
 	   VALUES
-	   ('Sancion por falta de reemplazo', NEW.jugador_rid, SYSDATE());
+	   ('Sancion por falta de reemplazo', NEW.jugador_id, SYSDATE());
    END IF;
 */
 END
@@ -36,7 +36,7 @@ select * from infracciones;
 
 select * from infracciones where descripcion is not null;
 
-select * from jugadores where rid=5; -- Emanuel Mammana (quien NO tiene reemplazo)
+select * from jugadores where id=5; -- Emanuel Mammana (quien NO tiene reemplazo)
 
-update formacion_jugador set estado = 0 where jugador_rid=5;
+update formacion_jugador set estado = 0 where jugador_id=5;
 

@@ -15,212 +15,284 @@ insert into equipos
 (nombre)
 values ('Olimpo');
 
+-- tipo inscripciones
+/*
+insert into tipo_inscripcion
+(tipo) values ('estandar');
+
+insert into tipo_inscripcion
+(tipo) values ('condicional');
+*/
+insert into tipo_inscripcion
+(tipo) values ('solidario');
+
+select id into @tipo_solidario from tipo_inscripcion where tipo = 'solidario';
+
 -- formaciones
-select rid into @equiporid from equipos where nombre = 'River Plate';
+select id into @equiporiver from equipos where nombre = 'River Plate';
 
 insert into formacion
-(equipo_rid,goles)
-values (@equiporid,4);
+(equipo_id,goles)
+values (@equiporiver,4);
 
-select rid into @equiporid from equipos where nombre = 'Boca Juniors';
+select id into @equipoboca from equipos where nombre = 'Boca Juniors';
 
 insert into formacion
-(equipo_rid,goles)
-values (@equiporid,0);
+(equipo_id,goles)
+values (@equipoboca,0);
 
 -- jugadores + formaciones (river)
-select f.rid into @formacionrid from formacion f, equipos e where f.equipo_rid = e.rid and e.nombre = 'River Plate';
+select f.id into @formacionid from formacion f, equipos e where f.equipo_id = e.id and e.nombre = 'River Plate';
+
+insert into usuarios
+(nombre,edad)
+values ('Julio Chiarini',28);
+
+select id into @jugadoid from usuarios where nombre = 'Julio Chiarini';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Julio Chiarini', 6, 32, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Julio Chiarini';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+
+insert into usuarios
+(nombre,edad)
+values ('Ramiro Funes Mori',26);
+
+select id into @jugadoid from usuarios where nombre = 'Ramiro Funes Mori';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Marcelo Barovero', 6, 32, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Ramiro Funes Mori', 6, 24, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Ramiro Funes Mori';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+
+insert into usuarios
+(nombre,edad)
+values ('Emanuel Mammana',28);
+
+select id into @jugadoid from usuarios where nombre = 'Emanuel Mammana';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Eder Alvarez Balanta', 6, 34, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Emanuel Mammana', 6, 22, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Emanuel Mammana';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+--
+insert into usuarios
+(nombre,edad)
+values ('German Alejo Pezzella',29);
+
+select id into @jugadoid from usuarios where nombre = 'German Alejo Pezzella';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Jonatan Maidana', 6, 27, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('German Alejo Pezzella', 6, 24, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'German Alejo Pezzella';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+--
+insert into usuarios
+(nombre,edad)
+values ('Matias Kranevitter',30);
+
+select id into @jugadoid from usuarios where nombre = 'Matias Kranevitter';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Gabriel Mercado', 6, 26, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Matias Kranevitter', 6, 24, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Matias Kranevitter';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+--
+insert into usuarios
+(nombre,edad)
+values ('Fernando Cavenaghi',45);
+
+select id into @jugadoid from usuarios where nombre = 'Fernando Cavenaghi';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Leonardo Ponzio', 6, 30, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Fernando Cavenaghi', 6, 34, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Fernando Cavenaghi';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+--
+insert into usuarios
+(nombre,edad)
+values ('Ariel Rojas',25);
+
+select id into @jugadoid from usuarios where nombre = 'Ariel Rojas';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Teófilo Gutierrez', 6, 32, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Ariel Rojas', 6, 28, NULL);
-
-select rid into @jugadorrid from jugadores where nombre = 'Ariel Rojas';
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equiporiver, @tipo_solidario, 6, @jugadoid);
 
 insert into formacion_jugador
-(formacion_rid, jugador_rid, estado)
-values (@formacionrid, @jugadorrid, 1);
+(formacion_id, jugador_id, estado)
+values (@formacionid, @jugadoid, 1);
+/*
+insert into usuarios
+(nombre,edad)
+values ('Leonel Vangioni');
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Martin Aguirre', 6, 33, @jugadorrid);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Leonel Vangioni', 6, 24,NULL);
-
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
+(nombre, handicap, edad, reemplazante_id)
 values ('Leonardo Piscullichi', 6, 27,NULL);
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
+(nombre, handicap, edad, reemplazante_id)
 values ('Rodrigo Mora', 6, 27,NULL);
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
+(nombre, handicap, edad, reemplazante_id)
 values ('Carlos Sánchez', 6, 26,NULL);
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
+(nombre, handicap, edad, reemplazante_id)
 values ('Giovani Simeone', 6, 21,NULL);
+*/
 
 -- jugadores boca 
-insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Andrés Chavez', 4, 28,null);
+insert into usuarios
+(nombre,edad)
+values ('Andrés Chavez',22);
+
+select id into @jugadoid from usuarios where nombre = 'Andrés Chavez';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Emmanuel Gigliotti', 3, 28, null);
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equipoboca, @tipo_solidario, 3, @jugadoid);
+--
+insert into usuarios
+(nombre,edad)
+values ('Emmanuel Gigliotti',23);
+
+select id into @jugadoid from usuarios where nombre = 'Emmanuel Gigliotti';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Emmanuel Insúa', 2, 23, null);
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equipoboca, @tipo_solidario, 3, @jugadoid);
+--
+insert into usuarios
+(nombre,edad)
+values ('Emmanuel Insúa',23);
+
+select id into @jugadoid from usuarios where nombre = 'Emmanuel Insúa';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Jonathan Calleri', 2, 21, null);
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equipoboca, @tipo_solidario, 3, @jugadoid);
+--
+insert into usuarios
+(nombre,edad)
+values ('Jonathan Calleri',21);
+
+select id into @jugadoid from usuarios where nombre = 'Jonathan Calleri';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Leonardo Gabriel Suárez', 2, 18, null);
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equipoboca, @tipo_solidario, 3, @jugadoid);
+--
+insert into usuarios
+(nombre,edad)
+values ('Agustín Orion',44);
+
+select id into @jugadoid from usuarios where nombre = 'Agustín Orion';
 
 insert into jugadores
-(nombre, handicap, edad, reemplazante_rid)
-values ('Agustín Orion', 2, 44, null);
+(equipo_id, tipo_inscripcion_id, handicap, usuario_id)
+values
+(@equipoboca, @tipo_solidario, 3, @jugadoid);
 
--- infracciones 
-select rid into @jugadorrid from jugadores where nombre = 'Emmanuel Insúa';
+-- amigo reemplazante de jugador
+insert into usuarios (nombre, edad) values ('Cachito',66);
 
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-04');
+select id into @usuario_amigo_id from usuarios where nombre = 'Cachito';
 
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-01');
+insert into amigos_jugador (usuario_id) values (@usuario_amigo_id);
 
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-12');
+select a.id into @cachito_id from amigos_jugador a, usuarios u where u.id = a.usuario_id and u.nombre = 'Cachito';
 
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-08');
-
-select rid into @jugadorrid from jugadores where nombre = 'Ramiro Funes Mori';
+-- infracciones
+select u.id into @jugadoid 
+from usuarios u,jugadores f
+where f.usuario_id = u.id
+and u.nombre = 'Emmanuel Insúa';
 
 insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-04');
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-04');
 
 insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-01');
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-01');
 
 insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-12');
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-12');
 
 insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-08');
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-08');
 
-select rid into @jugadorrid from jugadores where nombre = 'Rodrigo Mora';
+update jugadores set amigo_jugador_id = @cachito_id where id = @jugadoid;
 
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-04');
-
-insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-01');
+select u.id into @jugadoid 
+from usuarios u,jugadores f
+where f.usuario_id = u.id
+and u.nombre = 'Ramiro Funes Mori';
 
 insert into infracciones
-(jugador_rid,fecha)
-values (@jugadorrid,'2014-10-01');
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-04');
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-01');
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-12');
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-08');
+
+select u.id into @jugadoid 
+from usuarios u,jugadores f
+where f.usuario_id = u.id
+and u.nombre =  'Agustín Orion';
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-04');
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-01');
+
+insert into infracciones
+(jugador_id, fecha)
+values (@jugadoid,'2014-10-12');
