@@ -24,4 +24,6 @@ abstract class CriterioOrden {
 
 	def Double obtenerValor(Inscripcion inscripcion)
 	
+	override def toString()
+	
 }

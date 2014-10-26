@@ -8,4 +8,8 @@ class Handicap extends CriterioOrden {
 		new Double(inscripcion.jugador.handicap)
 	}
 	
+	override toString() {
+		"handicap"
+	}
+	
 }

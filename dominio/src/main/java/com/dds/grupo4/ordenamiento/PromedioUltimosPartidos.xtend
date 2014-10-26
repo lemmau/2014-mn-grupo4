@@ -25,4 +25,9 @@ class PromedioUltimosPartidos extends CriterioOrden {
 		.map[promedioCalificaciones]
 		.reduce[p1, p2| p1 + p2] / filtrado.size
 	}
+	
+	override toString() {
+		"promediosUltimosPartidos"
+	}
+	
 }

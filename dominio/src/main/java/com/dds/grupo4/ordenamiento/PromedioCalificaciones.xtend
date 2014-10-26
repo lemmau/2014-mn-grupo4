@@ -8,4 +8,9 @@ class PromedioCalificaciones extends CriterioOrden {
 	override obtenerValor(Inscripcion inscripcion) {
 		inscripcion.promedioCalificaciones
 	}
+	
+	override toString() {
+		"promedioCalificacion"
+	}
+	
 }

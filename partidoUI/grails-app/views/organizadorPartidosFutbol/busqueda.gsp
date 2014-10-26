@@ -134,7 +134,7 @@
 					$('#errormessage').hide();
 					makeAnAjaxCall(dataValues());
 				}else{
-					$('#errormessage').html("Solo se permiten caracteres alfanumericos").show();
+					$('#errormessage').html("No se permiten caracteres numericos").show();
 				}
 			});
 

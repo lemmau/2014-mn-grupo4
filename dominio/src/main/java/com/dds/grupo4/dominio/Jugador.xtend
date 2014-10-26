@@ -22,7 +22,7 @@ class Jugador {
 	@Property private Integer handicap
 	@Property private String mail
 
-	@Property private List<Jugador> amigos = new ArrayList<Jugador>
+	@Property List<Jugador> amigos = new ArrayList<Jugador>
 	@Property private TipoDeInscripcion tipoDeInscripcion
 
 	@Property private List<Infraccion> infracciones = new ArrayList<Infraccion>

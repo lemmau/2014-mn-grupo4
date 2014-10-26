@@ -13,4 +13,9 @@ class PromedioUltimasCalificaciones extends CriterioOrden {
 	override obtenerValor(Inscripcion inscripcion) {
 		inscripcion.promedioUltimasCalificaciones(numeroCalificaciones)
 	}
+	
+	override toString() {
+		"promedioUltimasCalificaciones"
+	}
+	
 }
