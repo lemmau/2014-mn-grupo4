@@ -24,6 +24,18 @@ class PartidoService {
 		dbConnector = connector
 	}
 
+	def showMatches() {
+		val DB db = dbConnector.openConnection
+		val DBCollection collectionPlayers = db.getCollection(MATCHES_COLLECTION)
+
+		val cursor = collectionPlayers.find();//TODO limitar la cantidad de amigos que trae de la base
+
+		while (cursor.hasNext) {
+			println(cursor.next)
+		}
+		dbConnector.closeConnection
+	}
+
 	def void insertarPartido(Partido partido) {
 		val DB db = dbConnector.openConnection
 		val DBCollection colJugadores = db.getCollection(MATCHES_COLLECTION)
@@ -43,9 +55,9 @@ class PartidoService {
 		val dbl = new BasicDBList
 
 		inscripciones.forEach [ inscripcion |
-			new BasicDBObject("jugadorId", inscripcion.jugador.id).append("nombre",inscripcion.jugador.nombre)
-			.append("apellido",inscripcion.jugador.apellido)
-			.append("calificaciones",matchCalificaciones(inscripcion.calificaciones))
+			new BasicDBObject("jugadorId", inscripcion.jugador.id).append("nombre", inscripcion.jugador.nombre).
+				append("apellido", inscripcion.jugador.apellido).append("calificaciones",
+					matchCalificaciones(inscripcion.calificaciones))
 		]
 
 		null
@@ -81,4 +93,13 @@ class PartidoService {
 			)]
 		dbl
 	}
+
+	def eliminarTodo() {
+
+		val DB db = dbConnector.openConnection
+		val DBCollection colJugadores = db.getCollection(MATCHES_COLLECTION)
+		colJugadores.remove(new BasicDBObject)
+		dbConnector.closeConnection
+	}
+
 }

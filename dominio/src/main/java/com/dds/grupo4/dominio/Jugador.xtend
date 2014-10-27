@@ -9,6 +9,8 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.DateTime
 import java.text.SimpleDateFormat
+import com.dds.grupo4.home.TodosLosJugadores
+import org.apache.commons.lang.builder.EqualsBuilder
 
 class Jugador {
 
@@ -29,11 +31,11 @@ class Jugador {
 
 	new() {
 	}
-	
+
 	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion) {
 		this(nombre, apellido, apodo, nacimiento, tipoDeInscripcion, 1)
 	}
-	
+
 	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion,
 		Integer handicap) {
 		this.nombre = nombre
@@ -44,18 +46,18 @@ class Jugador {
 		setHandicap(handicap)
 	}
 
-	def agregarPartidoJugado(Partido partido){
+	def agregarPartidoJugado(Partido partido) {
 		partidosJugados.add(partido)
 	}
-	
-	def Double promedioUltimoPartido(){
+
+	def Double promedioUltimoPartido() {
 		val Partido ultimoPartido = partidosJugados.last
 		var Double promedio = new Double(0)
-		
-		if(ultimoPartido != null){
-			promedio = ultimoPartido.obtenerInscripcion(this).promedioCalificaciones	
+
+		if (ultimoPartido != null) {
+			promedio = ultimoPartido.obtenerInscripcion(this).promedioCalificaciones
 		}
-		
+
 		promedio
 	}
 
@@ -88,12 +90,16 @@ class Jugador {
 
 	def List<String> mailsAmigos() {
 		this.amigos.map(amigo|amigo.mail);
-	}
+		}
 
 	// TODO Pasamanos
 	def estasConfirmado(Partido partido) {
 		this.tipoDeInscripcion.estasConfirmado(partido)
 	}
+
+//	override def boolean equals(Object obj) {
+//		return EqualsBuilder.reflectionEquals(this, obj);
+//	}
 
 	def Integer getPrioridad() {
 		this.tipoDeInscripcion.getPrioridad;
@@ -109,20 +115,19 @@ class Jugador {
 	}
 
 	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
-	def equals(Jugador i) {
-		return (
-				this.nombre.equalsIgnoreCase(i.nombre) && this.apellido.equalsIgnoreCase(i.apellido) &&
-			this.fechaNacimiento.equals(i.fechaNacimiento)
-				)
-	}
-
+		def equals(Jugador i) {
+			return (
+					this.nombre.equalsIgnoreCase(i.nombre) && this.apellido.equalsIgnoreCase(i.apellido) &&
+				this.fechaNacimiento.equals(i.fechaNacimiento)
+					)
+		}
 	def String getFechaFormateada() {
 		val SimpleDateFormat dateParser = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 		dateParser.format(fechaNacimiento.toDate())
 	}
-	
-	def Boolean tieneInfracciones(){
+
+	def Boolean tieneInfracciones() {
 		return infracciones.size > 0
 	}
 

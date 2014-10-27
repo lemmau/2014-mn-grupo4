@@ -16,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import com.dds.grupo4.observadores.InscripcionAmigo
 import org.joda.time.DateTime
+import com.dds.grupo4.tipoDeInscripcion.Condicion
 
 class PartidoTest {
 
@@ -30,8 +31,6 @@ class PartidoTest {
 	Jugador leanSolidario
 	Jugador pepeSolidario
 	Jugador gonzaEstandar
-	(Partido)=>Boolean condicionInteresadoCondicional
-	(Partido)=>Boolean condicionPorFecha
 
 	//Calificacion calificacion
 
@@ -45,18 +44,12 @@ class PartidoTest {
 		partido.setFechaInicio(new DateTime(2014, 06, 12, 21, 00))
 		partido.agregarObservador(new InscripcionAmigo(partido, stubMailSender))
 
-		condicionInteresadoCondicional = [Partido partido|
-			partido.inscripciones.filter[inscripcion|inscripcion.jugador.edad > 22].size > 2]
-
-		// Condicion fecha partido que sea dia 21
-		condicionPorFecha = [Partido partido | (partido.fechaInicio.getDayOfMonth.equals(21))]
-
 		lioEstandar = new Jugador("Lionel", "Messi","", new DateTime(1987, 06, 24,0,0), new Estandar)
 		diegoEstandar = new Jugador("Diego", "Anazonian","", new DateTime(1992, 12, 14,0,0), new Estandar)
 		maqiEstandar = new Jugador("Maximiliano", "Anazonian","", new DateTime(1992, 04, 05,0,0), new Estandar)
 		gonzaEstandar = new Jugador("Gonzalo", "Franchino","",  new DateTime(1981, 06, 30,0,0), new Estandar)
-		osvaCondicional1 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(condicionInteresadoCondicional))
-		osvaCondicional2 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(condicionPorFecha))
+		osvaCondicional1 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(Condicion.MAS_DE_DOS_JUGADORES_MAYORES_A_22))
+		osvaCondicional2 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(Condicion.EL_DIA_DEL_MES_DEBE_SER_21))
 		leanSolidario = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
 		pepeSolidario = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
 

@@ -8,20 +8,27 @@ class DataBaseConnector {
 	private val String host = "localhost"
 	private val Integer port = 27017
 	private String dataBaseName
+	private Boolean isOpen = false
 
-	new(String dbname){
+	new(String dbname) {
 		dataBaseName = dbname
 	}
 
-	def DB openConnection(){
-		println("Opening connection to " + dataBaseName)
-		mongoClient = new MongoClient(host,port)
-		return mongoClient.getDB(dataBaseName)		
+	def DB openConnection() {
+		if (!isOpen) {
+			println("Opening connection to " + dataBaseName)
+			mongoClient = new MongoClient(host, port)
+			isOpen = true
+		}
+		return mongoClient.getDB(dataBaseName)
 	}
-	
-	def closeConnection(){
-		println("Closing connection to " + dataBaseName)
-		mongoClient.close
+
+	def void closeConnection() {
+		if (isOpen) {
+			println("Closing connection to " + dataBaseName)
+			mongoClient.close
+			isOpen = false
+		}
 	}
 
 }

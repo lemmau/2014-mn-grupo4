@@ -4,9 +4,11 @@ import com.dds.grupo4.dominio.Partido
 
 abstract class TipoDeInscripcion {
 
+	def String nombreCondicion()
+
 	def Boolean estasConfirmado(Partido partido) {
 		return Boolean.TRUE
 	}
-
+	
 	def Integer getPrioridad()
 }

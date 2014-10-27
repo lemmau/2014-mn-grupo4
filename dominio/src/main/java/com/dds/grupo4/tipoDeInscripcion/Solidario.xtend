@@ -7,4 +7,13 @@ class Solidario extends TipoDeInscripcion {
 	override Integer getPrioridad(){
 		return PRIORIDAD_SOLIDARIO
 	}
+	
+	override def String toString(){
+		"SOLIDARIO"
+	}
+	
+	override nombreCondicion() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
