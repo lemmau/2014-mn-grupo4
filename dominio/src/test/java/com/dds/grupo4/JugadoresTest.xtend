@@ -68,7 +68,7 @@ class JugadoresTest {
 	@Test
 	def void rechazoUnCandidato() {
 		todosLosJugadores.rechazarInteresado(maqiEstandar, "Cupo completo")
-		Assert.assertTrue( todosLosJugadores.esUnInteresadoRechazado(maqiEstandar) )
+		Assert.assertTrue(todosLosJugadores.esUnInteresadoRechazado(maqiEstandar) )
 	}
 
 	@Test(expected=typeof(NoExisteJugadorPendienteException))

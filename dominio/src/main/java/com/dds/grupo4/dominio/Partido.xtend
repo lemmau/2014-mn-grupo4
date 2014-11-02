@@ -10,6 +10,10 @@ import com.dds.grupo4.ordenamiento.CriterioOrden
 import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.observadores.InscripcionObserver
 import org.joda.time.DateTime
+import com.dds.grupo4.IdGenerator
+import com.dds.grupo4.service.JugadoresService
+import com.dds.grupo4.PartidosServiceTest
+import com.dds.grupo4.service.PartidoService
 
 class Partido {
 
@@ -31,6 +35,7 @@ class Partido {
 
 	new(Admin admin) {
 		this.admin = admin
+		this.id = IdGenerator.generateUUID
 	}
 
 	def void inscribirA(Jugador nuevoInteresado) {
@@ -179,7 +184,7 @@ class Partido {
 
 	}
 	
-	def confirmarEquipos(List<Jugador> jugadores){
+	def void confirmarEquipos(List<Jugador> jugadores){
 		equipoA = jugadores.subList(0,5);
 		equipoB = jugadores.subList(5,10);
 		

@@ -14,8 +14,12 @@ class PromedioUltimosPartidos extends CriterioOrden {
 	List<Partido> partidos = new ArrayList
 
 	new (Integer numeroPartidos) {
-		this.partidos = Partidos.getInstance.partidos	
+		this.partidos = Partidos.getInstance.allPartidos	
 		this.numeroCalificaciones = numeroPartidos
+	}
+	
+	new () {
+		this.partidos = Partidos.getInstance.allPartidos	
 	}
 
 	override obtenerValor(Inscripcion inscripcion) {

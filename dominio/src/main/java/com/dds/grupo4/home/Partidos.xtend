@@ -1,63 +1,57 @@
 package com.dds.grupo4.home
 
-import com.dds.grupo4.divisorequipos.DivisorDeEquipos
-import com.dds.grupo4.dominio.Inscripcion
-import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
-import com.dds.grupo4.ordenamiento.CriterioOrden
 import java.util.ArrayList
 import java.util.List
+import com.dds.grupo4.service.PartidoService
+import com.dds.grupo4.connector.DataBaseConnector
 
 class Partidos {
-	@Property private List<Partido> partidos = new ArrayList<Partido>
+	//@Property private List<Partido> partidos = new ArrayList<Partido>
+	private PartidoService partidoService
+	private static String dataBaseName = "futbol5"
 
 	/** singleton **/
 	static Partidos instance
 
-	private new() {
-		partidos = new ArrayList<Partido>
+	private new(PartidoService service) {
+		//partidos = new ArrayList<Partido>
+		partidoService = service
 	}
 
 	static def getInstance() {
 		if (instance == null) {
-			instance = new Partidos()
+			//TODO 
+			val PartidoService service = new PartidoService(new DataBaseConnector(dataBaseName))
+			instance = new Partidos(service)
 		}
 		instance
 	}
 
 	/** fin singleton **/
-	def ultimoIdUtilizado() {
-
-		if (partidos.isEmpty) {
-			return 1
-		}
-		return partidos.sortBy[-it.id].toList.get(0).id.intValue
-	}
-	
 	def agregarPartido(Partido partido) {
-		partido.id = new Long(this.ultimoIdUtilizado.longValue + 1)
-		partidos.add(partido)
-	}
-
-	def quitarPartido(Partido partido) {
-		partidos.remove(partido)
+		partidoService.insertarPartido(partido)
+		//partidos.add(partido)
 	}
 
 	def getPartido(Long id) {
-		partidos.findFirst[partido|partido.id.equals(id)]
+		partidoService.getPartido(id)
+		//partidos.findFirst[partido|partido.id.equals(id)]
 
 	}
 
-	def partidosxJugador(Jugador jugador) {
-		partidos.filter[partido|partido.esUnJugadorFinal(jugador)]
-	}
-	
-	def getAllPartidos(){
-		return partidos
+	def getAllPartidos() {
+		partidoService.partidos
+		//return partidos
 	}
 
 	def borrarTodo() {
-		partidos = new ArrayList<Partido>
+		partidoService.eliminarTodo
+		//partidos = new ArrayList<Partido>
+	}
+	
+	def void imprimirPartidos(){
+		partidoService.showMatches
 	}
 
 }

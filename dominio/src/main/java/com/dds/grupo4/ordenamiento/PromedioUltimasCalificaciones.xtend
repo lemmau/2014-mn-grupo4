@@ -9,6 +9,10 @@ class PromedioUltimasCalificaciones extends CriterioOrden {
 	new (Integer numeroCalificaciones) {
 		this.numeroCalificaciones = numeroCalificaciones
 	}
+	
+	new(){
+		
+	}
 
 	override obtenerValor(Inscripcion inscripcion) {
 		inscripcion.promedioUltimasCalificaciones(numeroCalificaciones)

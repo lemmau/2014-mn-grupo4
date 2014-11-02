@@ -17,6 +17,7 @@ import org.joda.time.DateTime
 import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import java.util.ArrayList
+import org.junit.After
 
 class OrdenamientoTest {
 
@@ -39,14 +40,14 @@ class OrdenamientoTest {
 
 	@Before
 	def void setUp() {
-		
 		partidos.borrarTodo
-		
-		partido = new Partido(new Admin("admin@ddsutn.com"))
+		partido = new Partido(new Admin("admin@ddsutn.com","Juan","Paparula"))
 		partido.setFechaInicio(new DateTime(2014, 06, 12, 21, 00))
+		partido.setNombre("")
 
-		partido2 = new Partido(new Admin("admin@ddsutn.com"))
+		partido2 = new Partido(new Admin("admin@ddsutn.com","oscar","tregua"))
 		partido2.setFechaInicio(new DateTime(2014, 06, 13, 21, 00))
+		partido2.setNombre("")
 
 		jugadorEstandar0 = new Jugador("A", "Mulder", "", new DateTime(1979, 12, 14, 0, 0), new Estandar, 10)
 		jugadorEstandar1 = new Jugador("B", "Mulder", "", new DateTime(1979, 12, 14, 0, 0), new Estandar, 1)
@@ -93,10 +94,15 @@ class OrdenamientoTest {
 		partidos.agregarPartido(partido)
 		partidos.agregarPartido(partido2)
 	}
+	
+	@After
+	def void afterAll(){
+		partidos.borrarTodo
+	}
 
 	@Test
 	def void verificarOrdenamientoxHandicap() {
-
+		
 		val List<CriterioOrden> criterios = new ArrayList
 		criterios.add(new Handicap)
 		
@@ -130,15 +136,16 @@ class OrdenamientoTest {
 
 	@Test
 	def void verificarOrdenamientoxPromedioNPartidos() {
+		Partidos.instance.imprimirPartidos
 		val List<CriterioOrden> criterios = new ArrayList
-		criterios.add(new PromedioUltimosPartidos(2))
+		criterios.add(new PromedioUltimosPartidos(1))
 		
 		partido.agregarCriterioOrdenamiento(criterios)
 		val ordenados = partido.ordenarJugadoresFinales
 
 		//ordenados.forEach[ins | System.out.println("oxpnp: " + ins.jugador.nombre)]
 		//val esperado = #["A","I","G","E","F","H","B","C","D","J"]
-		val esperado = #["A", "J", "G", "E", "F", "I", "B", "C", "D", "K"]
+		val esperado = #["A", "J", "I", "G", "F", "E", "D", "C", "B", "K"]
 		val nombresOrdenados = ordenados.map[inscripcion|inscripcion.jugador.nombre]
 
 		//nombresOrdenados.forEach[ins | System.out.println("oxpnp: " + ins)]

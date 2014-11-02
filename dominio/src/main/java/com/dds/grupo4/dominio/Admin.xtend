@@ -18,6 +18,12 @@ class Admin {
 	new(String mail) {
 		this.mail = mail
 	}
+	
+	new(String mail,String nombre,String apellido){
+		this.mail = mail
+		this.apellido = apellido
+		this.nombre = nombre
+	}
 
 	def void recibirMail(String mail) {
 		try {

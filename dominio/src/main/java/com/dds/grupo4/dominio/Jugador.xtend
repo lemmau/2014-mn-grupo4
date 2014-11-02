@@ -11,6 +11,7 @@ import org.joda.time.DateTime
 import java.text.SimpleDateFormat
 import com.dds.grupo4.home.TodosLosJugadores
 import org.apache.commons.lang.builder.EqualsBuilder
+import com.dds.grupo4.IdGenerator
 
 class Jugador {
 
@@ -21,7 +22,7 @@ class Jugador {
 	@Property private String apodo
 	@Property private DateTime fechaNacimiento
 	private String fechaFormateada
-	@Property private Integer handicap
+	@Property private Integer handicap = 1
 	@Property private String mail
 
 	@Property List<Jugador> amigos = new ArrayList<Jugador>
@@ -38,6 +39,7 @@ class Jugador {
 
 	new(String nombre, String apellido, String apodo, DateTime nacimiento, TipoDeInscripcion tipoDeInscripcion,
 		Integer handicap) {
+		this.id = IdGenerator.generateUUID
 		this.nombre = nombre
 		this.apodo = apodo
 		this.apellido = apellido
@@ -71,7 +73,7 @@ class Jugador {
 	def Integer edad() {
 
 		// TODO corregir esto! calcular bien la edad
-		LocalDate.now.getYear() - fechaNacimiento.getYear()
+		DateTime.now.getYear() - fechaNacimiento.getYear()
 	}
 
 	def void inscribite(Partido partido) {
@@ -90,17 +92,16 @@ class Jugador {
 
 	def List<String> mailsAmigos() {
 		this.amigos.map(amigo|amigo.mail);
-		}
+	}
 
 	// TODO Pasamanos
 	def estasConfirmado(Partido partido) {
 		this.tipoDeInscripcion.estasConfirmado(partido)
 	}
 
-//	override def boolean equals(Object obj) {
-//		return EqualsBuilder.reflectionEquals(this, obj);
-//	}
-
+	//	override def boolean equals(Object obj) {
+	//		return EqualsBuilder.reflectionEquals(this, obj);
+	//	}
 	def Integer getPrioridad() {
 		this.tipoDeInscripcion.getPrioridad;
 	}
@@ -115,12 +116,13 @@ class Jugador {
 	}
 
 	// Defino como que dos jugadores son el mismo cuando tienen mismo nombre, apellido y fecha de nacimiento
-		def equals(Jugador i) {
-			return (
+	def equals(Jugador i) {
+		return (
 					this.nombre.equalsIgnoreCase(i.nombre) && this.apellido.equalsIgnoreCase(i.apellido) &&
-				this.fechaNacimiento.equals(i.fechaNacimiento)
+			this.fechaNacimiento.equals(i.fechaNacimiento)
 					)
-		}
+	}
+
 	def String getFechaFormateada() {
 		val SimpleDateFormat dateParser = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
