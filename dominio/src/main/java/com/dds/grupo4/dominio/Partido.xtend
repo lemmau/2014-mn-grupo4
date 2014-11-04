@@ -11,9 +11,6 @@ import com.dds.grupo4.divisorequipos.DivisorDeEquipos
 import com.dds.grupo4.observadores.InscripcionObserver
 import org.joda.time.DateTime
 import com.dds.grupo4.IdGenerator
-import com.dds.grupo4.service.JugadoresService
-import com.dds.grupo4.PartidosServiceTest
-import com.dds.grupo4.service.PartidoService
 
 class Partido {
 
@@ -185,8 +182,8 @@ class Partido {
 	}
 	
 	def void confirmarEquipos(List<Jugador> jugadores){
-		equipoA = jugadores.subList(0,5);
-		equipoB = jugadores.subList(5,10);
+		this.equipoA = jugadores.subList(0,5);
+		this.equipoB = jugadores.subList(5,10);
 		
 		jugadores.forEach[ jugador | jugador.agregarPartidoJugado(this)]
 	}

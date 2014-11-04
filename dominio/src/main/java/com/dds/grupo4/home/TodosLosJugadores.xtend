@@ -1,13 +1,11 @@
 package com.dds.grupo4.home
 
 import java.util.List
-import java.util.ArrayList
 
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.excepciones.NoExisteJugadorPendienteException
 import com.dds.grupo4.service.JugadoresService
 import com.dds.grupo4.connector.DataBaseConnector
-import org.joda.time.DateTime
 import com.dds.grupo4.dominio.Denegacion
 import org.joda.time.LocalDateTime
 
@@ -24,7 +22,13 @@ class TodosLosJugadores {
 	private new(JugadoresService service) {
 		this.jugadoresService = service
 
-	//interesadosAceptados = new ArrayList<Jugador>
+	//interesadosAceptados = new ArrayList<Jugador>//	def ultimoIdUtilizado() {
+	//
+	//		if (interesadosAceptados.isEmpty) {
+	//			return 1
+	//		}
+	//		return interesadosAceptados.sortBy[-it.id].toList.get(0).id.intValue
+	//	}
 	//interesadosPendientes = new ArrayList<Jugador>
 	}
 
@@ -51,7 +55,7 @@ class TodosLosJugadores {
 	//		interesadosPendientes.contains(interesado)
 	//	}
 	def esUnInteresadoAceptado(Jugador interesado) {
-		interesadosAceptados.filter[jugador | jugador.id == interesado.id].toList.size == 1
+		interesadosAceptados.filter[jugador|jugador.id == interesado.id].toList.size == 1
 	}
 
 	// TODO pasamanos revisar
@@ -109,34 +113,38 @@ class TodosLosJugadores {
 		//interesadosAceptados.add(interesado)
 		jugadoresService.insertPlayer(interesado, JugadoresService.ACCEPTED_PLAYERS)
 	}
+	
+	def agregarJugador(Jugador jugador){
+		jugadoresService.insertPlayer(jugador,JugadoresService.ACCEPTED_PLAYERS)
+	}
+	
+	def void agregarJugadores(List<Jugador> jugadores){
+		jugadores.forEach[jugador | this.agregarJugador(jugador)]
+	}
+	
 
-	//	def ultimoIdUtilizado() {
-	//
-	//		if (interesadosAceptados.isEmpty) {
-	//			return 1
-	//		}
-	//		return interesadosAceptados.sortBy[-it.id].toList.get(0).id.intValue
-	//	}
 	def rechazarInteresado(Jugador interesado, String motivo) {
 		eliminarInteresado(interesado)
 		jugadoresService.agregarJugadorDenegado(new Denegacion(interesado, LocalDateTime.now, motivo))
 	}
 
-//	def getJugador(Long id) {
-//		jugadoresService.getPlayer(id,JugadoresService.ACCEPTED_PLAYERS)
-//		//interesadosAceptados.findFirst[jugador|jugador.id.equals(id)]
-//	}
-//	def getJugadores() {
-//		return jugadoresService.getAllPlayers(JugadoresService.ACCEPTED_PLAYERS)
-//	}
-//	def getJugadores(Jugador jugadorBusqueda) {
-//		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase()
-//
-//		interesadosAceptados.filter [ jugador |
-//			jugador.nombre.toLowerCase().startsWith(nombreBusqueda) ||
-//				jugador.apodo.toLowerCase().contains(jugadorBusqueda.apodo.toLowerCase()) ||
-//				jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
-//		]
-//
-//	}
+	def getJugador(Long id) {
+		jugadoresService.getPlayer(id,JugadoresService.ACCEPTED_PLAYERS)
+		//interesadosAceptados.findFirst[jugador|jugador.id.equals(id)]
+	}
+	
+	def getJugadores() {
+		return jugadoresService.getAllPlayers(JugadoresService.ACCEPTED_PLAYERS)
+	}
+	
+	def getJugadores(Jugador jugadorBusqueda) {
+		val nombreBusqueda = jugadorBusqueda.nombre.toLowerCase()
+
+		interesadosAceptados.filter [ jugador |
+			jugador.nombre.toLowerCase().startsWith(nombreBusqueda) ||
+				jugador.apodo.toLowerCase().contains(jugadorBusqueda.apodo.toLowerCase()) ||
+				jugador.fechaNacimiento.isAfter(jugadorBusqueda.fechaNacimiento)
+		]
+
+	}
 }

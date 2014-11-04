@@ -1,4 +1,4 @@
-package objectMapper
+package com.dds.grupo4.objectMapper
 
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.DateTimeFormat
@@ -45,8 +45,8 @@ class ObjectMapper {
 		val List<Partido> partidos = new ArrayList
 
 		while (cursorMatch.hasNext) {
-			val DBObject jugadorObject = cursorMatch.next
-			val Partido partido = convertFromDBObjectToMatch(jugadorObject)
+			val DBObject partidoObject = cursorMatch.next
+			val Partido partido = convertFromDBObjectToMatch(partidoObject)
 			partidos.add(partido)
 		}
 
@@ -176,7 +176,7 @@ class ObjectMapper {
 		val BasicDBList dbl = new BasicDBList
 		jugadores.forEach[jugador|
 			dbl.add(
-				new BasicDBObject("nombre", jugador.nombre).append("apellido", jugador.apellido).append("handicap",
+				new BasicDBObject("nombre", jugador.nombre).append("fechaNacimiento",jugador.fechaNacimiento.toString(formatter)).append("apodo",jugador.apodo).append("apellido", jugador.apellido).append("handicap",
 					jugador.handicap).append("id", jugador.id)
 			)]
 		dbl
@@ -192,7 +192,7 @@ class ObjectMapper {
 
 		while (fields.hasNext) {
 			val BasicDBObject jugadorObj = fields.next as BasicDBObject
-			val Jugador jugador = convertFromDBObjectToJugador(jugadorObj, false)
+			val Jugador jugador = convertFromDBObjectToJugador(jugadorObj, true)
 
 			jugadores.add(jugador)
 
@@ -224,10 +224,24 @@ class ObjectMapper {
 
 		if (!partial) {
 			jugador.setTipoDeInscripcion(mapInscripcionFromString(jugadorObject))
+			jugador.setAmigos(convertAmigosObjectToPlayers(jugadorObject.get("amigos") as BasicDBList))
 			jugador.setInfracciones(mapInfraccionesFromObject(jugadorObject.get("infracciones") as BasicDBList))
 		}
 
 		jugador
+	}
+
+	private def static List<Jugador> convertAmigosObjectToPlayers(BasicDBList amigos) {
+		val Iterator<Object> iterator = amigos.iterator
+		val List<Jugador> amigosTransformed = new ArrayList
+
+		while (iterator.hasNext) {
+			val BasicDBObject amigo = iterator.next as BasicDBObject
+
+			amigosTransformed.add(convertFromDBObjectToJugador(amigo,true))
+		}
+		
+		amigosTransformed
 	}
 
 	private static def List<Infraccion> mapInfraccionesFromObject(BasicDBList infraccionesObject) {
@@ -304,8 +318,9 @@ class ObjectMapper {
 		val BasicDBList dbl = new BasicDBList
 		amigos.forEach[amigo|
 			dbl.add(
-				new BasicDBObject("nombre", amigo.nombre).append("apellido", amigo.apellido).append("handicap",
-					amigo.handicap).append("id", amigo.id)
+				new BasicDBObject("nombre", amigo.nombre).append("apodo",amigo.apodo).append("apellido", amigo.apellido).append("handicap",
+					amigo.handicap).append("fechaNacimiento", amigo.fechaNacimiento.toString(formatter)).append("id",
+					amigo.id)
 			)]
 		dbl
 	}

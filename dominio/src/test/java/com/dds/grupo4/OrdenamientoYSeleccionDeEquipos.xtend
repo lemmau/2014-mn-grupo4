@@ -8,7 +8,6 @@ import org.junit.Before
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import org.junit.Test
 import java.util.List
-import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.ordenamiento.Handicap
 import com.dds.grupo4.divisorequipos.ParImpar
 import com.dds.grupo4.dominio.Inscripcion
@@ -31,7 +30,6 @@ class OrdenamientoYSeleccionDeEquipos {
 	Jugador jugadorEstandar7
 	Jugador jugadorEstandar8
 	Jugador jugadorEstandar9
-	Jugador jugadorEstandar10
 	
 
 	@Before

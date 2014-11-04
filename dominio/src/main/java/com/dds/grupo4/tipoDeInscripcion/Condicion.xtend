@@ -2,7 +2,6 @@ package com.dds.grupo4.tipoDeInscripcion
 
 import com.dds.grupo4.dominio.Partido
 import java.util.Map
-import java.util.HashMap
 import com.google.common.collect.ImmutableMap
 
 class Condicion {

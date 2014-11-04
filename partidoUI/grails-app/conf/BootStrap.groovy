@@ -1,6 +1,8 @@
 import com.dds.grupo4.dominio.Admin
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
+import com.dds.grupo4.service.JugadoresService;
+import com.dds.grupo4.service.PartidoService;
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 
 import org.joda.time.DateTime
@@ -10,29 +12,33 @@ import com.dds.grupo4.home.TodosLosJugadores;
 
 class BootStrap {
 
-	def init = { servletContext ->
-				
+	def init = { 
+		servletContext ->
+
 		println "Generamos juego de datos de partidos"
 		println "Generamos juego de datos de jugadores"
-		
-	Partido partido
-	List<Jugador> jugadores
-	Jugador jugadorEstandar0
-	Jugador jugadorEstandar1
-	Jugador jugadorEstandar2
-	Jugador jugadorEstandar3
-	Jugador jugadorEstandar4
-	Jugador jugadorEstandar5
-	Jugador jugadorEstandar6
-	Jugador jugadorEstandar7
-	Jugador jugadorEstandar8
-	Jugador jugadorEstandar9
-	Jugador jugadorEstandar10
-		
-		partido = new Partido(new Admin("admin@ddsutn.com"))
+
+		Partidos.instance.borrarTodo()
+		TodosLosJugadores.instance.borrarTodo()
+
+		Partido partido
+		List<Jugador> jugadores
+		Jugador jugadorEstandar0
+		Jugador jugadorEstandar1
+		Jugador jugadorEstandar2
+		Jugador jugadorEstandar3
+		Jugador jugadorEstandar4
+		Jugador jugadorEstandar5
+		Jugador jugadorEstandar6
+		Jugador jugadorEstandar7
+		Jugador jugadorEstandar8
+		Jugador jugadorEstandar9
+		Jugador jugadorEstandar10
+
+		partido = new Partido(new Admin("admin@ddsutn.com","Josua","Paparulo"))
 		partido.setNombre("River - Boca")
 		partido.fechaInicio = DateTime.now().plusDays(5)
-		
+
 		jugadorEstandar0 = new Jugador("Alan", "Mulder", "Al" , new DateTime(1985, 12, 14,0,0), new Estandar(), 10)
 		jugadorEstandar1 = new Jugador("Brian", "Sarto", "Brayus", new DateTime(1979, 12, 14,0,0), new Estandar(), 1)
 		jugadorEstandar2 = new Jugador("Cristian", "Mulder","Cris", new DateTime(1991, 12, 14,0,0), new Estandar(), 2)
@@ -44,7 +50,7 @@ class BootStrap {
 		jugadorEstandar8 = new Jugador("Joaquin", "Restia", "Joaco", new DateTime(1979, 12, 14,0,0), new Estandar(), 8)
 		jugadorEstandar9 = new Jugador("Kevin", "Noir", "Tito", new DateTime(1945, 12, 14,0,0), new Estandar(), 9)
 		jugadorEstandar10 = new Jugador("Luis", "Mulder", "Lucho",new DateTime(1918, 12, 15,0,0), new Estandar(), 9)
-		
+
 		jugadorEstandar4.agregarInfraccion("Mal jugador")
 		jugadorEstandar4.agregarInfraccion("Incompetente")
 		jugadorEstandar4.agregarInfraccion("Agresivo")
@@ -69,17 +75,28 @@ class BootStrap {
 		jugadorEstandar7.agregarInfraccion("Quiebre de mano")
 		jugadorEstandar7.agregarInfraccion("Zapato roto")
 		jugadorEstandar8.agregarInfraccion("No se baña")
-		
-		
-		
-		
-		
-		
-		jugadores = [jugadorEstandar0, jugadorEstandar1, jugadorEstandar2, jugadorEstandar3, jugadorEstandar4
-			, jugadorEstandar5, jugadorEstandar6, jugadorEstandar7, jugadorEstandar8, jugadorEstandar9]
-	 
+
+
+
+
+
+
+		jugadores = [
+			jugadorEstandar0,
+			jugadorEstandar1,
+			jugadorEstandar2,
+			jugadorEstandar3,
+			jugadorEstandar4
+			,
+			jugadorEstandar5,
+			jugadorEstandar6,
+			jugadorEstandar7,
+			jugadorEstandar8,
+			jugadorEstandar9
+		]
+
 		partido.inscribirTodos(jugadores)
-		
+
 		partido.calificarA(jugadorEstandar0, 1, "a")
 		partido.calificarA(jugadorEstandar1, 9, "a")
 		partido.calificarA(jugadorEstandar2, 1, "a")
@@ -91,7 +108,7 @@ class BootStrap {
 		partido.calificarA(jugadorEstandar8, 2, "a")
 		partido.calificarA(jugadorEstandar9, 10, "a")
 
-		
+
 		jugadorEstandar0.agregarAmigo(jugadorEstandar1)
 		jugadorEstandar0.agregarAmigo(jugadorEstandar2)
 		jugadorEstandar0.agregarAmigo(jugadorEstandar3)
@@ -110,8 +127,8 @@ class BootStrap {
 		jugadorEstandar8.agregarAmigo(jugadorEstandar1)
 		jugadorEstandar9.agregarAmigo(jugadorEstandar4)
 		jugadorEstandar10.agregarAmigo(jugadorEstandar9)
-		
-		
+
+
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar0)
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar1)
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar2)
@@ -123,7 +140,7 @@ class BootStrap {
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar8)
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar9)
 		TodosLosJugadores.instance.proponerJugador(jugadorEstandar10)
-				
+
 		TodosLosJugadores.instance.aceptarInteresado(jugadorEstandar0)
 		TodosLosJugadores.instance.aceptarInteresado(jugadorEstandar1)
 		TodosLosJugadores.instance.aceptarInteresado(jugadorEstandar2)
@@ -136,11 +153,10 @@ class BootStrap {
 		TodosLosJugadores.instance.aceptarInteresado(jugadorEstandar9)
 		TodosLosJugadores.instance.aceptarInteresado(jugadorEstandar10)
 		Partidos.instance.agregarPartido(partido)
-		
-		println "Juego de datos generado correctamente"
 
-		}
-	
+		println "Juego de datos generado correctamente"
+	}
+
 
 	def destroy = {
 	}

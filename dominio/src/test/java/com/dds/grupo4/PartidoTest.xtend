@@ -1,22 +1,26 @@
 package com.dds.grupo4
 
+import com.dds.grupo4.divisorequipos.NumerosFijos
 import com.dds.grupo4.dominio.Admin
 import com.dds.grupo4.dominio.Jugador
 import com.dds.grupo4.dominio.Partido
 import com.dds.grupo4.excepciones.BusinessException
 import com.dds.grupo4.excepciones.NoEsJugadorDelPartidoException
 import com.dds.grupo4.excepciones.SuperaMaximoCalificacionesException
+import com.dds.grupo4.observadores.InscripcionAmigo
+import com.dds.grupo4.ordenamiento.Handicap
+import com.dds.grupo4.tipoDeInscripcion.Condicion
 import com.dds.grupo4.tipoDeInscripcion.Condicional
 import com.dds.grupo4.tipoDeInscripcion.Estandar
 import com.dds.grupo4.tipoDeInscripcion.Solidario
-
-
+import java.util.ArrayList
+import java.util.List
+import org.joda.time.DateTime
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import com.dds.grupo4.observadores.InscripcionAmigo
-import org.joda.time.DateTime
-import com.dds.grupo4.tipoDeInscripcion.Condicion
+import com.dds.grupo4.ordenamiento.CriterioOrden
+import com.dds.grupo4.dominio.Inscripcion
 
 class PartidoTest {
 
@@ -31,7 +35,11 @@ class PartidoTest {
 	Jugador leanSolidario
 	Jugador pepeSolidario
 	Jugador gonzaEstandar
-
+	Jugador pepeSolidario1
+	Jugador pepeSolidario2
+	Jugador lioEstandar1
+	Jugador lioEstandar3
+	List<Jugador> jugadores = new ArrayList
 	//Calificacion calificacion
 
 	StubMailSender stubMailSender = StubMailSender.instance
@@ -44,16 +52,40 @@ class PartidoTest {
 		partido.setFechaInicio(new DateTime(2014, 06, 12, 21, 00))
 		partido.agregarObservador(new InscripcionAmigo(partido, stubMailSender))
 
-		lioEstandar = new Jugador("Lionel", "Messi","", new DateTime(1987, 06, 24,0,0), new Estandar)
+		lioEstandar3 = new Jugador("Lionela", "Messi","", new DateTime(1987, 06, 21,0,0), new Estandar)
+		lioEstandar1 = new Jugador("Lionelaso", "Messi","", new DateTime(1987, 06, 21,0,0), new Estandar)
+		lioEstandar = new Jugador("Lionel", "Messi","", new DateTime(1987, 06, 21,0,0), new Estandar)
 		diegoEstandar = new Jugador("Diego", "Anazonian","", new DateTime(1992, 12, 14,0,0), new Estandar)
 		maqiEstandar = new Jugador("Maximiliano", "Anazonian","", new DateTime(1992, 04, 05,0,0), new Estandar)
-		gonzaEstandar = new Jugador("Gonzalo", "Franchino","",  new DateTime(1981, 06, 30,0,0), new Estandar)
+		gonzaEstandar = new Jugador("Gonzalo", "Franchino","",  new DateTime(1981, 06, 21,0,0), new Estandar)
 		osvaCondicional1 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(Condicion.MAS_DE_DOS_JUGADORES_MAYORES_A_22))
 		osvaCondicional2 = new Jugador("Osva", "Cornelli","", new DateTime(1982, 07, 30,0,0), new Condicional(Condicion.EL_DIA_DEL_MES_DEBE_SER_21))
 		leanSolidario = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
 		pepeSolidario = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
+		pepeSolidario1 = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
+		pepeSolidario2 = new Jugador("Leandro", "Mauro","",  new DateTime(1989, 02, 16,0,0), new Solidario)
 
+		jugadores.add(lioEstandar3)
+		jugadores.add(lioEstandar1)
+		jugadores.add(lioEstandar)
+		jugadores.add(diegoEstandar)
+		jugadores.add(maqiEstandar)
+		jugadores.add(gonzaEstandar)
+		jugadores.add(pepeSolidario1)
+		jugadores.add(pepeSolidario1)
+		jugadores.add(leanSolidario)
+		jugadores.add(pepeSolidario)
 		//diegoEstandar.messageSender = stubMailSender
+	}
+	
+	@Test
+	def void generarEquipos(){
+		val List<CriterioOrden> ordenamiento = new ArrayList()
+		ordenamiento.add(new Handicap)
+		partido.inscribirTodos(jugadores)
+		val List<Inscripcion> inscriptos = partido.generarEquipo(new NumerosFijos(partido),ordenamiento)
+		Assert.assertTrue(inscriptos.size == 10)
+		
 	}
 
 	@Test

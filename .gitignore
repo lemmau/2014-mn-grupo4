@@ -10,6 +10,7 @@ partidoUI/.settings/
 .classpath
 
 partidoUI/src/
+partidoUI/hs_err_pid15908.log
 
 dominio/*.java
 dominio/.autosave

@@ -13,7 +13,7 @@ import com.dds.grupo4.tipoDeInscripcion.Condicion
 import org.junit.Assert
 import com.mongodb.MongoClient
 
-class PersistenceTest {
+class JugadoresServiceTest {
 	val String dataBaseName = "futbol5"
 	val DataBaseConnector connector = new DataBaseConnector(dataBaseName)
 	val JugadoresService dbService = new JugadoresService(connector)

@@ -6,9 +6,9 @@ import com.mongodb.DB
 import com.mongodb.DBCollection
 import com.mongodb.BasicDBObject
 import java.util.List
-import objectMapper.ObjectMapper
 import java.util.ArrayList
 import com.mongodb.DBObject
+import com.dds.grupo4.objectMapper.ObjectMapper
 
 class PartidoService {
 	private final val MATCHES_COLLECTION = "partidos"

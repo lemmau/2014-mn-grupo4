@@ -6,16 +6,14 @@ import com.mongodb.BasicDBObject
 import java.util.List
 import com.mongodb.DBCollection
 import com.dds.grupo4.connector.DataBaseConnector
-import objectMapper.ObjectMapper
-import java.util.Map
-import java.util.HashMap
-import com.google.common.collect.ImmutableMap
 import com.mongodb.WriteResult
 import com.dds.grupo4.dominio.Denegacion
 import com.mongodb.DBObject
-import com.mongodb.BasicDBList
+import com.dds.grupo4.objectMapper.ObjectMapper
+import java.util.ArrayList
 
 class JugadoresService {
+	private val List<Jugador> jugadoresAceptadosCache = new ArrayList
 	public static val ACCEPTED_PLAYERS = "jugadoresAceptados"
 	public static val OUTSTANDING_PLAYERS = "jugadoresPendientes"
 	public static val REJECTED_PLAYERS = "jugadoresRechazados"
@@ -31,6 +29,12 @@ class JugadoresService {
 		colJugadores.insert(ObjectMapper.mapPlayerAsDbObject(jugador))
 		dbConnector.closeConnection
 	}
+	
+	def List<Jugador> getPlayers(List<Long> ids){
+		val List<Jugador> jugadores = new ArrayList
+		ids.forEach[ id | jugadores.add(getPlayer(id,ACCEPTED_PLAYERS))]
+		jugadores
+	}
 
 	def void agregarJugadorDenegado(Denegacion denegacion) {
 		val DB db = dbConnector.openConnection
@@ -45,6 +49,7 @@ class JugadoresService {
 		val Jugador jugadorBuscado = ObjectMapper.convertFromDBObjectToJugador(
 			colJugadores.findOne(new BasicDBObject("id", id)), false)
 		dbConnector.closeConnection
+		println(jugadorBuscado.tipoDeInscripcion.class.toString)
 		jugadorBuscado
 	}
 

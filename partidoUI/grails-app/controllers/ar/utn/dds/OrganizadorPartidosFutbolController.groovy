@@ -73,7 +73,7 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def getPartidos(){
-		def partidos = homePartidos.getPartidos().collect { partido ->
+		def partidos = homePartidos.getAllPartidos().collect { partido ->
 			[
 				"id" : partido.id,
 				"nombre" : partido.nombre,
@@ -156,24 +156,28 @@ class OrganizadorPartidosFutbolController {
 	}
 
 	def confirmarEquipos(){
+		def List<Long> idsAsLongs = new ArrayList()
 		JSONObject jsonParsed = JSON.parse(params.myjson)
-		def idsJugadores = jsonParsed.get("idsJugadores") as List
-		def idPartido = jsonParsed.get("idPartido") as Integer
+		def idsJugadores = jsonParsed.getJSONArray("idsJugadores").asList().each { id -> idsAsLongs.add(new Long(id))}
+		def idPartido = jsonParsed.getLong("idPartido") 
 
-		confirmarEquiposDeUnPartido(idPartido,idsJugadores)
+		println(idsJugadores)
+		println(idPartido)
+		homePartidos.confirmarEquipos(idPartido,idsAsLongs)
 
 		render([status : "OK"] as JSON)
 	}
 
-	def confirmarEquiposDeUnPartido(partidoId,jugadoresIds){
+	/*def confirmarEquiposDeUnPartido(partidoId,jugadoresIds){
 		Partido partido = homePartidos.getPartido(partidoId)
 
 		List<Jugador> jugadores = jugadoresIds.collect { unId ->
 			homeJugadores.getJugador(unId)
 		}
 
-		partido.confirmarEquipos(jugadores)
-	}
+		homePartidos.confirmarEquipos(partido,jugadores)
+		//partido.confirmarEquipos(jugadores)
+	}*/
 
 	def generarEquipos(){
 
@@ -186,8 +190,8 @@ class OrganizadorPartidosFutbolController {
 		List<CriterioOrden> criterioOrden = mapearCriteriosOrden(ordenamientos)
 
 		DivisorDeEquipos criterioSeleccion = mapearCriterioSeleccion(params.seleccion,partidoAGenerar)
-
-		def formacion =	partidoAGenerar.generarEquipo(criterioSeleccion,criterioOrden)
+		def formacion = homePartidos.generarEquipos(partidoAGenerar, criterioSeleccion, criterioOrden)
+//		def formacion =	partidoAGenerar.generarEquipo(criterioSeleccion,criterioOrden)
 
 		def formacionJson = formacion.collect { inscripcion ->
 			[	"nombre" : inscripcion.jugador.nombre,

@@ -5,12 +5,9 @@ import com.dds.grupo4.tipoDeInscripcion.TipoDeInscripcion
 
 import java.util.ArrayList
 import java.util.List
-import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.DateTime
 import java.text.SimpleDateFormat
-import com.dds.grupo4.home.TodosLosJugadores
-import org.apache.commons.lang.builder.EqualsBuilder
 import com.dds.grupo4.IdGenerator
 
 class Jugador {

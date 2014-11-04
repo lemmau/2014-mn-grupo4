@@ -18,6 +18,7 @@ import com.dds.grupo4.home.Partidos
 import com.dds.grupo4.ordenamiento.CriterioOrden
 import java.util.ArrayList
 import org.junit.After
+import com.dds.grupo4.home.TodosLosJugadores
 
 class OrdenamientoTest {
 
@@ -40,11 +41,11 @@ class OrdenamientoTest {
 
 	@Before
 	def void setUp() {
-		partidos.borrarTodo
+		Partidos.instance.borrarTodo
+		TodosLosJugadores.instance.borrarTodo
 		partido = new Partido(new Admin("admin@ddsutn.com","Juan","Paparula"))
 		partido.setFechaInicio(new DateTime(2014, 06, 12, 21, 00))
 		partido.setNombre("")
-
 		partido2 = new Partido(new Admin("admin@ddsutn.com","oscar","tregua"))
 		partido2.setFechaInicio(new DateTime(2014, 06, 13, 21, 00))
 		partido2.setNombre("")
@@ -97,7 +98,9 @@ class OrdenamientoTest {
 	
 	@After
 	def void afterAll(){
-		partidos.borrarTodo
+		Partidos.instance.borrarTodo
+		TodosLosJugadores.instance.borrarTodo
+		
 	}
 
 	@Test
